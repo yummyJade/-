@@ -1,0 +1,69 @@
+<!--index.wxml-->
+<view class="container">
+  <view class="header">
+    <view class="top">
+      <view>10月</view>
+      <view>today</view>
+    </view>
+    <view class="bottom">
+      <view class="title">
+        <block wx:for="{{weekName}}" wx:key="index">
+          <view class="inner">
+            <view class="title-content">{{item.title}}</view>
+            <view class='dateName-content {{index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
+            <view class="dayMention">{{item.mention}}</view>
+          </view>
+          
+        </block>
+      </view>
+      
+      <!-- <view class="dateName">
+        <block wx:for="{{dateName}}" wx:key="index">
+          <view class='dateName-content'>{{item}}</view> 
+        </block>
+      </view> -->
+      
+    </view>
+  </view>
+  <view class="mainer">
+    <movable-area >
+      <movable-view class="innerMove" inertia="true" direction="horizontal" x="">
+        <scroll-view class="innerScroll" scroll-y="true" style="height:{{scrollHeight}}px">
+          <view class="col-lines">
+          <!-- <view class='course-item' wx:for="{{courseList}}" style="height:{{item.skcd*120}}rpx;left:{{(item.day-1)*(94 + 6) }}rpx;top:{{(item.skjc-1)*(120+6)}}rpx">
+          </view> -->
+            <block wx:for="{{lineArr}}" >
+              <view class="line" style="left:{{sideWidth+(item-1)*lineWidth}}rpx;top:0rpx"></view>
+            </block>
+          </view>
+          <view class="row-lines">
+            <block wx:for="{{lineArr2}}">
+              <view class="line" style="top:{{item*lineHeight}}rpx;left:0rpx"></view>
+            </block> 
+          </view>
+          <view class="sideBar">
+            <block wx:for="{{timeTitle}}" wx:key="index">
+                <view class='sideBar-content'>{{item}}:00</view> 
+            </block>
+
+          </view>
+          <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 -->
+           <!-- <view class='remindBlock' wx:for="{{courseList}}" style="height:{{item.skcd*120}}rpx;left:{{(item.day-1)*(94 + 6) }}rpx;top:{{(item.skjc-1)*(120+6)}}rpx">-->
+          <view class="innerContain">
+            <block wx:for="{{eventList}}">
+              <view class="remindBlock" style="height:{{item.height - 8}}rpx;left:{{item.left}}rpx;top:{{item.top}}rpx;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
+              {{item.title}}</view>
+              
+            </block>
+          </view>
+          <view class="rightContent">
+          
+            
+            
+          </view>
+        </scroll-view>
+      </movable-view>
+    </movable-area>
+    
+  </view>
+</view>

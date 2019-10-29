@@ -1,0 +1,122 @@
+/**index.wxss**/
+
+.container{
+  /* display: block; */
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0;
+  
+}
+.header{
+  margin: 0 auto;
+  /* position: fixed;
+  top: 0;
+  z-index: 500; */
+  background-color:cornsilk;
+}
+.header .top{
+  /* width: 650rpx; */
+  width: 750rpx;
+  display: flex;
+  
+  justify-content: space-between;
+}
+.header .bottom{
+  margin-left: 100rpx;
+}
+.header .bottom > view{
+  
+  display: flex;
+  justify-content: space-around;
+}
+.header .inner{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.header .title-content{
+  font-size: 16rpx;
+}
+.header .dateName-content{
+  font-size: 31rpx;
+  border-radius: 50%;
+  padding: 5rpx;
+  /* color: white; */
+  color: black;
+}
+.header .inner{
+
+}
+.mainer{
+  
+}
+.sideBar{
+  float: left;
+  width: 100rpx;
+  padding-top: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  z-index: 300;
+}
+.sideBar-content{
+  height: 60rpx;
+  line-height: 60rpx;
+  color: rgb(182,185,187);
+  /* margin-bottom: 30rpx; */
+  font-size: 26rpx;
+
+}
+.rightContent{
+  float: left;
+  position: relative;
+  width: 600rpx;
+  height: 100vh;
+  /* background-color: goldenrod; */
+}
+.innerMove{
+  width: 1000rpx;
+  height: 1000rpx;
+  /* background-color: blue; */
+}
+.innerScroll{
+  /* display: flex; */
+
+  height: 100vh;
+  /* background-color: green; */
+}
+.col-lines > view{
+  position: absolute;
+  width: 3rpx;
+  height: 100vh;
+  z-index: 100;
+  background-color: rgb(233,234,237);
+}
+
+.row-lines > view{
+  position: absolute;
+  height: 2rpx;
+  width: 750rpx;
+  z-index: 200;
+  background-color: rgb(233,234,237);
+}
+/* 关于提醒块的样式 */
+.remindBlock{
+  width: 78rpx;   /*暂时按照这个规定*/    
+  position: absolute;
+  top: 0;
+  left: 100rpx;
+  z-index: 400;
+  color: white;
+  background-color: rgb(64,154,222);
+  font-size: 16rpx;
+  padding: 4rpx;
+  border-radius: 7rpx;
+}
+.header .todayFlag{
+  background-color: rgb(55,113,225);
+  color: white;
+  
+}
