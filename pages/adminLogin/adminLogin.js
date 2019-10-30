@@ -24,6 +24,9 @@ Page({
       })
       return false;
     }else{
+      this.setData({
+        loadModal: true
+      });
       let header={
         'content-type': 'application/x-www-form-urlencoded'
       }
@@ -36,6 +39,9 @@ Page({
           'password':data.password
         },
         success(res){
+          that.setData({
+            loadModal: false
+          });
           if(res.data.status == 200){
             wx.setStorageSync("token", res.data.data);
             //强行登录
@@ -51,7 +57,8 @@ Page({
               inputValue:''
             })
           }
-        }
+        },
+        
       })
     }
   },
