@@ -2,17 +2,19 @@
 App({
   onLaunch: function () {
     //判断是否有token，如果有，说明已经登录，如果没有，打回登录状态
-    let token = wx.getStorage({
-      key: 'token',
-      success: function(res) {
-        console.log(res.data);
-        if(res.data != []){
-          wx.redirectTo({
-            url: '/pages/index/index',
-          })
-        }
-      },
-    })
+    // let token = wx.getStorage({
+    //   key: 'token',
+    //   success: function(res) {
+    //     console.log(res.data);
+    //     if(res.data != []){
+    //       wx.redirectTo({
+    //         url: '/pages/index/index',
+    //       })
+    //     }else{
+          
+    //     }
+    //   },
+    // })
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())

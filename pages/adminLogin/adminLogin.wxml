@@ -7,7 +7,7 @@
       <view class="cu-item icon-wrap">
         <text class="cuIcon-people lg text-gray"></text>
       </view>
-      <input class="username" name="username" focus="true" value="{{inputValue}}"></input>
+      <input class="username" type="idcard" name="username" focus="true" value="{{inputValue}}"></input>
     </view>
     <view class="flex flex-direction input-wrap margin">
       <view class="cu-item icon-wrap">

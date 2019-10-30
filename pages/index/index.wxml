@@ -2,8 +2,8 @@
 <view class="container">
   <view class="header">
     <view class="top">
-      <view>10月</view>
-      <view>today</view>
+      <!-- <view>10月</view>
+      <view>today</view> -->
     </view>
     <view class="bottom">
       <view class="title">
@@ -38,7 +38,7 @@
           </view>
           <view class="row-lines">
             <block wx:for="{{lineArr2}}">
-              <view class="line" style="top:{{item*lineHeight}}rpx;left:0rpx"></view>
+              <view class="line" style="top:{{item*lineHeight}}rpx;left:100rpx"></view>
             </block> 
           </view>
           <view class="sideBar">

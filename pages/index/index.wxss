@@ -12,7 +12,7 @@
   /* position: fixed;
   top: 0;
   z-index: 500; */
-  background-color:cornsilk;
+  background-color:white;
 }
 .header .top{
   /* width: 650rpx; */
@@ -39,14 +39,22 @@
   font-size: 16rpx;
 }
 .header .dateName-content{
+  width: 46rpx;
+  height: 46rpx;
+  margin: 0 auto;
+  text-align: center;
   font-size: 31rpx;
   border-radius: 50%;
   padding: 5rpx;
   /* color: white; */
   color: black;
+  /* z-index: 15; */
 }
 .header .inner{
-
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; */
 }
 .mainer{
   
@@ -111,12 +119,27 @@
   z-index: 400;
   color: white;
   background-color: rgb(64,154,222);
-  font-size: 16rpx;
+  font-size: 19rpx;
   padding: 4rpx;
   border-radius: 7rpx;
 }
 .header .todayFlag{
   background-color: rgb(55,113,225);
   color: white;
+  position: relative;
   
 }
+
+/* .header .todayFlag::after{
+  position: absolute;
+  display: block;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 30rpx;
+  background-color: rgb(55,113,225);
+  z-index: -5;
+  
+} */
