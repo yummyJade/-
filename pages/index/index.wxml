@@ -50,6 +50,8 @@
           <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 -->
            <!-- <view class='remindBlock' wx:for="{{courseList}}" style="height:{{item.skcd*120}}rpx;left:{{(item.day-1)*(94 + 6) }}rpx;top:{{(item.skjc-1)*(120+6)}}rpx">-->
           <view class="innerContain">
+          <!-- 当前时间线 -->
+            <view class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}rpx"></view>
             <block wx:for="{{eventList}}">
               <view class="remindBlock" style="height:{{item.height - 8}}rpx;left:{{item.left}}rpx;top:{{item.top}}rpx;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
               <text>{{item.title}}</text>

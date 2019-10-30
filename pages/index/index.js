@@ -37,8 +37,8 @@ Page({
     
     ],
     dateNameIndex:-1,
-    timeTitle:["07","08","09","10","11","12","13","14",
-    "15","16","17","18","19","20","21"],
+    timeTitle:["08","09","10","11","12","13","14",
+    "15","16","17","18","19","20","21","22"],
     sideWidth:100,    //记录侧边栏的宽度
     lineWidth:0,
     lineHeight:60,
@@ -47,7 +47,11 @@ Page({
     scrollHeight:0,
     courseList: [],   //记录课程表信息
     eventList:[
-    ]
+    ],
+    nowTimeLine:{   //记录当前时间线
+      left:-100,
+      top:-100
+    }
   },
   calcu:function(){
     let linewidth = (750 - this.data.sideWidth)/7;
@@ -175,9 +179,15 @@ Page({
       },
       success(res){
         if(res.data.message == "success"){
-          
-            // let data = res.data;
-          let nowTime = new Date();
+          let eventListArr = [],
+            temp, data, topDis, leftDis, heightDis,
+            startHour = 7,
+            endHour = 23,
+            blockWidth = 92,
+            lineWidth = 1.5,
+            blockHeight = 60,
+            fixLeft = 100,
+            nowTime = new Date();
           //设置标题栏
           let nowDay = nowTime.getDay();
           let firstDate = new Date();
@@ -188,16 +198,23 @@ Page({
             firstDate.setDate(firstDate.getDate() + 1);
           }
           // console.log(dateNameArr)
-
-            let eventListArr = [];
-            let temp, data, topDis, leftDis, heightDis;
+          //添加当前时间线，只显示6点到22点，好的偷偷的说现在23点了
+          let timeLineLeft, timeLineTop;
+          // console.log("8888")
+          if(nowTime.getHours() >= endHour || nowTime.getHours() <= startHour){
+            
+            timeLineLeft = -100;
+            timeLineTop = -100;
+          }else{
+            timeLineLeft = fixLeft + (nowTime.getDay()) * blockWidth + lineWidth * nowTime.getDay();
+            timeLineTop = ((nowTime.getHours() - startHour) * 60 + (nowTime.getMinutes())) * blockHeight / 60;
+          }
+          
+         
+          // console.log(timeLineLeft)
             for(let i = 0, len = res.data.data.length; i < len;  i++){
               data = res.data.data[i];
-              let startHour = 6;
-              let blockWidth = 92;
-              let lineWidth = 1.5;
-              let blockHeight = 60;
-              let fixLeft = 100;
+
               
               let startTime = new Date(data.startTime);
               let endTime = new Date(data.endTime);
@@ -226,7 +243,11 @@ Page({
             that.setData({
               eventList:eventListArr,
               weekName:dateNameArr,
-              dateNameIndex: nowTime.getDay()
+              dateNameIndex: nowTime.getDay(),
+              nowTimeLine:{
+                left:timeLineLeft,
+                top:timeLineTop
+              }
             })
 
         }

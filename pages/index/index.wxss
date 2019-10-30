@@ -22,7 +22,7 @@
   justify-content: space-between;
 }
 .header .bottom{
-  margin-left: 100rpx;
+  /* margin-left: 100rpx; */
 }
 .header .bottom > view{
   
@@ -143,3 +143,26 @@
   z-index: -5;
   
 } */
+.nowTimeLine{
+  width: 92rpx;
+  height: 3rpx;
+  position: absolute;
+  /* position: relative; */
+  top: 100rpx;
+  left: 100rpx;
+  background-color: rgb(97, 97, 97);
+  z-index: 500;
+}
+.nowTimeLine::before{
+  position: absolute;
+  content: "";
+  left: 0;
+  top: 0;
+  width: 15rpx;
+  height: 15rpx;
+  border-radius: 15rpx;
+  margin-left: calc(-7.5rpx );
+  margin-top: calc(-7.5rpx + 3rpx);
+  background-color: rgb(97, 97, 97);
+  z-index: 500;
+}
