@@ -7,7 +7,6 @@ const app = getApp()
 
 Page({
   data: {
-
     ip: app.globalData.host,
     cookieTest: app.globalData.cookieTest,
     weekName:[
@@ -164,6 +163,8 @@ Page({
     // let a = time.getNowTime();
     // console.log(a)
     
+    console.log("可使用高度：" + wx.getSystemInfoSync().windowHeight);
+
     wx.request({
       url: that.data.ip + '/event',
       method: 'GET',
@@ -179,10 +180,12 @@ Page({
           let nowTime = new Date();
           //设置标题栏
           let nowDay = nowTime.getDay();
-          let firstDate = nowTime.getDate() - nowDay;
+          let firstDate = new Date();
+          firstDate.setDate(firstDate.getDate() - nowDay);
           let dateNameArr = that.data.weekName;
           for(let i = 0, len = 7; i < len; i++){
-            dateNameArr[i].dateName = firstDate + i;
+            dateNameArr[i].dateName = firstDate.getDate();
+            firstDate.setDate(firstDate.getDate() + 1);
           }
           // console.log(dateNameArr)
 
@@ -210,6 +213,7 @@ Page({
               leftDis = fixLeft + (startTime.getDay()) * blockWidth + lineWidth * startTime.getDay(); 
               temp = {
                 title : data.title,
+                address: data.address,
                 top: topDis,
                 left: leftDis,
                 height: heightDis,

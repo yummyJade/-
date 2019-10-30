@@ -3,24 +3,28 @@
   <view class="login-wrap">
   <view class="h1">用户登录</view>
   <form bindsubmit="loginSubmit">
+    <view class='cu-load load-modal' wx:if="{{loadModal}}">
+    <!-- <view class='cuIcon-emojifill text-orange'></view> -->
+    <view class='gray-text'>加载中...</view>
+  </view>
     <view class="flex flex-direction input-wrap margin">
       <view class="cu-item icon-wrap">
         <text class="cuIcon-people lg text-gray"></text>
       </view>
-      <input class="username" type="idcard" name="username" focus="true" value="{{inputValue}}"></input>
+      <input placeholder="学号" class="username" type="idcard" name="username" focus="true" value="{{inputValue}}"></input>
     </view>
     <view class="flex flex-direction input-wrap margin">
       <view class="cu-item icon-wrap">
         <text class="cuIcon-command lg text-gray"></text>
       </view>
-      <input class="password" type="password" name="password" value="{{inputValue}}"></input>
+      <input placeholder="选课密码" class="password" type="password" name="password" value="{{inputValue}}"></input>
     </view>
     <view class=" flex flex-direction margin">
 
       <button class="cu-btn bg-cyan margin-tb-sm lg" formType="submit">登录</button>
     
     </view>
-    <view class="checkboxs-wrap">
+    <!-- <view class="checkboxs-wrap">
       <view class="checkbox-wrap ">
         <checkbox></checkbox>
         <view class="title">记住密码</view>
@@ -31,7 +35,7 @@
         <view class="title">自动登录</view>
         
       </view>
-    </view>
+    </view> -->
     </form>
   </view>
 
