@@ -101,7 +101,7 @@ Page({
         scrollHeight: f1-f2,
         lineHeight: (f1-f2)/16
       })
-      
+      that.init();
     }
     calcuBodyHeight();
   },
@@ -291,12 +291,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let that = this;
-    const initOrder = async function(){
-      const f1 = await that.calcu();
-      const f2 = await that.init();
-    }
-    initOrder();
+    // let that = this;
+    // const initOrder = async function(){
+    //   const f1 = await that.calcu();
+    //   const f2 = await that.init();
+    // }
+    // initOrder();
+    this.calcu();
   },
 
   /**
