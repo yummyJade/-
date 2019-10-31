@@ -37,8 +37,8 @@ Page({
     
     ],
     dateNameIndex:-1,
-    timeTitle:["08","09","10","11","12","13","14",
-    "15","16","17","18","19","20","21","22"],
+    timeTitle: ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00","14:00",
+      "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00","22:00"],
     sideWidth:100,    //记录侧边栏的宽度
     lineWidth:0,
     lineHeight:60,
@@ -97,9 +97,10 @@ Page({
       const f1 = await getClientHeight();
       const f2 = await getHeaderHeight();
       that.setData({
-        scrollHeight: f1-f2
+        scrollHeight: f1-f2,
+        lineHeight: (f1-f2)/16
       })
-      console.log(f1 - f2)
+
     }
     calcuBodyHeight();
   },
@@ -185,7 +186,7 @@ Page({
             endHour = 23,
             blockWidth = 92,
             lineWidth = 1.5,
-            blockHeight = 60,
+            blockHeight = that.data.lineHeight,
             fixLeft = 100,
             nowTime = new Date();
           //设置标题栏
