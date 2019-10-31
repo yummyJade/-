@@ -42,6 +42,7 @@ Page({
     sideWidth:100,    //记录侧边栏的宽度
     lineWidth:0,
     lineHeight:60,
+  
     lineArr:[1,2,3,4,5,6,7],
     lineArr2:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
     scrollHeight:0,
@@ -85,7 +86,7 @@ Page({
             // that.setData({
             //   height: height
             // });
-            console.log(clientHeight)
+            // console.log(clientHeight)
             resolve(clientHeight);
             
            
@@ -97,13 +98,15 @@ Page({
     const calcuBodyHeight = async function(){
       const f1 = await getClientHeight();
       const f2 = await getHeaderHeight();
-      that.setData({
-        scrollHeight: f1-f2,
-        lineHeight: (f1-f2)/16
-      })
-      that.init();
+      return {f1, f2};
+      // that.setData({
+      //   scrollHeight: f1-f2,
+      //   lineHeight: (f1-f2)/16
+      // })
+      // that.init();
     }
-    calcuBodyHeight();
+    return calcuBodyHeight();
+   
   },
 //   //事件处理函数
 //   bindViewTap: function() {
@@ -153,7 +156,19 @@ Page({
   init:function(){
     // wx.setStorageSync("token", res.data["key"])
     // wx.setStorageSync("token", this.data.cookieTest);
-    this.getEventList()
+    let that = this;
+      const f1 = async function(){
+        let { f1, f2 } = await that.calcu();
+        that.setData({
+          scrollHeight: f1 - f2,
+          lineHeight: (f1 - f2) / 16
+        })
+        // that.init();
+        that.getEventList()
+      }
+      
+      f1();
+      
   },
   /**
    * 获取事件列表相关的函数
@@ -182,6 +197,7 @@ Page({
             startHour = 7,
             endHour = 23,
             blockWidth = 92,
+            minBlockHeight = 16,    //px
             lineWidth = 1.5,
             blockHeight = that.data.lineHeight,
             fixLeft = 100,
@@ -223,16 +239,31 @@ Page({
               // }
               
               //距离上方的距离
-              heightDis = ((endTime.getHours() * 60 + endTime.getMinutes()) - (startTime.getHours() * 60 + startTime.getMinutes())) * blockHeight / 60;
-              topDis = ((startTime.getHours() - startHour) * 60 + (startTime.getMinutes())) * blockHeight / 60;
-              leftDis = fixLeft + (startTime.getDay()) * blockWidth + lineWidth * startTime.getDay(); 
+              if(data.type == 2){
+                heightDis = ((endTime.getHours() * 60 + endTime.getMinutes()) - (startTime.getHours() * 60 + startTime.getMinutes())) * blockHeight / 60;
+                topDis = ((startTime.getHours() - startHour) * 60 + (startTime.getMinutes())) * blockHeight / 60;
+                leftDis = fixLeft + (startTime.getDay()) * blockWidth + lineWidth * startTime.getDay(); 
+
+              }else if(data.type == 1){
+                topDis = ((endTime.getHours() - startHour) * 60 + (endTime.getMinutes())) * blockHeight / 60;
+                leftDis = fixLeft + (endTime.getDay()) * blockWidth + lineWidth * endTime.getDay(); 
+                heightDis = 0;
+                //考虑23点情况
+                if(topDis + minBlockHeight > that.data.lineHeight * 16){
+                  topDis = that.data.lineHeight * 16 - minBlockHeight;
+                  heightDis = 16;
+                  console.log(heightDis)
+                }
+
+              }
               temp = {
                 title : data.title,
                 address: data.address,
                 top: topDis,
                 left: leftDis,
                 height: heightDis,
-                color: colorLib[data.color]["rgb"]
+                color: colorLib[data.color]["rgb"],
+                type: data.type
               }
               // temp = data;
               eventListArr.push(temp);
@@ -293,7 +324,7 @@ Page({
     //   const f2 = await that.init();
     // }
     // initOrder();
-    this.calcu();
+    this.init();
   },
 
   /**

@@ -42,9 +42,12 @@
           <!-- 当前时间线 -->
             <view class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
             <block wx:for="{{eventList}}">
-              <view class="remindBlock" style="height:{{item.height - 8}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
+              <view class="remindBlock type0" wx:if="{{item.type == 2}}" style="height:{{item.height - 8}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
               <text>{{item.title}}</text>
               <text>\n{{item.address}}</text>
+              </view>
+              <view class="remindBlock {{(item.height == 16)? 'type1':''}}" wx:if="{{item.type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
+              <text>{{item.title}}</text>
               </view>
               
             </block>

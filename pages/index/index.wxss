@@ -162,3 +162,6 @@
   background-color: rgb(97, 97, 97);
   z-index: 500;
 }
+.type1{
+  height: 32rpx;
+}
