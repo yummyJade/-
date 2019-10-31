@@ -100,7 +100,7 @@ Page({
         scrollHeight: f1-f2,
         lineHeight: (f1-f2)/16
       })
-
+      that.init();
     }
     calcuBodyHeight();
   },
@@ -165,10 +165,6 @@ Page({
     };
     let time = new Time();
     let nowTime = new Date();
-    // let a = time.getNowTime();
-    // console.log(a)
-    
-    console.log("可使用高度：" + wx.getSystemInfoSync().windowHeight);
 
     wx.request({
       url: that.data.ip + '/event',
@@ -291,7 +287,6 @@ Page({
    */
   onLoad: function (options) {
     this.calcu();
-    this.init();
   },
 
   /**
