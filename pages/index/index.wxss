@@ -163,5 +163,5 @@
   z-index: 500;
 }
 .type1{
-  height: 32rpx;
+  height: 24rpx;
 }
