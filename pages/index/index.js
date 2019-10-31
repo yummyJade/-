@@ -85,6 +85,7 @@ Page({
             // that.setData({
             //   height: height
             // });
+            console.log(clientHeight)
             resolve(clientHeight);
             
            
@@ -100,7 +101,7 @@ Page({
         scrollHeight: f1-f2,
         lineHeight: (f1-f2)/16
       })
-
+      
     }
     calcuBodyHeight();
   },
@@ -290,8 +291,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.calcu();
-    this.init();
+    let that = this;
+    const initOrder = async function(){
+      const f1 = await that.calcu();
+      const f2 = await that.init();
+    }
+    initOrder();
   },
 
   /**
