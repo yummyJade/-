@@ -4,8 +4,9 @@ class RequestInter{
   constructor() {
     this._baseUrl = 'https://itstudio.club';
     this._defaultHeader = { 'Content-Type': 'application/json' }
-    this._request = new Request; 
-    this._request.setErrorHandler(this.errorHander)
+    this._request = new Request(); 
+    // this._request.setErrorHandler(this.errorHander);
+    this._withTokenHeader = { 'Content-Type': 'application/json; charset=utf-8', 'cookie': "token=" + wx.getStorageSync("token")}
   }
 
   /**
@@ -23,20 +24,21 @@ class RequestInter{
       startTime: startTime,
       endTime: endTime
     },
-    header:{
-      
-    }
+    header: header = this._withTokenHeader
   }){
-    let data = data;
-    let header = {
-      'content-type': 'application/json; charset=utf-8',
-      'cookie': "token=" + wx.getStorageSync("token")//读取cookie  ??这个放在这里好么
-    };
-    return this._request({
-      url: _baseUrl + '/event',
+    let data = {
+          startTime: startTime,
+          endTime: endTime
+        }
+  
+    return this._request.getRequest({
+      url: this._baseUrl + '/event',
       data: data,
       header: header,
     })
+      .then(res => res.data)
   }
 }
 
+
+export default RequestInter;

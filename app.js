@@ -1,4 +1,5 @@
 //app.js
+import RequestInter from './pages/class/RequestInter.js';
 App({
   onLaunch: function () {
     //判断是否有token，如果有，说明已经登录，如果没有，打回登录状态
@@ -47,6 +48,7 @@ App({
       }
     })
   },
+  RequestInter: new RequestInter(),   //实例化
   globalData: {
     userInfo: null,
     host: 'https://itstudio.club',

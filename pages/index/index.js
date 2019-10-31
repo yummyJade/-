@@ -1,6 +1,7 @@
 //index.js
 import Time from '../class/Time.js';
-import colorLib from '../class/Constant.js'
+import colorLib from '../class/Constant.js';
+
 //获取应用实例
 const app = getApp()
 
@@ -182,16 +183,27 @@ Page({
     let time = new Time();
     let nowTime = new Date();
 
-    wx.request({
-      url: that.data.ip + '/event',
-      method: 'GET',
-      header: header,
+    app.RequestInter.getEventList({
       data: {
-        startTime: time.getDaysAfterTime(-(nowTime.getDay()-0), 6),
-        endTime:time.getDaysAfterTime(7-nowTime.getDay(),23)
-      },
-      success(res){
-        if(res.data.message == "success"){
+        startTime: time.getDaysAfterTime(-(nowTime.getDay() - 0), 6),
+        endTime: time.getDaysAfterTime(7 - nowTime.getDay(), 23)
+      }
+    })
+    .then(res => {
+      
+    // })
+
+    // wx.request({
+    //   url: that.data.ip + '/event',
+    //   method: 'GET',
+    //   header: header,
+    //   data: {
+    //     startTime: time.getDaysAfterTime(-(nowTime.getDay()-0), 6),
+    //     endTime:time.getDaysAfterTime(7-nowTime.getDay(),23)
+    //   },
+    //   success(res){
+      console.log(res)
+        if(res.message == "success"){
           let eventListArr = [],
             temp, data, topDis, leftDis, heightDis,
             startHour = 7,
@@ -226,8 +238,8 @@ Page({
           
          
           // console.log(timeLineLeft)
-            for(let i = 0, len = res.data.data.length; i < len;  i++){
-              data = res.data.data[i];
+            for(let i = 0, len = res.data.length; i < len;  i++){
+              data = res.data[i];
 
               
               let startTime = new Date(data.startTime);
@@ -252,7 +264,7 @@ Page({
                 if(topDis + minBlockHeight > that.data.lineHeight * 16){
                   topDis = that.data.lineHeight * 16 - minBlockHeight;
                   heightDis = 16;
-                  console.log(heightDis)
+                  // console.log(heightDis)
                 }
 
               }
@@ -280,8 +292,9 @@ Page({
             })
 
         }
-      }
+      // }
     })
+    // .catch()
 
   },
   /**

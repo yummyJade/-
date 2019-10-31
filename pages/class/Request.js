@@ -11,7 +11,12 @@ class Request{
     data:data,
     header:header = this._header
   }) {
-    return this.requestAll(url, data, header, 'GET')
+    return this.requestAll({
+      url: url,
+      data: data,
+      header: header,
+      method: 'GET'
+    })
   }
   /**
    * POST类型的网络请求
@@ -34,6 +39,7 @@ class Request{
     header:header,
     method:method
   }) {
+    
     return new Promise((resolve, reject) => {
       wx.request({
         url: url,
@@ -41,7 +47,7 @@ class Request{
         header: header,
         method: method,
         success: (res => {
-          if (res.data.status === 200) {
+          if (res.statusCode === 200) {
             //200: 服务端业务处理正常结束
             resolve(res)
           } else {
