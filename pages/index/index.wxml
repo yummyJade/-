@@ -11,7 +11,7 @@
   <view class="mainer">
     <!-- <movable-area > -->
       <!-- <movable-view class="innerMove" inertia="true" direction="horizontal" x=""> -->
-    <view style="padding-top:{{lineHeight-9.5}}px;" class="sideBar">
+    <view style="padding-top:{{lineHeight + headerHeight-9.5}}px;" class="sideBar">
       <block wx:for="{{timeTitle}}" wx:key="index">
           <view style="height:{{lineHeight}}px;" class='sideBar-content'>{{item}}</view> 
       </block>

@@ -43,6 +43,7 @@ Page({
     sideWidth:100,    //记录侧边栏的宽度
     lineWidth:0,
     lineHeight:60,
+    headerHeight:0,
   
     lineArr:[1,2,3,4,5,6,7],
     lineArr2:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
@@ -67,10 +68,10 @@ Page({
     const getHeaderHeight = function(){
       return new Promise(function(resolve,reject){
         let query = wx.createSelectorQuery();
-        query.select('.header').boundingClientRect(rect => {
+        query.select('.header-bottom').boundingClientRect(rect => {
           headerHeight = rect.height;
           resolve(headerHeight);
-          // console.log(headerHeight)
+          console.log(headerHeight)
         }).exec();
       })
     }
@@ -161,7 +162,8 @@ Page({
       const f1 = async function(){
         let { f1, f2 } = await that.calcu();
         that.setData({
-          scrollHeight: f1 - f2,
+          headerHeight:f2,
+          scrollHeight: f1 ,
           lineHeight: (f1 - f2) / 16
         })
         // that.init();
