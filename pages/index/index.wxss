@@ -98,7 +98,7 @@
 }
 .innerScroll{
   /* display: flex; */
-
+  width: 752rpx;
   height: 100vh;
   /* background-color: green; */
 }
@@ -176,5 +176,8 @@
   height: 24rpx;
 }
 .swiper-wrap{
-  width: 750rpx;
+  width: 752rpx;
+}
+swiper-item{
+  width: 752rpx;
 }

@@ -92,7 +92,7 @@ Page({
     lineHeight:60,
     headerHeight:0,
   
-    lineArr:[1,2,3,4,5,6,7],
+    lineArr:[1,2,3,4,5,6,7,8],
     lineArr2:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
     scrollHeight:0,
     courseList: [],   //记录课程表信息

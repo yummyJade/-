@@ -37,7 +37,7 @@
           </view>
           <view class="row-lines">
             <block wx:for="{{lineArr2}}">
-              <view style="top:{{item*lineHeight}}px;left:100rpx"></view>
+              <view style="top:{{item*lineHeight}}px;left:0rpx"></view>
             </block> 
           </view>
           <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 --> 
@@ -77,7 +77,7 @@
           </view>
           <view class="row-lines">
             <block wx:for="{{lineArr2}}">
-              <view style="top:{{item*lineHeight}}px;left:100rpx"></view>
+              <view style="top:{{item*lineHeight}}px;left:0rpx"></view>
             </block> 
           </view>
           <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 --> 
@@ -117,7 +117,7 @@
           </view>
           <view class="row-lines">
             <block wx:for="{{lineArr2}}">
-              <view style="top:{{item*lineHeight}}px;left:100rpx"></view>
+              <view style="top:{{item*lineHeight}}px;left:0rpx"></view>
             </block> 
           </view>
           <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 --> 
