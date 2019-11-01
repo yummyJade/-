@@ -338,7 +338,7 @@ Page({
             minBlockHeight = 16,    //px
             lineWidth = 1.5,
             blockHeight = that.data.lineHeight,
-            fixLeft = 100,
+            fixLeft = 0,
             nowTime = new Date();
 
           let lastWeekIndex = that.getLastWeekIndex(index);
