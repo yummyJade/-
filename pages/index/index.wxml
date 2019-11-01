@@ -16,23 +16,11 @@
           <view style="height:{{lineHeight}}px;" class='sideBar-content'>{{item}}</view> 
       </block>
     </view>
-    <swiper class="swiper-wrap" style="height:{{scrollHeight}}px">
-
-      <!-- <view class="header-bottom">
-        <view class="title">
-          <block wx:for="{{weekName}}" wx:key="index">
-            <view class="inner">
-              <view class="title-content">{{item.title}}</view>
-              <view class='dateName-content {{index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
-            </view>
-            
-          </block>
-        </view>
-      </view> -->
+    <swiper bindchange="bindchange" circular="true" class="swiper-wrap" style="height:{{scrollHeight}}px">
       <swiper-item>
         <view class="header-bottom">
           <view class="title">
-            <block wx:for="{{weekName}}" wx:key="index">
+            <block wx:for="{{weekName[0]}}" wx:key="index">
               <view class="inner">
                 <view class="title-content">{{item.title}}</view>
                 <view class='dateName-content {{index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
@@ -52,19 +40,12 @@
               <view style="top:{{item*lineHeight}}px;left:100rpx"></view>
             </block> 
           </view>
-          <!-- <view style="padding-top:{{lineHeight-9.5}}px;" class="sideBar">
-            <block wx:for="{{timeTitle}}" wx:key="index">
-                <view style="height:{{lineHeight}}px;" class='sideBar-content'>{{item}}</view> 
-            </block>
-
-          </view> -->
-          <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 -->
-           <!-- <view class='remindBlock' wx:for="{{courseList}}" style="height:{{item.skcd*120}}rpx;left:{{(item.day-1)*(94 + 6) }}rpx;top:{{(item.skjc-1)*(120+6)}}rpx">-->
+          <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 --> 
           <view class="innerContain">
           <!-- 当前时间线 -->
             <view class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
-            <block wx:for="{{eventList}}">
-              <view class="remindBlock type0" wx:if="{{item.type == 2}}" style="height:{{item.height - 8}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
+            <block wx:for="{{eventList[0]}}">
+              <view class="remindBlock type0" wx:if="{{item.type == 0 || item.type == 2}}" style="height:{{item.height - 8}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
               <text>{{item.title}}</text>
               <text>\n{{item.address}}</text>
               </view>
@@ -76,8 +57,86 @@
           </view>
         </scroll-view>
       </swiper-item>
-      <!-- </movable-view> -->
-    <!-- </movable-area> -->
+       <swiper-item>
+        <view class="header-bottom">
+          <view class="title">
+            <block wx:for="{{weekName[1]}}" wx:key="index">
+              <view class="inner">
+                <view class="title-content">{{item.title}}</view>
+                <view class='dateName-content {{index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
+              </view>
+              
+            </block>
+          </view>
+        </view>
+        <scroll-view class="innerScroll" scroll-y="true" style="height:{{scrollHeight}}px">
+          <view class="col-lines">
+            <block wx:for="{{lineArr}}" >
+              <view style="left:{{sideWidth+(item-1)*lineWidth}}rpx;height:{{scrollHeight}}px;"></view>
+            </block>
+          </view>
+          <view class="row-lines">
+            <block wx:for="{{lineArr2}}">
+              <view style="top:{{item*lineHeight}}px;left:100rpx"></view>
+            </block> 
+          </view>
+          <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 --> 
+          <view class="innerContain">
+          <!-- 当前时间线 -->
+            <view class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
+            <block wx:for="{{eventList[1]}}">
+              <view class="remindBlock type0" wx:if="{{item.type == 0 || item.type == 2}}" style="height:{{item.height - 8}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
+              <text>{{item.title}}</text>
+              <text>\n{{item.address}}</text>
+              </view>
+              <view class="remindBlock {{(item.height == 16)? 'type1':''}}" wx:if="{{item.type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
+              <text>{{item.title}}</text>
+              </view>
+              
+            </block>
+          </view>
+        </scroll-view>
+      </swiper-item>
+       <swiper-item>
+        <view class="header-bottom">
+          <view class="title">
+            <block wx:for="{{weekName[2]}}" wx:key="index">
+              <view class="inner">
+                <view class="title-content">{{item.title}}</view>
+                <view class='dateName-content {{index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
+              </view>
+              
+            </block>
+          </view>
+        </view>
+        <scroll-view class="innerScroll" scroll-y="true" style="height:{{scrollHeight}}px">
+          <view class="col-lines">
+            <block wx:for="{{lineArr}}" >
+              <view style="left:{{sideWidth+(item-1)*lineWidth}}rpx;height:{{scrollHeight}}px;"></view>
+            </block>
+          </view>
+          <view class="row-lines">
+            <block wx:for="{{lineArr2}}">
+              <view style="top:{{item*lineHeight}}px;left:100rpx"></view>
+            </block> 
+          </view>
+          <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 --> 
+          <view class="innerContain">
+          <!-- 当前时间线 -->
+            <view class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
+            <block wx:for="{{eventList[2]}}">
+              <view class="remindBlock type0" wx:if="{{item.type == 0 || item.type == 2}}" style="height:{{item.height - 8}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
+              <text>{{item.title}}</text>
+              <text>\n{{item.address}}</text>
+              </view>
+              <view class="remindBlock {{(item.height == 16)? 'type1':''}}" wx:if="{{item.type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
+              <text>{{item.title}}</text>
+              </view>
+              
+            </block>
+          </view>
+        </scroll-view>
+      </swiper-item>
     </swiper>
   </view>
 </view>

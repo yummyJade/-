@@ -11,7 +11,7 @@ Page({
     ip: app.globalData.host,
     cookieTest: app.globalData.cookieTest,
     weekName:[
-      {
+      [{
         title:"日",
         dateName:20
       },
@@ -34,8 +34,55 @@ Page({
       },{
         title:"六",
         dateName:26
-      }
-    
+      }],
+      [{
+        title: "日",
+        dateName: 20
+      },
+        {
+          title: "一",
+          dateName: 21
+        },
+        {
+          title: "二",
+          dateName: 22
+        }, {
+          title: "三",
+          dateName: 23,
+        }, {
+          title: "四",
+          dateName: 24
+        }, {
+          title: "五",
+          dateName: 25
+        }, {
+          title: "六",
+          dateName: 26
+        }],
+      [{
+        title: "日",
+        dateName: 20
+      },
+        {
+          title: "一",
+          dateName: 21
+        },
+        {
+          title: "二",
+          dateName: 22
+        }, {
+          title: "三",
+          dateName: 23,
+        }, {
+          title: "四",
+          dateName: 24
+        }, {
+          title: "五",
+          dateName: 25
+        }, {
+          title: "六",
+          dateName: 26
+        }],
     ],
     dateNameIndex:-1,
     timeTitle: ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00","14:00",
@@ -49,12 +96,22 @@ Page({
     lineArr2:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
     scrollHeight:0,
     courseList: [],   //记录课程表信息
-    eventList:[
+    eventList:[[],[],[]
     ],
     nowTimeLine:{   //记录当前时间线
       left:-100,
       top:-100
-    }
+    },
+
+    /**
+     * 记录轮播所需信息
+     */
+    currentIndex: 0,  // 当前轮播的索引
+
+    // 记录当前周次的开始时间的时间戳
+    firstTimeOfCurrentWeek: new Time().getDaysAfterTime(-(new Date().getDay()), 7),
+
+
   },
   calcu:function(){
     let linewidth = (750 - this.data.sideWidth)/7;
@@ -166,139 +223,15 @@ Page({
           scrollHeight: f1 ,
           lineHeight: (f1 - f2) / 16
         })
-        // that.init();
-        that.getEventList()
+
+        // 初始化本周次
+        that.renderWeek();
       }
       
       f1();
       
   },
-  /**
-   * 获取事件列表相关的函数
-   */
-  getEventList:function(){
-    let that = this;
-    let header = {
-      'content-type': 'application/json; charset=utf-8',
-      'cookie': "token=" + wx.getStorageSync("token")//读取cookie
-    };
-    let time = new Time();
-    let nowTime = new Date();
 
-    app.RequestInter.getEventList({
-      data: {
-        startTime: time.getDaysAfterTime(-(nowTime.getDay() - 0), 6),
-        endTime: time.getDaysAfterTime(7 - nowTime.getDay(), 23)
-      }
-    })
-    .then(res => {
-      
-    // })
-
-    // wx.request({
-    //   url: that.data.ip + '/event',
-    //   method: 'GET',
-    //   header: header,
-    //   data: {
-    //     startTime: time.getDaysAfterTime(-(nowTime.getDay()-0), 6),
-    //     endTime:time.getDaysAfterTime(7-nowTime.getDay(),23)
-    //   },
-    //   success(res){
-      console.log(res)
-        if(res.message == "success"){
-          let eventListArr = [],
-            temp, data, topDis, leftDis, heightDis,
-            startHour = 7,
-            endHour = 23,
-            blockWidth = 92,
-            minBlockHeight = 16,    //px
-            lineWidth = 1.5,
-            blockHeight = that.data.lineHeight,
-            fixLeft = 100,
-            nowTime = new Date();
-          //设置标题栏
-          let nowDay = nowTime.getDay();
-          let firstDate = new Date();
-          firstDate.setDate(firstDate.getDate() - nowDay);
-          let dateNameArr = that.data.weekName;
-          for(let i = 0, len = 7; i < len; i++){
-            dateNameArr[i].dateName = firstDate.getDate();
-            firstDate.setDate(firstDate.getDate() + 1);
-          }
-          // console.log(dateNameArr)
-          //添加当前时间线，只显示6点到22点，好的偷偷的说现在23点了
-          let timeLineLeft, timeLineTop;
-          // console.log("8888")
-          if(nowTime.getHours() >= endHour || nowTime.getHours() <= startHour){
-            
-            timeLineLeft = -100;
-            timeLineTop = -100;
-          }else{
-            timeLineLeft = fixLeft + (nowTime.getDay()) * blockWidth + lineWidth * nowTime.getDay();
-            timeLineTop = ((nowTime.getHours() - startHour) * 60 + (nowTime.getMinutes())) * blockHeight / 60;
-          }
-          
-         
-          // console.log(timeLineLeft)
-            for(let i = 0, len = res.data.length; i < len;  i++){
-              data = res.data[i];
-
-              
-              let startTime = new Date(data.startTime);
-              let endTime = new Date(data.endTime);
-              // console.log(colorLib[0])
-              // let colorIndex = 0;
-              // if (!data.color){
-              //   colorIndex = Math.floor(Math.random() * colorLib.length);
-              // }
-              
-              //距离上方的距离
-              if(data.type == 2){
-                heightDis = ((endTime.getHours() * 60 + endTime.getMinutes()) - (startTime.getHours() * 60 + startTime.getMinutes())) * blockHeight / 60;
-                topDis = ((startTime.getHours() - startHour) * 60 + (startTime.getMinutes())) * blockHeight / 60;
-                leftDis = fixLeft + (startTime.getDay()) * blockWidth + lineWidth * startTime.getDay(); 
-
-              }else if(data.type == 1){
-                topDis = ((endTime.getHours() - startHour) * 60 + (endTime.getMinutes())) * blockHeight / 60;
-                leftDis = fixLeft + (endTime.getDay()) * blockWidth + lineWidth * endTime.getDay(); 
-                heightDis = 0;
-                //考虑23点情况
-                if(topDis + minBlockHeight > that.data.lineHeight * 16){
-                  topDis = that.data.lineHeight * 16 - minBlockHeight;
-                  heightDis = 16;
-                  // console.log(heightDis)
-                }
-
-              }
-              temp = {
-                title : data.title,
-                address: data.address,
-                top: topDis,
-                left: leftDis,
-                height: heightDis,
-                color: colorLib[data.color]["rgb"],
-                type: data.type
-              }
-              // temp = data;
-              eventListArr.push(temp);
-              
-            }
-            that.setData({
-              eventList:eventListArr,
-              weekName:dateNameArr,
-              dateNameIndex: nowTime.getDay(),
-              nowTimeLine:{
-                left:timeLineLeft,
-                top:timeLineTop
-              }
-            })
-
-        }
-      // }
-    })
-    // .catch()
-
-  },
   /**
    * 获取课程列表相关的函数
    */
@@ -330,15 +263,177 @@ Page({
   },
 
   /**
+   * 根据索引判断是切换到下周还是上周
+   */
+  isNextWeek: function (lastIndex, currentIndex) {
+    if (lastIndex == 2 && currentIndex == 0) return true
+    return currentIndex - lastIndex == 1;
+  },
+
+  /**
+   * 监听轮播切换
+   */
+  bindchange:function(e){
+    // 获取上一个索引
+    let lastIndex = this.data.currentIndex;
+    // 获取当前索引
+    let currentIndex = e.detail.current;
+    // 获取上个周次的起始时间
+    let firstTimeOfCurrentWeek = this.data.firstTimeOfCurrentWeek;
+
+    if(this.isNextWeek(lastIndex, currentIndex)) {
+      this.setData({
+        currentIndex: currentIndex,
+        firstTimeOfCurrentWeek: firstTimeOfCurrentWeek + 7 * 24 * 60 * 60 * 1000
+        })
+      this.renderWeek();
+    }else {
+      this.setData({
+        currentIndex: currentIndex,
+        firstTimeOfCurrentWeek: firstTimeOfCurrentWeek - 7 * 24 * 60 * 60 * 1000
+      })
+      this.renderWeek();
+    }
+  },
+
+  /**
+   * 根据索引获得上下周次的索引
+   */
+  getLastWeekIndex:function(index) {
+    return (index + 2) % 3;
+  },
+
+  getNextWeekIndex:function(index) {
+    return (index + 1) % 3;
+  },
+
+  /**
+   * 渲染周次
+   * @param:index 轮播的索引
+   * @param:firstTimeOfWeek 周次的起始时间戳
+   */
+  renderWeek:function() {
+    let index = this.data.currentIndex,
+    firstTimeOfWeek = this.data.firstTimeOfCurrentWeek;
+    let that = this;
+    let header = {
+      'content-type': 'application/json; charset=utf-8',
+      'cookie': "token=" + wx.getStorageSync("token")//读取cookie
+    };
+  
+    app.RequestInter.getEventList({
+      data: {
+        startTime: firstTimeOfWeek,
+        endTime: firstTimeOfWeek + 7 * 24 * 60 * 60 * 1000
+      }
+    })
+      .then(res => {
+        if (res.message == "success") {
+          let eventListArr = that.data.eventList,
+            temp, data, topDis, leftDis, heightDis,
+            startHour = 7,
+            endHour = 23,
+            blockWidth = 92,
+            minBlockHeight = 16,    //px
+            lineWidth = 1.5,
+            blockHeight = that.data.lineHeight,
+            fixLeft = 100,
+            nowTime = new Date();
+
+          let lastWeekIndex = that.getLastWeekIndex(index);
+          let nextWeekIndex = that.getNextWeekIndex(index);
+
+          eventListArr = [[], [], []];
+          //设置标题栏
+          let nowDay = nowTime.getDay();
+          let firstDate = new Date(firstTimeOfWeek - 7 * 24 * 60 * 60 * 1000);
+          let dateNameArrList = that.data.weekName;
+          for (let i = 0, len = 7; i < len; i++) {
+            dateNameArrList[lastWeekIndex][i].dateName = firstDate.getDate();
+            firstDate.setDate(firstDate.getDate() + 1);
+          }
+          for (let i = 0, len = 7; i < len; i++) {
+            dateNameArrList[index][i].dateName = firstDate.getDate();
+            firstDate.setDate(firstDate.getDate() + 1);
+          }
+          for (let i = 0, len = 7; i < len; i++) {
+            dateNameArrList[nextWeekIndex][i].dateName = firstDate.getDate();
+            firstDate.setDate(firstDate.getDate() + 1);
+          }
+          
+          //添加当前时间线，只显示6点到22点，好的偷偷的说现在23点了
+          let timeLineLeft, timeLineTop;
+          // 当前时间到该周次起始时间的天数
+          let distance = parseInt((new Date().getTime() - firstTimeOfWeek) / (24 * 60 * 60 * 1000));
+          if (nowTime.getHours() >= endHour || nowTime.getHours() <= startHour || distance < 0 || distance > 6) {
+            timeLineLeft = -100;
+            timeLineTop = -100;
+          } else {
+            // 获取该周第一天到现在的天数
+            
+            timeLineLeft = fixLeft + (nowTime.getDay()) * blockWidth + lineWidth * distance;
+            timeLineTop = ((nowTime.getHours() - startHour) * 60 + (nowTime.getMinutes())) * blockHeight / 60;
+          }
+
+          for (let i = 0, len = res.data.length; i < len; i++) {
+            data = res.data[i];
+
+
+            let startTime = new Date(data.startTime);
+            let endTime = new Date(data.endTime);
+
+            //距离上方的距离
+            if (data.type == 2 || data.type == 0) {
+              heightDis = ((endTime.getHours() * 60 + endTime.getMinutes()) - (startTime.getHours() * 60 + startTime.getMinutes())) * blockHeight / 60;
+              topDis = ((startTime.getHours() - startHour) * 60 + (startTime.getMinutes())) * blockHeight / 60;
+              leftDis = fixLeft + (startTime.getDay()) * blockWidth + lineWidth * startTime.getDay();
+
+            } else if (data.type == 1) {
+              topDis = ((endTime.getHours() - startHour) * 60 + (endTime.getMinutes())) * blockHeight / 60;
+              leftDis = fixLeft + (endTime.getDay()) * blockWidth + lineWidth * endTime.getDay();
+              heightDis = 0;
+              //考虑23点情况
+              if (topDis + minBlockHeight > that.data.lineHeight * 16) {
+                topDis = that.data.lineHeight * 16 - minBlockHeight;
+                heightDis = 16;
+              }
+
+            }
+            temp = {
+              title: data.title,
+              address: data.address,
+              top: topDis,
+              left: leftDis,
+              height: heightDis,
+              color: colorLib[data.color]["rgb"],
+              type: data.type
+            }
+            eventListArr[index].push(temp);
+          }
+        
+          console.log(eventListArr);
+          that.setData({
+            eventList: eventListArr,
+            weekName: dateNameArrList,
+            dateNameIndex: distance,
+            nowTimeLine: {
+              left: timeLineLeft,
+              top: timeLineTop
+            }
+          })
+
+      
+
+        }
+      })
+  },
+
+
+
+  /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // let that = this;
-    // const initOrder = async function(){
-    //   const f1 = await that.calcu();
-    //   const f2 = await that.init();
-    // }
-    // initOrder();
     this.init();
   },
 
