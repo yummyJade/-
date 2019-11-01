@@ -18,19 +18,29 @@
     </view>
     <swiper class="swiper-wrap" style="height:{{scrollHeight}}px">
 
-    <view class="header-bottom">
-<view class="title">
-        <block wx:for="{{weekName}}" wx:key="index">
-          <view class="inner">
-            <view class="title-content">{{item.title}}</view>
-            <view class='dateName-content {{index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
-          </view>
-          
-        </block>
-      </view>
-
-      </view>
+      <!-- <view class="header-bottom">
+        <view class="title">
+          <block wx:for="{{weekName}}" wx:key="index">
+            <view class="inner">
+              <view class="title-content">{{item.title}}</view>
+              <view class='dateName-content {{index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
+            </view>
+            
+          </block>
+        </view>
+      </view> -->
       <swiper-item>
+        <view class="header-bottom">
+          <view class="title">
+            <block wx:for="{{weekName}}" wx:key="index">
+              <view class="inner">
+                <view class="title-content">{{item.title}}</view>
+                <view class='dateName-content {{index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
+              </view>
+              
+            </block>
+          </view>
+        </view>
         <scroll-view class="innerScroll" scroll-y="true" style="height:{{scrollHeight}}px">
           <view class="col-lines">
             <block wx:for="{{lineArr}}" >
