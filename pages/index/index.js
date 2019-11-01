@@ -92,7 +92,7 @@ Page({
     lineHeight:60,
     headerHeight:0,
   
-    lineArr:[1,2,3,4,5,6,7,8],
+    lineArr:[1,2,3,4,5,6,7],
     lineArr2:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
     scrollHeight:0,
     courseList: [],   //记录课程表信息
@@ -110,6 +110,7 @@ Page({
 
     // 记录当前周次的开始时间的时间戳
     firstTimeOfCurrentWeek: new Time().getDaysAfterTime(-(new Date().getDay()), 7),
+    swiperSize: 3
 
 
   },
@@ -348,10 +349,13 @@ Page({
           let nowDay = nowTime.getDay();
           let firstDate = new Date(firstTimeOfWeek - 7 * 24 * 60 * 60 * 1000);
           let dateNameArrList = that.data.weekName;
-          for (let i = 0, len = 7; i < len; i++) {
-            dateNameArrList[lastWeekIndex][i].dateName = firstDate.getDate();
-            firstDate.setDate(firstDate.getDate() + 1);
-          }
+          // for (let j = lastWeekIndex, len = that.data.swiperSize; j < len; j++){
+            for (let i = 0, len = 7; i < len; i++) {
+              dateNameArrList[lastWeekIndex][i].dateName = firstDate.getDate();
+              firstDate.setDate(firstDate.getDate() + 1);
+            }
+          // }
+          
           for (let i = 0, len = 7; i < len; i++) {
             dateNameArrList[index][i].dateName = firstDate.getDate();
             firstDate.setDate(firstDate.getDate() + 1);

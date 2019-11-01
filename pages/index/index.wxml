@@ -32,7 +32,7 @@
         <scroll-view class="innerScroll" scroll-y="true" style="height:{{scrollHeight}}px">
           <view class="col-lines">
             <block wx:for="{{lineArr}}" >
-              <view style="left:{{sideWidth+(item-1)*lineWidth}}rpx;height:{{scrollHeight}}px;"></view>
+              <view style="left:{{(item-1)*lineWidth}}rpx;height:{{scrollHeight}}px;"></view>
             </block>
           </view>
           <view class="row-lines">
@@ -72,7 +72,7 @@
         <scroll-view class="innerScroll" scroll-y="true" style="height:{{scrollHeight}}px">
           <view class="col-lines">
             <block wx:for="{{lineArr}}" >
-              <view style="left:{{sideWidth+(item-1)*lineWidth}}rpx;height:{{scrollHeight}}px;"></view>
+              <view style="left:{{(item-1)*lineWidth}}rpx;height:{{scrollHeight}}px;"></view>
             </block>
           </view>
           <view class="row-lines">
@@ -112,7 +112,7 @@
         <scroll-view class="innerScroll" scroll-y="true" style="height:{{scrollHeight}}px">
           <view class="col-lines">
             <block wx:for="{{lineArr}}" >
-              <view style="left:{{sideWidth+(item-1)*lineWidth}}rpx;height:{{scrollHeight}}px;"></view>
+              <view style="left:{{(item-1)*lineWidth}}rpx;height:{{scrollHeight}}px;"></view>
             </block>
           </view>
           <view class="row-lines">

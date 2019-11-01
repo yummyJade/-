@@ -22,10 +22,10 @@
   justify-content: space-between;
 }
 .header .bottom{
-  margin-left: 100rpx;
+  /* margin-left: 100rpx; */
 }
 .mainer .header-bottom{
-  margin-left: 100rpx;
+  /* margin-left: 100rpx; */
 }
 .header .bottom > view{
   
@@ -176,8 +176,9 @@
   height: 24rpx;
 }
 .swiper-wrap{
-  width: 752rpx;
+  width: 652rpx;
+  margin-left: 100rpx;
 }
 swiper-item{
-  width: 752rpx;
+  width: 652rpx;
 }
