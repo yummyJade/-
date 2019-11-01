@@ -109,7 +109,7 @@ Page({
     currentIndex: 0,  // 当前轮播的索引
 
     // 记录当前周次的开始时间的时间戳
-    firstTimeOfCurrentWeek: new Time().getDaysAfterTime(-(new Date().getDay()), 7),
+    firstTimeOfCurrentWeek: new Time().getDaysAfterTime(-(new Date().getDay()), 0),
     swiperSize: 3
 
 
@@ -129,7 +129,6 @@ Page({
         query.select('.header-bottom').boundingClientRect(rect => {
           headerHeight = rect.height;
           resolve(headerHeight);
-          console.log(headerHeight)
         }).exec();
       })
     }
@@ -141,15 +140,7 @@ Page({
           success: function (res) {
             let clientHeight = res.windowHeight;
             let clientWidth = res.windowWidth;
-            // let ratio = 750 / clientWidth;
-            // let height = clientHeight * ratio;
-            // that.setData({
-            //   height: height
-            // });
-            // console.log(clientHeight)
             resolve(clientHeight);
-            
-           
           }
         });
       })
@@ -159,63 +150,15 @@ Page({
       const f1 = await getClientHeight();
       const f2 = await getHeaderHeight();
       return {f1, f2};
-      // that.setData({
-      //   scrollHeight: f1-f2,
-      //   lineHeight: (f1-f2)/16
-      // })
-      // that.init();
     }
     return calcuBodyHeight();
    
   },
-//   //事件处理函数
-//   bindViewTap: function() {
-//     wx.navigateTo({
-//       url: '../logs/logs'
-//     })
-//   },
-//   onLoad: function () {
-//     if (app.globalData.userInfo) {
-//       this.setData({
-//         userInfo: app.globalData.userInfo,
-//         hasUserInfo: true
-//       })
-//     } else if (this.data.canIUse){
-//       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-//       // 所以此处加入 callback 以防止这种情况
-//       app.userInfoReadyCallback = res => {
-//         this.setData({
-//           userInfo: res.userInfo,
-//           hasUserInfo: true
-//         })
-//       }
-//     } else {
-//       // 在没有 open-type=getUserInfo 版本的兼容处理
-//       wx.getUserInfo({
-//         success: res => {
-//           app.globalData.userInfo = res.userInfo
-//           this.setData({
-//             userInfo: res.userInfo,
-//             hasUserInfo: true
-//           })
-//         }
-//       })
-//     }
-//   },
-//   getUserInfo: function(e) {
-//     console.log(e)
-//     app.globalData.userInfo = e.detail.userInfo
-//     this.setData({
-//       userInfo: e.detail.userInfo,
-//       hasUserInfo: true
-//     })
-//   }
+
   /**
    * 做一些初始化
    */
   init:function(){
-    // wx.setStorageSync("token", res.data["key"])
-    // wx.setStorageSync("token", this.data.cookieTest);
     let that = this;
       const f1 = async function(){
         let { f1, f2 } = await that.calcu();
@@ -224,9 +167,7 @@ Page({
           scrollHeight: f1 ,
           lineHeight: (f1 - f2) / 16
         })
-
-        // 初始化本周次
-        that.renderWeek();
+        that.renderWeek(that.data.currentIndex, that.data.firstTimeOfCurrentWeek);
       }
       
       f1();
@@ -246,6 +187,11 @@ Page({
     };
     // 是否应该找一个地方把所有的请求信息都以json的形式存下来方便管理
     //进行请求,一般外层都有一个封装,然后放在公共类里边
+    // 回答：是的，不过要考虑到信息是否失效
+    // 建议是先检查缓存，若缓存存在则直接渲染，并且异步请求信息，判断信息是否一致，一致后不再处理，不一致再渲染
+    // 若缓存不存在，请求信息并缓存
+    // 因为请求很小，所以这点请求量服务器还是撑得住的
+    // 目的是让用户用起来感觉很快
     wx.request({
       url: that.data.ip + '/jw/stu/timetable/course',
       method:'GET',
@@ -283,17 +229,9 @@ Page({
     let firstTimeOfCurrentWeek = this.data.firstTimeOfCurrentWeek;
 
     if(this.isNextWeek(lastIndex, currentIndex)) {
-      this.setData({
-        currentIndex: currentIndex,
-        firstTimeOfCurrentWeek: firstTimeOfCurrentWeek + 7 * 24 * 60 * 60 * 1000
-        })
-      this.renderWeek();
+      this.renderWeek(currentIndex, firstTimeOfCurrentWeek + 7 * 24 * 60 * 60 * 1000);
     }else {
-      this.setData({
-        currentIndex: currentIndex,
-        firstTimeOfCurrentWeek: firstTimeOfCurrentWeek - 7 * 24 * 60 * 60 * 1000
-      })
-      this.renderWeek();
+      this.renderWeek(currentIndex, firstTimeOfCurrentWeek - 7 * 24 * 60 * 60 * 1000);
     }
   },
 
@@ -313,9 +251,7 @@ Page({
    * @param:index 轮播的索引
    * @param:firstTimeOfWeek 周次的起始时间戳
    */
-  renderWeek:function() {
-    let index = this.data.currentIndex,
-    firstTimeOfWeek = this.data.firstTimeOfCurrentWeek;
+  renderWeek: function (index, firstTimeOfWeek) {
     let that = this;
     let header = {
       'content-type': 'application/json; charset=utf-8',
@@ -368,7 +304,7 @@ Page({
           //添加当前时间线，只显示6点到22点，好的偷偷的说现在23点了
           let timeLineLeft, timeLineTop;
           // 当前时间到该周次起始时间的天数
-          let distance = parseInt((new Date().getTime() - firstTimeOfWeek) / (24 * 60 * 60 * 1000));
+          let distance = Math.floor((new Date().getTime() - firstTimeOfWeek) / (24 * 60 * 60 * 1000));
           if (nowTime.getHours() >= endHour || nowTime.getHours() <= startHour || distance < 0 || distance > 6) {
             timeLineLeft = -100;
             timeLineTop = -100;
@@ -388,7 +324,7 @@ Page({
 
             //距离上方的距离
             if (data.type == 2 || data.type == 0) {
-              heightDis = ((endTime.getHours() * 60 + endTime.getMinutes()) - (startTime.getHours() * 60 + startTime.getMinutes())) * blockHeight / 60;
+              heightDis = ((endTime.getHours() * 60 + endTime.getMinutes()) - (startTime.getHours() * 60 + startTime.getMinutes())) * blockHeight / 60 + 4;
               topDis = ((startTime.getHours() - startHour) * 60 + (startTime.getMinutes())) * blockHeight / 60;
               leftDis = fixLeft + (startTime.getDay()) * blockWidth + lineWidth * startTime.getDay();
 
@@ -415,7 +351,7 @@ Page({
             eventListArr[index].push(temp);
           }
         
-          console.log(eventListArr);
+          
           that.setData({
             eventList: eventListArr,
             weekName: dateNameArrList,
@@ -423,11 +359,10 @@ Page({
             nowTimeLine: {
               left: timeLineLeft,
               top: timeLineTop
-            }
+            },
+            currentIndex: index,
+            firstTimeOfCurrentWeek: firstTimeOfWeek
           })
-
-      
-
         }
       })
   },

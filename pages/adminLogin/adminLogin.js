@@ -13,7 +13,6 @@ Page({
    * 处理登录
    */
   loginSubmit:function(e){
-    console.log(e.detail.value);
     let data = e.detail.value;
     let that = this;
     //简单做一下为空的判断
@@ -69,7 +68,6 @@ Page({
     let token = wx.getStorage({
       key: 'token',
       success: function (res) {
-        console.log(res.data);
         if (res.data != []) {
           wx.redirectTo({
             url: '/pages/index/index',

@@ -23,7 +23,7 @@
             <block wx:for="{{weekName[0]}}" wx:key="index">
               <view class="inner">
                 <view class="title-content">{{item.title}}</view>
-                <view class='dateName-content {{index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
+                <view class='dateName-content {{currentIndex == 0 && index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
               </view>
               
             </block>
@@ -63,7 +63,7 @@
             <block wx:for="{{weekName[1]}}" wx:key="index">
               <view class="inner">
                 <view class="title-content">{{item.title}}</view>
-                <view class='dateName-content {{index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
+                <view class='dateName-content {{currentIndex == 1 && index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
               </view>
               
             </block>
@@ -103,7 +103,7 @@
             <block wx:for="{{weekName[2]}}" wx:key="index">
               <view class="inner">
                 <view class="title-content">{{item.title}}</view>
-                <view class='dateName-content {{index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
+                <view class='dateName-content {{currentIndex == 2 && index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
               </view>
               
             </block>
