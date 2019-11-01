@@ -4,7 +4,22 @@
     <view class="top">
     </view>
     <view class="bottom">
-      <view class="title">
+      
+      
+    </view>
+  </view>
+  <view class="mainer">
+    <!-- <movable-area > -->
+      <!-- <movable-view class="innerMove" inertia="true" direction="horizontal" x=""> -->
+    <view style="padding-top:{{lineHeight-9.5}}px;" class="sideBar">
+      <block wx:for="{{timeTitle}}" wx:key="index">
+          <view style="height:{{lineHeight}}px;" class='sideBar-content'>{{item}}</view> 
+      </block>
+    </view>
+    <swiper class="swiper-wrap" style="height:{{scrollHeight}}px">
+
+    <view class="header-bottom">
+<view class="title">
         <block wx:for="{{weekName}}" wx:key="index">
           <view class="inner">
             <view class="title-content">{{item.title}}</view>
@@ -13,12 +28,9 @@
           
         </block>
       </view>
-      
-    </view>
-  </view>
-  <view class="mainer">
-    <movable-area >
-      <movable-view class="innerMove" inertia="true" direction="horizontal" x="">
+
+      </view>
+      <swiper-item>
         <scroll-view class="innerScroll" scroll-y="true" style="height:{{scrollHeight}}px">
           <view class="col-lines">
             <block wx:for="{{lineArr}}" >
@@ -30,12 +42,12 @@
               <view style="top:{{item*lineHeight}}px;left:100rpx"></view>
             </block> 
           </view>
-          <view style="padding-top:{{lineHeight-9.5}}px;" class="sideBar">
+          <!-- <view style="padding-top:{{lineHeight-9.5}}px;" class="sideBar">
             <block wx:for="{{timeTitle}}" wx:key="index">
                 <view style="height:{{lineHeight}}px;" class='sideBar-content'>{{item}}</view> 
             </block>
 
-          </view>
+          </view> -->
           <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 -->
            <!-- <view class='remindBlock' wx:for="{{courseList}}" style="height:{{item.skcd*120}}rpx;left:{{(item.day-1)*(94 + 6) }}rpx;top:{{(item.skjc-1)*(120+6)}}rpx">-->
           <view class="innerContain">
@@ -53,8 +65,9 @@
             </block>
           </view>
         </scroll-view>
-      </movable-view>
-    </movable-area>
-    
+      </swiper-item>
+      <!-- </movable-view> -->
+    <!-- </movable-area> -->
+    </swiper>
   </view>
 </view>

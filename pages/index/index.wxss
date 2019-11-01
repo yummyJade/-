@@ -24,21 +24,28 @@
 .header .bottom{
   margin-left: 100rpx;
 }
+.mainer .header-bottom{
+  margin-left: 100rpx;
+}
 .header .bottom > view{
   
   display: flex;
   justify-content: space-around;
 }
-.header .inner{
+.header-bottom > view{
+  display: flex;
+  justify-content: space-around;
+}
+.header-bottom .inner{
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
 }
-.header .title-content{
+.header-bottom .title-content{
   font-size: 16rpx;
 }
-.header .dateName-content{
+.header-bottom .dateName-content{
   width: 46rpx;
   height: 46rpx;
   margin: 0 auto;
@@ -62,6 +69,9 @@
 .sideBar{
   float: left;
   width: 100rpx;
+  position: fixed;
+  left: 0;
+
   /* padding-top: 30rpx; */
   display: flex;
   flex-direction: column;
@@ -119,7 +129,7 @@
   padding: 4rpx;
   border-radius: 7rpx;
 }
-.header .todayFlag{
+.mainer .todayFlag{
   background-color: rgb(55,113,225);
   color: white;
   position: relative;
@@ -164,4 +174,7 @@
 }
 .type1{
   height: 24rpx;
+}
+.swiper-wrap{
+  width: 750rpx;
 }
