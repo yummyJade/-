@@ -43,14 +43,14 @@
           <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 --> 
           <view class="innerContain">
           <!-- 当前时间线 -->
-            <view class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
+            <view wx:if="{{currentIndex == 0}}" class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
             <block wx:for="{{eventList[0]}}">
-              <view class="remindBlock type0" wx:if="{{item.type == 0 || item.type == 2}}" style="height:{{item.height - 8}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
-              <text>{{item.title}}</text>
-              <text>\n{{item.address}}</text>
+              <view class="remindBlock" wx:if="{{item._type == 0 || item._type == 2}}" style="height:{{item._height - 4}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx; width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" >
+              <text>{{item._title}}</text>
+              <text>\n{{item._address}}</text>
               </view>
-              <view class="remindBlock {{(item.height == 16)? 'type1':''}}" wx:if="{{item.type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
-              <text>{{item.title}}</text>
+              <view class="remindBlock {{(item._height == 16)? 'type1':''}}" wx:if="{{item._type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx;width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" >
+              <text>{{item._title}}</text>
               </view>
               
             </block>
@@ -83,14 +83,14 @@
           <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 --> 
           <view class="innerContain">
           <!-- 当前时间线 -->
-            <view class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
+            <view wx:if="{{currentIndex == 1}}" class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
             <block wx:for="{{eventList[1]}}">
-              <view class="remindBlock type0" wx:if="{{item.type == 0 || item.type == 2}}" style="height:{{item.height - 8}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
-              <text>{{item.title}}</text>
-              <text>\n{{item.address}}</text>
+               <view class="remindBlock" wx:if="{{item._type == 0 || item._type == 2}}" style="height:{{item._height - 4}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx; width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" >
+              <text>{{item._title}}</text>
+              <text>\n{{item._address}}</text>
               </view>
-              <view class="remindBlock {{(item.height == 16)? 'type1':''}}" wx:if="{{item.type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
-              <text>{{item.title}}</text>
+              <view class="remindBlock {{(item._height == 16)? 'type1':''}}" wx:if="{{item._type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx;width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" >
+              <text>{{item._title}}</text>
               </view>
               
             </block>
@@ -123,14 +123,14 @@
           <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 --> 
           <view class="innerContain">
           <!-- 当前时间线 -->
-            <view class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
+            <view wx:if="{{currentIndex == 2}}" class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
             <block wx:for="{{eventList[2]}}">
-              <view class="remindBlock type0" wx:if="{{item.type == 0 || item.type == 2}}" style="height:{{item.height - 8}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
-              <text>{{item.title}}</text>
-              <text>\n{{item.address}}</text>
+               <view class="remindBlock" wx:if="{{item._type == 0 || item._type == 2}}" style="height:{{item._height - 4}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx; width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" >
+              <text>{{item._title}}</text>
+              <text>\n{{item._address}}</text>
               </view>
-              <view class="remindBlock {{(item.height == 16)? 'type1':''}}" wx:if="{{item.type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item.left}}rpx;top:{{item.top}}px;background-color:rgb({{item.color[0]}},{{item.color[1]}},{{item.color[2]}})" >
-              <text>{{item.title}}</text>
+              <view class="remindBlock {{(item._height == 16)? 'type1':''}}" wx:if="{{item._type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx;width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" >
+              <text>{{item._title}}</text>
               </view>
               
             </block>

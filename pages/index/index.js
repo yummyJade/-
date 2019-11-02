@@ -1,6 +1,8 @@
 //index.js
 import Time from '../class/Time.js';
 import colorLib from '../class/Constant.js';
+import Event from "../class/Event.js"
+import WeekEventView from "../class/WeekEventView.js"
 
 //获取应用实例
 const app = getApp()
@@ -267,7 +269,7 @@ Page({
       .then(res => {
         if (res.message == "success") {
           let eventListArr = that.data.eventList,
-            temp, data, topDis, leftDis, heightDis,
+            data, topDis, leftDis, heightDis,
             startHour = 7,
             endHour = 23,
             blockWidth = 92,
@@ -324,7 +326,7 @@ Page({
 
             //距离上方的距离
             if (data.type == 2 || data.type == 0) {
-              heightDis = ((endTime.getHours() * 60 + endTime.getMinutes()) - (startTime.getHours() * 60 + startTime.getMinutes())) * blockHeight / 60 + 4;
+              heightDis = ((endTime.getHours() * 60 + endTime.getMinutes()) - (startTime.getHours() * 60 + startTime.getMinutes())) * blockHeight / 60;
               topDis = ((startTime.getHours() - startHour) * 60 + (startTime.getMinutes())) * blockHeight / 60;
               leftDis = fixLeft + (startTime.getDay()) * blockWidth + lineWidth * startTime.getDay();
 
@@ -337,21 +339,27 @@ Page({
                 topDis = that.data.lineHeight * 16 - minBlockHeight;
                 heightDis = 16;
               }
+            }
 
-            }
-            temp = {
-              title: data.title,
-              address: data.address,
-              top: topDis,
-              left: leftDis,
-              height: heightDis,
-              color: colorLib[data.color]["rgb"],
-              type: data.type
-            }
-            eventListArr[index].push(temp);
+            let event = new Event(
+              data.eventID,
+              data.shareID,
+              data.title,
+              data.address,
+              data.remark,
+              colorLib[data.color]["rgb"],
+              data.startTime,
+              data.endTime,
+              data.type,
+              topDis,
+              leftDis,
+              heightDis
+            );
+            eventListArr[index].push(event);
           }
-        
-          
+
+          let weekEventView = new WeekEventView();
+          eventListArr[index] = weekEventView.process(firstTimeOfWeek, eventListArr[index]);
           that.setData({
             eventList: eventListArr,
             weekName: dateNameArrList,

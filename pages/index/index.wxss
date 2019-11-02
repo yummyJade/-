@@ -117,8 +117,7 @@
   background-color: rgb(233,234,237);
 }
 /* 关于提醒块的样式 */
-.remindBlock{
-  width: 78rpx;   /*暂时按照这个规定*/    
+.remindBlock{ 
   position: absolute;
   top: 0;
   left: 100rpx;
