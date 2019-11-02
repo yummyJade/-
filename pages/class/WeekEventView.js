@@ -10,7 +10,7 @@ class WeekEventView {
     let weekEvent = [[], [], [], [], [], [], []];
     // 按星期几分类
     eventList.forEach(function(event){
-      let index = Math.floor((event._startTime - weekStartTime) / (24 * 60 * 60 * 1000));
+      let index = Math.floor((event._endTime - weekStartTime) / (24 * 60 * 60 * 1000));
       weekEvent[index].push(event);
     });
     // 排序并处理
