@@ -73,8 +73,8 @@ Page({
     let value = e.detail.value;
     // 更改小时列
     if (column == 0) {
+      // 更改到第一行
       if (value == 0) {
-        // 更改到第一行
         if (!this.isFullChoice(date)) {
           let now = new Date();
           let mod = 5 - now.getMinutes() % 5;
@@ -120,27 +120,25 @@ Page({
   bindEndPickerColumnChange: function(e) {
       let column = e.detail.column;
       let value = e.detail.value;
-      if(column == 0 ) {
+      if(column == 0) {
         let endArr = this.data.multiEndArray;
-        if (value == 0) {
-          let startHour = this.data.startHour;
-          let endHour = parseInt(endArr[0][0]);
-          let minuteList;
-          if (startHour == endHour) {
-            let endMinute = this.data.startMinute + 5;
-            let minuteList = this.getList(endMinute, 55, 5);
-            endArr[1] = minuteList;
-            this.setData({
-              multiEndArray: endArr
-            })
-          }
-        }else {
-          let minuteList = this.getList(0, 55, 5);
+        let endHour = parseInt(endArr[0][value]);
+        let minuteList;
+        let startHour = this.data.startHour;
+        if (startHour == endHour) {
+          let endMinute = this.data.startMinute + 5;
+          let minuteList = this.getList(endMinute, 55, 5);
           endArr[1] = minuteList;
-          this.setData({
-            multiEndArray: endArr
-          });
+        }else if(endHour == 23){
+          minuteList = ['00'];
+          endArr[1] = minuteList;
+        }else {
+          minuteList = this.getList(0, 55, 5);
+          endArr[1] = minuteList;
         }
+        this.setData({
+          multiEndArray: endArr
+        });
       }
   },
 
@@ -181,7 +179,7 @@ Page({
     let startArr;
     // 日期不同或七点以前或22:50以后，开始时间是都可以全选的
     if (this.isFullChoice(date)) {
-      startArr = [this.getList(7, 23), this.getList(0, 55, 5)];
+      startArr = [this.getList(7, 22), this.getList(0, 55, 5)];
       startHour = 7,
       startMinute = 0;
     }else{ // 今天7:00～22:50之间
@@ -222,10 +220,13 @@ Page({
 
       // 初始化分钟列
       if (startHour != 22) {
-        hourIndex = 1;
+        if (startMinute != 55) {
+          hourIndex = 1;
+        }
         minuteIndex = startMinute / 5;
         minuteList = this.getList(0, 55, 5);
       }else {
+        if(startMinute != 55) hourIndex = 1;
         minuteList = ['00'];
       }
 
