@@ -9,332 +9,258 @@ Page({
   data: {
     eventTypeIndex: 1,
     eventType: ["提醒", "活动"],
-    time: '12:01',
-    endTime: '12:01',
-    startTime: '12.01',
-    setStartDate:'',
-    setEndDate:'',
-    serEndTime:'',
-    setStartTime:'',
-    setEndTime:'',
+
     chooseDate: '2016-09-01',
     multiStartArray: [],
-    multiStartIndex: [0, 0, 0],
+    multiStartIndex: [0, 0],
     
     multiEndArray: [],
-    multiEndIndex: [0, 0, 0],
+    multiEndIndex: [0, 0],
 
+    startTimeStr: "07:00",
+    startHour: 7,
+    startMinute: 0,
+
+    endTimeStr: "08:00",
+    endHour:8,
+    endMinute: 0,
   },
-  updateEndTime: function (startHour, startMin, len){
-    // let time = new Time();
-    // let startDate = time.strToDate1(startTime);   //转
-    // let endDate
-    let date = new Date();
-    let startDate = new Date(date.getFullYear(),date.getMonth(),date.getDate(),startHour,startMin).getTime();
-    let endDate = new Date(startDate + len* 60 * 1000);
-    //如果大于23：00，设为23：00
-    // console.log(endDate)
-    let that = this;
-    if (endDate > new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23)) {
-      let mutiEndArr = [];
-      let minArr = [];
-      minArr.push("00");
-      mutiEndArr = [[23], minArr];
-      let mutiEndIndex = [0,0];
-      return [mutiEndArr, mutiEndIndex];
-    }else{
-      let mutiEndIndex = [0, 0];
-      // for(let j = 0; j < 2; j++){
-        for (let i = 0; i < that.data.multiEndArray[0].length; i++) {
-          if (that.data.multiEndArray[0][i] == endDate.getHours()) {
-            mutiEndIndex[0] = i;
-          }
-        }
-      for (let i = 0; i < that.data.multiEndArray[1].length; i++) {
-        if (that.data.multiEndArray[1][i] == endDate.getMinutes()) {
-          mutiEndIndex[1] = i;
-        }
-      }
-      // }
-      
-      return [this.data.multiEndArray, mutiEndIndex];
-    }
 
-
+  /**
+   * 监听事件类型改变
+   */
+  eventTypePickerChange: function(e) {
+      this.setData({
+        eventTypeIndex: parseInt(e.detail.value)
+      })
   },
-  bindMultiPickerColumnChange: function (e) {
-    let date = new Date();
-    let nowHour = date.getHours();
-    let nowChooseHour ;
-    // let nowHour = 18;
-    // let nowHour;
-    let startHour = 7;    //不可早于7点
-    let endHour = 23;     //亦不可晚于23点，考虑边界情况
-    let hourArr = [];
-    let minArr = [];
-    let multiStartArr= [], multiEndArr = [];
-    let multiEndIndex ;
-    let multiStartIndex = this.data.multiStartIndex;
-    console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
-   
-    multiStartIndex[e.detail.column] = e.detail.value;
-    
 
-    nowChooseHour = this.data.multiStartArray[0][multiStartIndex[0]];
-    //判断当前选择小时的情况
-    //考虑16：57情况
-    //7:00
-    if (nowChooseHour == date.getHours()){     //如果选择为当前小时
-      for (let i = this.getNearMin(date.getMinutes(), 5); i < 60; i = i + 5) {
-          minArr.push(this.zeroFill(i, 2));
-      }
-      
-    }else if(nowChooseHour >= startHour && nowChooseHour < endHour){          //选中的不为当前小时
-      for (let i = 0; i < 60; i = i + 5) {
-        minArr.push(this.zeroFill(i, 2));
-      }
-    }else if(nowChooseHour == endHour){
-      minArr.push("00");
-    }
-    multiStartArr = [this.data.multiStartArray[0], minArr];
-    // multiEndArr = [this.data.multiStartArray[0], minArr];
-    //16:57
-    if (this.getNearMin(date.getMinutes(), 5) == 60 && nowChooseHour == date.getHours()) {
-      hourArr = time.buildArr(nowHour+1, endHour);    //!!修改
-      multiStartArr = [hourArr, minArr];
-    }
-    // console.log(multiStartArr[0][data.multiStartIndex[0]]);
-    [multiEndArr, multiEndIndex] = this.updateEndTime(multiStartArr[0][multiStartIndex[0]], multiStartArr[1][multiStartIndex[1]],60);
-    console.log(multiEndIndex);
+  /**
+   * 监听日期更改
+   */
+  bindDateChange: function(e) {
+    let newDate = e.detail.value
     this.setData({
-      multiStartArray: multiStartArr,
-      multiStartIndex: multiStartIndex,
-      multiEndArray: multiEndArr,
-      multiEndIndex: multiEndIndex
+      chooseDate: newDate,
     });
+    this.initStartPicker(new Date(newDate));
   },
-  bindMultiPickerColumnChange2: function (e) {
-    let date = new Date();
-    let nowHour = date.getHours();
-    let nowChooseHour;
-    // let nowHour = 18;
-    // let nowHour;
-    let startHour = 7;    //不可早于7点
-    let endHour = 23;     //亦不可晚于23点，考虑边界情况
-    let hourArr = [];
-    let minArr = [];
-    let multiEndArr = [];
-    let multiEndIndex = [0,0];
-    console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
-    // let data = {
-    //   multiEndArray: multiEndArr,
-    //   multiEndIndex: this.data.multiEndIndex
-    // };
-    multiEndIndex[e.detail.column] = e.detail.value;
-    console.log(e.detail.column)
 
-    let time = new Time();
-    nowChooseHour = this.data.multiEndArray[0][this.data.multiEndIndex[0]];
-    //非当天的情况
-    if (time.strToDate1(this.data.chooseDate) > new Date(date.getFullYear(), date.getMonth(), date.getDate())) {   //选定大于当前
-      //此时显示最大的范围
-      hourArr = time.buildArr(startHour, endHour);
-      // this.data.multiStartArray[1]
-      for (let i = 0; i < 60; i = i + 5) {
-        minArr.push(this.zeroFill(i, 2));
-      }
+  /**
+   * 监听开始时间更改
+   */
+  bindStartPickerChange: function(e) {
+      let indexArr = e.detail.value;
+      let startArr = this.data.multiStartArray;
+      let startHour = startArr[0][indexArr[0]];
+      let startMinute = startArr[1][indexArr[1]];
+      let intHour = parseInt(startHour);
+      let intMinute = parseInt(startMinute);
+      this.setData({
+        startTimeStr: startHour + ":" + startMinute,
+        startHour: intHour,
+        startMinute: intMinute,
+      })
+      this.initEndPicker(intHour, intMinute);
+  },
 
-      if (nowChooseHour == endHour) {
-        minArr.push("00");
-      }
-      multiEndArr = [hourArr, minArr];
-    }else{
-
-   
-      //考虑当天的情况
-      //判断当前选择小时的情况
-      //考虑16：57情况
-      //7:00
-      if (nowChooseHour == date.getHours()) {     //如果选择为当前小时
-        for (let i = this.getNearMin(date.getMinutes(), 5); i < 60; i = i + 5) {
-          minArr.push(this.zeroFill(i, 2));
+  /**
+   * 监听开始时间列更改
+   */
+  startPickerColumnChange: function(e) {
+    let date = new Date(this.data.chooseDate);
+    let column = e.detail.column;
+    let value = e.detail.value;
+    // 更改小时列
+    if (column == 0) {
+      if (value == 0) {
+        // 更改到第一行
+        if (!this.isFullChoice(date)) {
+          let now = new Date();
+          let mod = 5 - now.getMinutes() % 5;
+          let minute = now.getMinutes() + 5 + mod;
+          let minuteList = this.getList(minute, 55, 5);
+          let startArr = this.data.multiStartArray;
+          startArr[1] = minuteList;
+          this.setData({
+            multiStartArray: startArr
+          })
         }
-
-      } else if (nowChooseHour >= startHour && nowChooseHour < endHour) {          //选中的不为当前小时
-        for (let i = 0; i < 60; i = i + 5) {
-          minArr.push(this.zeroFill(i, 2));
-        }
-      } else if (nowChooseHour == endHour) {
-        minArr = ["00"];
-      }
-      multiEndArr = [this.data.multiEndArray[0], minArr];
-      //16:57
-      if (this.getNearMin(date.getMinutes(), 5) == 60 && nowChooseHour == date.getHours()) {
-        hourArr = time.buildArr(nowHour+1, endHour);    //!!修改
-        multiEndArr = [hourArr, minArr];
+      }else {
+        let minuteList = this.getList(0, 55, 5);
+        let startArr = this.data.multiStartArray;
+        startArr[1] = minuteList;
+        this.setData({
+          multiStartArray: startArr
+        })
       }
     }
-      //如果小于开始时间
-    
-    if (new Date(date.getFullYear(), date.getMonth(), date.getDate(), multiEndArr[0][multiEndIndex[0]], 
-      multiEndArr[1][multiEndIndex[1]]) < new Date(date.getFullYear(), date.getMonth(), date.getDate(), this.data.multiStartArray[0][this.data.multiStartIndex[0]],
-        this.data.multiStartArray[1][this.data.multiEndIndex[1]])) {
-          multiEndIndex = this.data.multiStartIndex;
+  },
+
+  /**
+   * 监听截止时间改变
+   */
+  bindEndPickerChange: function (e) {
+    let indexArr = e.detail.value;
+    let endArr = this.data.multiEndArray;
+    let endHour = endArr[0][indexArr[0]];
+    let endMinute = endArr[1][indexArr[1]];
+    let intHour = parseInt(endHour);
+    let intMinute = parseInt(endMinute);
+    this.setData({
+      endTimeStr: endHour + ":" + endMinute,
+      endHour: intHour,
+      endMinute: intMinute
+    })
+  },
+
+  /**
+   * 监听截止时间列改变
+   */
+  bindEndPickerColumnChange: function(e) {
+      let column = e.detail.column;
+      let value = e.detail.value;
+      if(column == 0 ) {
+        let endArr = this.data.multiEndArray;
+        if (value == 0) {
+          let startHour = this.data.startHour;
+          let endHour = parseInt(endArr[0][0]);
+          let minuteList;
+          if (startHour == endHour) {
+            let endMinute = this.data.startMinute + 5;
+            let minuteList = this.getList(endMinute, 55, 5);
+            endArr[1] = minuteList;
+            this.setData({
+              multiEndArray: endArr
+            })
+          }
+        }else {
+          let minuteList = this.getList(0, 55, 5);
+          endArr[1] = minuteList;
+          this.setData({
+            multiEndArray: endArr
+          });
         }
-    let data = {
-      multiEndArray: multiEndArr,
-      multiEndIndex: multiEndIndex
-    };
-    this.setData(data);
-  },
-
-  bindDateChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
-    this.setData({
-      chooseDate: e.detail.value
-    }) 
-    //刷新
-    let date = new Date();
-    
-    let multiStartArr = this.flushPickerHour(0);
-    let multiEndArr = this.flushPickerHour(1);
-    
-    this.setData({
-      multiStartArray: multiStartArr,
-      multiEndArray: multiEndArr,
-      multiEndIndex:[0,0],
-      multiStartIndex: [0,0]
-    })
-  },
-  /**
-   * 事件类型选择，触发事件
-   */
-  eventTypePickerChange:function(e){
-    this.setData({
-      eventTypeIndex: e.detail.value
-    })
-  },
-  startTimeChange:function(e){
-    console.log("8888")
-    this.setData({
-      startTime: e.detail.value
-    })
-  },
-  /**
-   * 求最近的min
-   * n为时间步长
-   */
-  getNearMin(min,n) {
-    // let count = min % n; 
-    return Math.ceil(min/n)*n;
-  },
-
-  /**
-   * 刷新pickerHour
-   * 1 start
-   * 2 end
-   */
-  flushPickerHour(type){
-    let date = new Date();
-    let nowHour = date.getHours();
-    // let nowHour = 18;
-    let startHour = 7;    //不可早于7点
-    let endHour = 23;     //亦不可晚于23点，考虑边界情况
-    let nowMinute = date.getMinutes();
-    let hourArr = [];
-    let minArr = [];
-    let multiStartArr = [];
-
-    //考虑情况如下：
-    //如果是日期
-    //接下来应该判断时间大小问题，应该判断当前时间是否在可选择时间之内
-    //判断情况如下
-    //1
-    //如果日期为当天，那么可选定范围为在可允许时间内，当前时间到最晚时间的距离
-    //如果日期不为当天，那么可选定范围为整一天
-
-    //2
-    //如果时间为当前小时，那么可选定范围仅为该小时，否则为全部时间
-    //注意 当前时间要和5取模或其他方法求最近的5的倍数
-    let time = new Time();
-    if (time.strToDate1(this.data.chooseDate) > new Date(date.getFullYear(), date.getMonth(), date.getDate())) {   //选定大于当前
-      //此时显示最大的范围
-      
-      hourArr = time.buildArr(startHour, endHour);
-      // this.data.multiStartArray[1]
-      for (let i = 0; i < 60; i = i + 5) {
-        minArr.push(this.zeroFill(i, 2));
       }
-      
-    }else {
-      
-      if(nowHour >= startHour && nowHour <= endHour){   //在允许范围内
-        hourArr = time.buildArr(nowHour, endHour);    //!!修改
-        for (let i = this.getNearMin(nowMinute, 5); i < 60; i = i + 5) {
-          minArr.push(this.zeroFill(i, 2));
-        }
-      }else if(nowHour < startHour) {        //如果处在凌晨
-        hourArr = time.buildArr(startHour, endHour);
-        for (let i = 0; i < 60; i = i + 5) {
-          minArr.push(this.zeroFill(i, 2));
-        }
-      }       
-     
-      
-    }
-    multiStartArr = [hourArr, minArr];
-    
-    this.setData({
-      multiEndIndex: [type, 0],
-      multiStartArr: [0, 0],
-
-    })
-    return multiStartArr;
-
   },
+
+  /**
+   * 判断时间是否超过22:50
+   */
+  isEndTime: function (date) {
+    return date.getHours() > 22 || (date.getHours() == 22 && date.getMinutes() >= 50)
+  },
+
+  /**
+   * 开始时间是否可以全选
+   */
+  isFullChoice: function(date) {
+    let now = new Date();
+    return date.Format('yyyy-MM-dd') != now.Format('yyyy-MM-dd') || date.getHours() < 7 ||
+      this.isEndTime(date)
+  },
+
+
+  /**
+   * 获取0补充的列表
+   */
+  getList: function(start = 7, end = 23, step = 1) {
+    let list = [];
+    for (; start <= end; start+= step) 
+      list.push(("0" + start).substr(-2));
+    return list;
+  },
+
+  /**
+   * 根据日期初始化开始时间
+   * @param date: 选择的日期
+   */
+  initStartPicker: function(date) {
+    let now = new Date();
+    let startHour, startMinute;
+    let startArr;
+    // 日期不同或七点以前或22:50以后，开始时间是都可以全选的
+    if (this.isFullChoice(date)) {
+      startArr = [this.getList(7, 23), this.getList(0, 55, 5)];
+      startHour = 7,
+      startMinute = 0;
+    }else{ // 今天7:00～22:50之间
+      let mod = 5 - now.getMinutes() % 5;
+      now.setMinutes(now.getMinutes() + 5 + mod);
+      startHour = now.getHours();
+      startMinute = now.getMinutes();
+      startArr = [this.getList(startHour, 22), this.getList(startMinute, 55, 5)];
+    }
+
+    this.setData({
+      multiStartArray: startArr,
+      startTimeStr: startArr[0][0] + ":" + startArr[1][0],
+      multiStartIndex: [0, 0],
+      startHour: startHour,
+      startMinute: startMinute,
+    });
+
+    this.initEndPicker(startHour, startMinute);
+  },
+
+  /**
+   * 根据开始时间初始化截止时间
+   * @param startHour: 开始时间
+   * @param endHour: 截止时间
+   */
+  initEndPicker: function(startHour = 7, startMinute = 0) {
+      
+      let endHourList, minuteList;
+      let hourIndex = 0, minuteIndex = 0;
+      
+      // 初始化时钟列
+      if (startMinute == 55) {
+        endHourList = this.getList(startHour + 1);
+      }else {
+        endHourList = this.getList(startHour);
+      }
+
+      // 初始化分钟列
+      if (startHour != 22) {
+        hourIndex = 1;
+        minuteIndex = startMinute / 5;
+        minuteList = this.getList(0, 55, 5);
+      }else {
+        minuteList = ['00'];
+      }
+
+      let endArr = [endHourList, minuteList];
+
+      this.setData({
+        multiEndArray: endArr,
+        multiEndIndex: [hourIndex, minuteIndex],
+        endTimeStr: endArr[0][hourIndex] + ":" + endArr[1][minuteIndex],
+        endHour: parseInt(endArr[0][hourIndex]),
+        endMinute: parseInt(endArr[1][minuteIndex]),
+      })
+  },
+
+
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     let date = new Date();
-    let startHour = 7;    //不可早于7点
-    let endHour = 23;     //亦不可晚于23点，考虑边界情况
+    let endDate = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
 
-    
-
-    //检查是否大于22:55，大于则
-    if (date > new Date(date.getFullYear(), date.getMonth(), date.getDate(),22,55)) {
-      //设置
-      this.setData({
-        setStartDate: date.getFullYear() + '-' + (date.getMonth()+1) + '-' + (date.getDate()+1),
-        setEndDate: (date.getFullYear() + 1) + '-' + (date.getMonth() + 1) + '-' + (date.getDate() + 1),
-        chooseDate: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + (date.getDate() + 1),
-      })
-      // console.log(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + (date.getDate() + 1))
-    }else{
-      this.setData({
-        
-        setStartDate: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
-        chooseDate: date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
-        setEndDate: (date.getFullYear() + 1) + '-' + (date.getMonth() + 1) + '-' + date.getDate(),
-      })
+    //检查是否大于22:50，大于则日期加一
+    if (this.isEndTime(date)) {
+      date.setDate(date.getDate() + 1);
     }
-    let multiStartArr = this.flushPickerHour(0);
-    let multiEndArr = this.flushPickerHour(1);
+    
     this.setData({
-      multiStartArray: multiStartArr,
-      multiEndArray: multiEndArr,
+      setStartDate: date.Format('yyyy-MM-dd'),
+      chooseDate: date.Format('yyyy-MM-dd'),
+      setEndDate: endDate.Format('yyyy-MM-dd'),
     })
 
-  },
-  /**
-   * 补0函数
-   * num:数字
-   * n:位数
-   */
-  zeroFill(num, n) {
-    //-n取后面的几位
-    return (Array(n).join(0) + num).slice(-n);
+    this.initStartPicker(date);
   },
 
   /**
@@ -386,3 +312,22 @@ Page({
 
   }
 })
+
+
+
+// 日期格式化
+Date.prototype.Format = function (fmt) { 
+  var o = {
+    "M+": this.getMonth() + 1, //月份 
+    "d+": this.getDate(), //日 
+    "h+": this.getHours(), //小时 
+    "m+": this.getMinutes(), //分 
+    "s+": this.getSeconds(), //秒 
+    "q+": Math.floor((this.getMonth() + 3) / 3),  
+    "S": this.getMilliseconds() //毫秒 
+  };
+  if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+  for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+  return fmt;
+}

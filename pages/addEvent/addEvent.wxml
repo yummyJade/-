@@ -3,28 +3,20 @@
   <form>
     <view class="cu-form-group">
       <!-- <view class="title">输入框</view> -->
-      <input class="titleInput" placeholder="输入标题"></input>
+      <input class="titleInput" placeholder="标题"></input>
 	  </view>
     <view class="cu-form-group margin-top">
       <!-- <view class="title">普通选择</view> -->
       <view class="cu-item">
         <text class="cuIcon-settingsfill lg text-gray"></text>
       </view>
-      <view class="title">默认类型</view>
+      <view class="title">类型</view>
       <picker bindchange="eventTypePickerChange" value="{{eventTypeIndex}}" range="{{eventType}}">
         <view class="picker">
           {{eventTypeIndex?eventType[eventTypeIndex]:'提醒'}}
         </view>
       </picker>
     </view>
-    <!-- <view class="cu-form-group">
-
-      <view class="cu-item">
-        <text class="cuIcon-settingsfill lg text-gray"></text>
-      </view>
-      <view class="title">输入框</view>
-
-	  </view> -->
 
     <view class="cu-form-group time-wrap">
       <view class="cu-item">
@@ -36,37 +28,29 @@
           {{chooseDate}}
         </view>
       </picker>
-      <!-- <picker mode="time" value="{{time}}" start="09:01" end="21:01" bindchange="TimeChange">
-        <view class="picker">
-          {{time}}
-        </view>
-      </picker> -->
+    
     </view>
     <view class="cu-form-group startTime-wrap" wx:if="{{eventTypeIndex == 1}}">
       <!-- <view class="cu-item">
         <text class="cuIcon-timefill lg text-gray"></text>
       </view> -->
       <view class="title">开始时间</view>
-      <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiStartIndex}}" range="{{multiStartArray}}">
+      <picker mode="multiSelector" bindchange="bindStartPickerChange" bindcolumnchange="startPickerColumnChange" value="{{multiStartIndex}}" range="{{multiStartArray}}">
         <view class="picker">
-          {{multiStartArray[0][multiStartIndex[0]]}}:{{multiStartArray[1][multiStartIndex[1]]}}
+          {{startTimeStr}}
         </view>
       </picker>
     </view>
     <view class="cu-form-group endTime-wrap">
-      <!-- <view class="cu-item">
-        <text class="cuIcon-timefill lg text-gray"></text>
-      </view> -->
+     
       <view class="title">截止时间</view>
-      <!-- <picker mode="time" value="{{endTime}}" start="09:01" end="22:55" bindchange="TimeChange"> -->
-      <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange2" value="{{multiEndIndex}}" range="{{multiEndArray}}">
+      <picker mode="multiSelector" bindchange="bindEndPickerChange" bindcolumnchange="bindEndPickerColumnChange" value="{{multiEndIndex}}" range="{{multiEndArray}}">
         <view class="picker">
-          {{multiEndArray[0][multiEndIndex[0]]}}:{{multiEndArray[1][multiEndIndex[1]]}}
+          {{endTimeStr}}
         </view>
       </picker>
     </view>
     <view class="cu-form-group">
-      <!-- <view class="title">输入框</view> -->
       <view class="cu-item">
         <text class="cuIcon-locationfill lg text-gray"></text>
       </view>
