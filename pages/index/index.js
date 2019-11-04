@@ -99,7 +99,9 @@ Page({
     scrollHeight:0,
     courseList: [],   //记录课程表信息
     eventList:[[],[],[]
-    ],
+    ]
+    
+    ,
     nowTimeLine:{   //记录当前时间线
       left:-100,
       top:-100
@@ -111,8 +113,10 @@ Page({
     currentIndex: 0,  // 当前轮播的索引
 
     // 记录当前周次的开始时间的时间戳
+
     firstTimeOfCurrentWeek: new Time().getDaysAfterTime(-(new Date().getDay()), 0),
     swiperSize: 3
+
 
 
   },
@@ -131,6 +135,7 @@ Page({
         query.select('.header-bottom').boundingClientRect(rect => {
           headerHeight = rect.height;
           resolve(headerHeight);
+
         }).exec();
       })
     }
@@ -269,6 +274,7 @@ Page({
       .then(res => {
         if (res.message == "success") {
           let eventListArr = that.data.eventList,
+
             data, topDis, leftDis, heightDis,
             startHour = 7,
             endHour = 23,
@@ -302,6 +308,7 @@ Page({
             dateNameArrList[nextWeekIndex][i].dateName = firstDate.getDate();
             firstDate.setDate(firstDate.getDate() + 1);
           }
+        
           
           //添加当前时间线，只显示6点到22点，好的偷偷的说现在23点了
           let timeLineLeft, timeLineTop;
@@ -326,8 +333,11 @@ Page({
 
             //距离上方的距离
             if (data.type == 2 || data.type == 0) {
-              heightDis = ((endTime.getHours() * 60 + endTime.getMinutes()) - (startTime.getHours() * 60 + startTime.getMinutes())) * blockHeight / 60;
+              // console.log(endTime.getHours())
+              // heightDis = ((endTime.getHours() * 60 + endTime.getMinutes()) - (startTime.getHours() * 60 + startTime.getMinutes())) * blockHeight / 60;
               topDis = ((startTime.getHours() - startHour) * 60 + (startTime.getMinutes())) * blockHeight / 60;
+              bottomDis = ((endTime.getHours() - startHour) * 60 + (endTime.getMinutes())) * blockHeight / 60;
+              heightDis = bottomDis - topDis;
               leftDis = fixLeft + (startTime.getDay()) * blockWidth + lineWidth * startTime.getDay();
 
             } else if (data.type == 1) {
@@ -371,12 +381,19 @@ Page({
             currentIndex: index,
             firstTimeOfCurrentWeek: firstTimeOfWeek
           })
+
         }
       })
   },
 
 
-
+  /**
+   * 触发添加事件/提醒的功能
+   */
+  addBtnEvent: function(options){
+    // console.log("666")
+    
+  },
   /**
    * 生命周期函数--监听页面加载
    */

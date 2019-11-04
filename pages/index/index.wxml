@@ -9,6 +9,9 @@
     </view>
   </view>
   <view class="mainer">
+    <view class="addBtn" bindtap="addBtnEvent">
+
+    </view>
     <!-- <movable-area > -->
       <!-- <movable-view class="innerMove" inertia="true" direction="horizontal" x=""> -->
     <view style="padding-top:{{lineHeight + headerHeight-9.5}}px;" class="sideBar">

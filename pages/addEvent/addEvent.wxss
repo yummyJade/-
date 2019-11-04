@@ -1,0 +1,40 @@
+/* pages/addEvent/addEvent.wxss */
+@import "../../utils/colorui/main.wxss";
+@import "../../utils/colorui/icon.wxss";
+.container{
+  display: block;
+  padding: 0;
+  background-color: white;
+}
+.cu-form-group input{
+  /* padding-left: 0rpx; */
+}
+.cu-item{
+  width: 100rpx;
+}
+.cu-item > text{
+ font-size: 37rpx;
+
+}
+
+.cu-form-group .titleInput{
+  font-size: 40rpx;  
+  padding-left: 100rpx;
+}
+.startTime-wrap, .endTime-wrap{
+  margin-left: 100rpx;
+}
+.time-wrap .title{
+  flex-grow: 1;
+}
+.shareSwitch{
+  /* flex: 1; */
+
+}
+.switch-wrap{
+  flex-grow: 1;
+  
+}
+.switch-wrap switch{
+  float: right;
+}

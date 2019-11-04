@@ -1,9 +1,9 @@
 // 这是一个时间类
 class Time{
-  constructor(){
 
+  constructor() {
+    this._nowDate = new Date();
   }
-
   getNowTime(){
     // let nowTime = Date.parse(new Date());
     let nowTime = (new Date()).getTime();
@@ -25,6 +25,34 @@ class Time{
     // console.log(afterDaysTime)
     return afterDaysTime;
   }
+
+
+  strToDate1(str) {
+    if (str) {
+      let date = new Date(str.replace(/-/, "/"))
+      return date;
+    }
+
+
+  }
+  /**
+     * 勇于比较date的大小，若当前较小，返回-1,
+     */
+  // compareDate(anotherDate) {
+  //   return (this._nowDate.getTime() - )
+  // }
+  /**
+   * 创建一个数组
+   */
+  
+  buildArr(start,end, step = 1){
+    let resultArr = [];
+    for (let i = start; i <= end; i=i+step) {
+      resultArr.push(i);
+    }
+    return resultArr;
+  }
+
 
 }
 export default Time;
