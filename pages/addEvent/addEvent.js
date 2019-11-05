@@ -32,7 +32,8 @@ Page({
   eventTypePickerChange: function(e) {
       this.setData({
         eventTypeIndex: parseInt(e.detail.value)
-      })
+      });
+      this.initDate();
   },
 
   /**
@@ -41,7 +42,7 @@ Page({
   bindDateChange: function(e) {
     let newDate = e.detail.value
     this.setData({
-      chooseDate: newDate,
+      chooseDate: newDate
     });
     this.initStartPicker(new Date(newDate));
   },
@@ -154,8 +155,8 @@ Page({
    */
   isFullChoice: function(date) {
     let now = new Date();
-    return date.Format('yyyy-MM-dd') != now.Format('yyyy-MM-dd') || date.getHours() < 7 ||
-      this.isEndTime(date)
+    return date.Format('yyyy-MM-dd') != now.Format('yyyy-MM-dd') || now.getHours() < 7 ||
+      this.isEndTime(now)
   },
 
 
@@ -241,12 +242,10 @@ Page({
       })
   },
 
-
-
   /**
-   * 生命周期函数--监听页面加载
+   * 初始化日期、继续初始化开始时间
    */
-  onLoad: function (options) {
+  initDate: function() {
     let date = new Date();
     let endDate = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
 
@@ -254,7 +253,7 @@ Page({
     if (this.isEndTime(date)) {
       date.setDate(date.getDate() + 1);
     }
-    
+
     this.setData({
       setStartDate: date.Format('yyyy-MM-dd'),
       chooseDate: date.Format('yyyy-MM-dd'),
@@ -262,6 +261,15 @@ Page({
     })
 
     this.initStartPicker(date);
+  },
+
+
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.initDate();
   },
 
   /**

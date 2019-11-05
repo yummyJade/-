@@ -275,7 +275,7 @@ Page({
         if (res.message == "success") {
           let eventListArr = that.data.eventList,
 
-            data, topDis, leftDis, heightDis,
+            data, topDis, leftDis, heightDis, bottomDis,
             startHour = 7,
             endHour = 23,
             blockWidth = 92,
@@ -391,8 +391,9 @@ Page({
    * 触发添加事件/提醒的功能
    */
   addBtnEvent: function(options){
-    // console.log("666")
-    
+    wx.redirectTo({
+      url: '/pages/addEvent/addEvent',
+    })
   },
   /**
    * 生命周期函数--监听页面加载
