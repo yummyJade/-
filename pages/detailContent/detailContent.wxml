@@ -1,7 +1,7 @@
 <!--pages/detailContent/detailContent.wxml-->
 <view class="container">
   <form>
-  <view class="topBar">
+  <view class="topBar" wx:if="{{remindBlock._type != 2}}">
     <view class="cu-form-group">
       <view class="cu-item">
         <text class="cuIcon-edit lg text-black"></text>
@@ -36,7 +36,7 @@
       </picker>
     </view> -->
 
-    <view class="cu-form-group time-wrap" wx:if="{{remindBlock._type == 1}}">
+    <view class="cu-form-group time-wrap" wx:if="{{remindBlock._type == 0 || remindBlock._type == 2}}">
       <view class="cu-item">
         <!-- <text class="cuIcon-timefill lg text-gray"></text> -->
       </view>

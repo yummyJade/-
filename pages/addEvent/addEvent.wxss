@@ -19,7 +19,7 @@
 }
 
 .cu-form-group .titleInput{
-  font-size: 40rpx;  
+  font-size: 35rpx;  
   padding-left: 100rpx;
 }
 .startTime-wrap, .endTime-wrap{

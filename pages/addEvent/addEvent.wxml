@@ -23,7 +23,7 @@
       <view class="title">类型</view>
       <picker bindchange="eventTypePickerChange" value="{{eventTypeIndex}}" range="{{eventType}}">
         <view class="picker">
-          {{eventTypeIndex?eventType[eventTypeIndex]:'提醒'}}
+          {{eventType[eventTypeIndex]}}
         </view>
       </picker>
     </view>
@@ -40,7 +40,7 @@
       </picker>
     
     </view>
-    <view class="cu-form-group startTime-wrap" wx:if="{{eventTypeIndex == 1}}">
+    <view class="cu-form-group startTime-wrap" wx:if="{{eventTypeIndex == 0}}">
       <!-- <view class="cu-item">
         <text class="cuIcon-timefill lg text-gray"></text>
       </view> -->

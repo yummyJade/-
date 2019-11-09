@@ -9,8 +9,8 @@ Page({
    */
   //将time换成当前时间
   data: {
-    eventTypeIndex: 1,
-    eventType: ["提醒", "活动"],
+    eventTypeIndex: 0,
+    eventType: ["活动", "提醒"],
 
     chooseDate: '2016-09-01',
     multiStartArray: [],
@@ -86,18 +86,22 @@ Page({
     // debugger;
     if(!this.checkInput()) return;
     wx.showLoading({
-      title: '加载中',
+      title: '保存中',
     })
     let date = new Date(this.data.chooseDate);
-    let startTime = (this.data.eventTypeIndex == 0)? "":date.setHours(this.data.startHour);
-    let endTime = date.setHours(this.data.endHour);
+    date.setHours(this.data.startHour);
+    date.setMinutes(this.data.startMinute);
+    let startTime = (this.data.eventTypeIndex == 0)? date.getTime(): 0;
+    date.setHours(this.data.endHour);
+    date.setMinutes(this.data.endMinute);
+    let endTime = date.getTime();
     let data = {
       title: this.data.titleInput,
       address: this.data.addressInput || "",
       color: this.data.colorIndex,
       remark: this.data.remarkInput || "",
       type: this.data.eventTypeIndex,
-      startTime: (this.data.eventTypeIndex == 0) ? 0 :startTime,
+      startTime: startTime,
       endTime: endTime,
       shareID: this.data.courseObj.classNum || ""
     };
