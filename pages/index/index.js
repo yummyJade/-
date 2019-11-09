@@ -120,6 +120,30 @@ Page({
 
 
   },
+  /**
+   * 点击查看详情
+   */
+  bindReminderBlock: function(e) {
+    let eventID = e.currentTarget.dataset.id;
+    let remindObj;
+    for(let i = 0; i < this.data.eventList.length; i++) {
+      if (this.data.eventList[i].length != 0) {
+        for (let j = 0; j < this.data.eventList[i].length; j++) {
+          if (this.data.eventList[i][j]["_eventID"] == eventID) {
+            remindObj = this.data.eventList[i][j];
+            break;
+          }
+        }
+      }
+      
+    }
+    console.log(remindObj)
+    let remindBlock = JSON.stringify(remindObj);
+    wx.navigateTo({
+      url: '../detailContent/detailContent?remindObj='+ remindBlock,
+    })
+    
+  },
   calcu:function(){
     let linewidth = (750 - this.data.sideWidth)/7;
     this.setData({
@@ -161,7 +185,32 @@ Page({
     return calcuBodyHeight();
    
   },
+  /**
+   * 处理一下缓存事宜
+   */
+  IsStorage: function(key){
+    //先判断有无该键值的缓存
+    let val = wx.getStorageSync(key);
+    return !(val == "");
+  },
+  renderByStorage: function(){
+    //先判断有无该键值的缓存
+    // eventList
+    let key = this.data.firstTimeOfCurrentWeek;
+    let val = wx.getStorageSync(key);
+    if(val == "") {
+      return false;
+    }else {
+      // for(let i = 0; i < )
+    }
+    
+  },
+  /**
+   * 更新缓存
+   */
+  updateStorage: function(){
 
+  },
   /**
    * 做一些初始化
    */

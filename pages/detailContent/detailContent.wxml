@@ -1,0 +1,80 @@
+<!--pages/detailContent/detailContent.wxml-->
+<view class="container">
+  <form>
+  <view class="topBar">
+    <view class="cu-form-group">
+      <view class="cu-item">
+        <text class="cuIcon-edit lg text-black"></text>
+      </view>
+    </view>
+    <view class="cu-form-group">
+      <view class="cu-item">
+        <text class="cuIcon-delete lg text-black"></text>
+      </view>
+    </view>
+     
+    <!-- <view class="saveBtn" bindtap="bindSaveFun">保存</view> -->
+  </view>
+      
+    <view class="cu-form-group">
+      <!-- <view class="title">输入框</view> -->
+      <view class="cu-item">
+        <view class="colorBox" style="background-color:rgb({{remindBlock._color[0]}},{{remindBlock._color[1]}},{{remindBlock._color[2]}})"></view>
+      </view>
+      <view class="title remindTitle">{{remindBlock._title}}</view>
+	  </view> 
+    <!-- <view class="cu-form-group margin-top">
+  
+      <view class="cu-item">
+        <text class="cuIcon-settingsfill lg text-gray"></text>
+      </view>
+      <view class="title">类型</view>
+      <picker bindchange="eventTypePickerChange" value="{{eventTypeIndex}}" range="{{eventType}}">
+        <view class="picker">
+          {{eventTypeIndex?eventType[eventTypeIndex]:'提醒'}}
+        </view>
+      </picker>
+    </view> -->
+
+    <view class="cu-form-group time-wrap" wx:if="{{remindBlock._type == 1}}">
+      <view class="cu-item">
+        <!-- <text class="cuIcon-timefill lg text-gray"></text> -->
+      </view>
+      <view class="title">{{remindBlock._startTime}}</view>
+      
+    
+    </view>
+    <view class="cu-form-group endTime-wrap">
+     
+      <view class="title">{{remindBlock._endTime}}</view>
+
+    </view>
+    <view class="cu-form-group" wx:if="{{remindBlock._address != ''}}">
+      <view class="cu-item">
+        <text class="cuIcon-locationfill lg text-gray"></text>
+      </view>
+      <view>{{remindBlock._address}}</view>
+	  </view>
+    <view class="cu-form-group" wx:if="{{remindBlock._remark != ''}}">
+      <!-- <view class="title">输入框</view> -->
+      <view class="cu-item">
+        <text class="cuIcon-newshotfill lg text-gray"></text>
+      </view>
+      <view>{{remindBlock._remark}}</view>
+	  </view>
+    <!-- <view class="cu-form-group share-group">
+      
+      <view class="cu-item">
+        <text class="cuIcon-friendfill lg text-gray"></text>
+      </view>
+      <view class="title">{{remindBlock._shareID}}</view>
+      
+      
+      
+    </view> -->
+    
+      
+    <!-- <button class="saveBtn">保存</button> -->
+  </form>
+</view>
+

@@ -48,11 +48,11 @@
           <!-- 当前时间线 -->
             <view wx:if="{{currentIndex == 0}}" class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
             <block wx:for="{{eventList[0]}}">
-              <view class="remindBlock" wx:if="{{item._type == 0 || item._type == 2}}" style="height:{{item._height - 4}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx; width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" >
+              <view class="remindBlock" wx:if="{{item._type == 0 || item._type == 2}}" style="height:{{item._height - 4}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx; width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" bindtap="bindReminderBlock" data-id="{{item._eventID}}">
               <text>{{item._title}}</text>
               <text>\n{{item._address}}</text>
               </view>
-              <view class="remindBlock {{(item._height == 16)? 'type1':''}}" wx:if="{{item._type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx;width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" >
+              <view class="remindBlock {{(item._height == 16)? 'type1':''}}" wx:if="{{item._type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx;width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" bindtap="bindReminderBlock" data-id="{{item._eventID}}">
               <text>{{item._title}}</text>
               </view>
               
@@ -87,12 +87,12 @@
           <view class="innerContain">
           <!-- 当前时间线 -->
             <view wx:if="{{currentIndex == 1}}" class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
-            <block wx:for="{{eventList[1]}}">
-               <view class="remindBlock" wx:if="{{item._type == 0 || item._type == 2}}" style="height:{{item._height - 4}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx; width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" >
+            <block wx:for="{{eventList[1]}}" data-index="2">
+               <view class="remindBlock" wx:if="{{item._type == 0 || item._type == 2}}" style="height:{{item._height - 4}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx; width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" bindtap="bindReminderBlock" data-id="{{item._eventID}}">
               <text>{{item._title}}</text>
               <text>\n{{item._address}}</text>
               </view>
-              <view class="remindBlock {{(item._height == 16)? 'type1':''}}" wx:if="{{item._type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx;width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" >
+              <view class="remindBlock {{(item._height == 16)? 'type1':''}}" wx:if="{{item._type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx;width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" bindtap="bindReminderBlock" data-id="{{item._eventID}}">
               <text>{{item._title}}</text>
               </view>
               
@@ -103,7 +103,7 @@
        <swiper-item>
         <view class="header-bottom">
           <view class="title">
-            <block wx:for="{{weekName[2]}}" wx:key="index">
+            <block wx:for="{{weekName[2]}}" wx:key="index" >
               <view class="inner">
                 <view class="title-content">{{item.title}}</view>
                 <view class='dateName-content {{currentIndex == 2 && index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
@@ -128,11 +128,11 @@
           <!-- 当前时间线 -->
             <view wx:if="{{currentIndex == 2}}" class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
             <block wx:for="{{eventList[2]}}">
-               <view class="remindBlock" wx:if="{{item._type == 0 || item._type == 2}}" style="height:{{item._height - 4}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx; width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" >
+               <view class="remindBlock" wx:if="{{item._type == 0 || item._type == 2}}" style="height:{{item._height - 4}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx; width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" bindtap="bindReminderBlock" data-id="{{item._eventID}}">
               <text>{{item._title}}</text>
               <text>\n{{item._address}}</text>
               </view>
-              <view class="remindBlock {{(item._height == 16)? 'type1':''}}" wx:if="{{item._type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx;width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" >
+              <view class="remindBlock {{(item._height == 16)? 'type1':''}}" wx:if="{{item._type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx;width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" bindtap="bindReminderBlock" data-id="{{item._eventID}}">
               <text>{{item._title}}</text>
               </view>
               
