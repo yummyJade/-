@@ -1,5 +1,7 @@
 // pages/addEvent/addEvent.js
 import Time from '../class/Time.js';
+import colorLib from '../class/Constant.js';
+const app = getApp();
 Page({
 
   /**
@@ -24,8 +26,132 @@ Page({
     endTimeStr: "08:00",
     endHour:8,
     endMinute: 0,
-  },
+    shareChecked: false,
+    titleInput:"",
+    addressInput:"",
+    remarkInput:"",
+    colorIndex:0,
+    colorList:[],
+    colorBox:{
+      
+    },
+    courseObj:{
 
+    },
+    courseIndex:0,
+    type:''
+  },
+  /**
+   * 保存事件
+   */
+  bindSaveFun: function(){
+    this.createEvent();
+  },
+  /**
+   * 绑定函数跳转选择颜色
+   */
+  bindChooseColorFun: function(e) {
+    let that = this;
+    wx.navigateTo({
+      url: '../colorPick/colorPick?colorIndex='+ that.data.colorIndex,
+    })
+  },
+  /**
+   * 绑定函数跳转选择课程
+   */
+  bindChooseCourseFun: function (e) {
+    let that = this;
+    wx.navigateTo({
+      url: '../courseList/courseList?courseIndex=' + that.data.courseIndex,
+    })
+  },
+  /**
+   *验证各项的填写情况 
+   */
+  checkInput(){
+    if(this.data.titleInput.length == 0) {
+      wx.showToast({
+        title: '请输入标题',
+        icon: "none"
+      })
+      return false;
+    }
+  }
+  ,
+  /**
+   * 绑定保存事件
+   */
+  createEvent: function(){
+    // debugger;
+    if(!this.checkInput()) return;
+    wx.showLoading({
+      title: '加载中',
+    })
+    let date = new Date(this.data.chooseDate);
+    let startTime = (this.data.eventTypeIndex == 0)? "":date.setHours(this.data.startHour);
+    let endTime = date.setHours(this.data.endHour);
+    let data = {
+      title: this.data.titleInput,
+      address: this.data.addressInput || "",
+      color: this.data.colorIndex,
+      remark: this.data.remarkInput || "",
+      type: this.data.eventTypeIndex,
+      startTime: (this.data.eventTypeIndex == 0) ? 0 :startTime,
+      endTime: endTime,
+      shareID: this.data.courseObj.classNum || ""
+    };
+    
+    app.RequestInter.createEvent({
+      data: data
+    })
+    .then(res => {
+      if(res.message == "success") {
+        wx.hideLoading();
+        let pages = getCurrentPages();
+        let prevPage = pages[pages.length - 2]; //上一个页面
+        wx.navigateBack({//返回
+          delta: 1
+        })
+        wx.showToast({
+          title: '成功',
+        })
+
+      }
+    })
+  },
+  /**
+   * 监听标题INPUT
+   */
+  bindTitleInput: function(e) {
+    this.setData({
+      titleInput: e.detail.value
+    })
+  },
+  /**
+   * 监听地点input
+   */
+  bindAddressInput: function(e) {
+    this.setData({
+      addressInput: e.detail.value
+    })
+  },
+  /**
+   * 监听备注input
+   */
+  bindRemarkInput: function(e) {
+    this.setData({
+      remarkInput: e.detail.value
+    })
+  },
+  /**
+   * 监听switch改变
+   */
+  shareSwitchChange: function(e) {
+    // console.log(e.detail.value)
+    this.setData({
+      shareChecked : e.detail.value
+    })
+  },
   /**
    * 监听事件类型改变
    */
@@ -270,6 +396,9 @@ Page({
    */
   onLoad: function (options) {
     this.initDate();
+    this.setData({
+      colorList: colorLib
+    })
   },
 
   /**
@@ -283,6 +412,24 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    let pages = getCurrentPages();
+    let currPage = pages[pages.length - 1]; //当前页面
+    let json = currPage.data.mydata;
+    if(json != null){
+      if(json["type"] == "color"){
+        // console.log(json)//为传过来的值
+        let obj = colorLib[json["colorIndex"]];
+        this.setData({
+          colorBox: obj,
+          colorIndex: json["colorIndex"]
+        })
+      }else if(json["type"] == "course"){
+        this.setData({
+          courseObj: json["courseObj"],
+          courseIndex: json["courseIndex"]
+        })
+      }
+    }
 
   },
 

@@ -370,6 +370,7 @@ Page({
 
           let weekEventView = new WeekEventView();
           eventListArr[index] = weekEventView.process(firstTimeOfWeek, eventListArr[index]);
+          // debugger;
           that.setData({
             eventList: eventListArr,
             weekName: dateNameArrList,
@@ -391,7 +392,7 @@ Page({
    * 触发添加事件/提醒的功能
    */
   addBtnEvent: function(options){
-    wx.redirectTo({
+    wx.navigateTo({
       url: '/pages/addEvent/addEvent',
     })
   },
@@ -399,7 +400,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.init();
+   
   },
 
   /**
@@ -413,7 +414,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
+    //必须判断是否为刚添加完事件
+    // this.onLoad();
+    this.init();
   },
 
   /**

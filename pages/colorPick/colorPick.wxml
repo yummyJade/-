@@ -1,0 +1,32 @@
+<!--pages/colorPick/colorPick.wxml-->
+<view class="container"> 
+  <!-- <view class="topBar">
+    <view class="cu-form-group closeIcon-wrap" bindtap="bindBackFun">
+      <view class="cu-item">
+        <text class="cuIcon-back lg text-gray backIcon"></text>
+      </view>
+    </view>
+    <view class="title">颜色</view>
+    
+  </view> -->
+  <view class="colorList-wrap" >
+    
+    <view class="cu-form-group colorPicker-wrap " wx:for="{{colorList}}" bindtap="changeColorIndex" data-index="{{index}}">
+      
+      <!-- <view class="cu-item">
+        <text class="cuIcon-friendfill lg text-gray"></text>
+      </view> -->
+      <view class="cu-item">
+        <view class="colorBox" style="background-color:rgb({{item.rgb[0]}},{{item.rgb[1]}},{{item.rgb[2]}})"></view>
+      </view>
+      <view class="title">{{item.name}}</view>
+      <!-- <view class="switch-wrap"> -->
+        <view class="cu-item rightIcon-item">
+          <view class="cuIcon-check lg text-gray rightIcon" wx:if="{{colorIndex == index}}"></view>
+        </view>
+      <!-- </view> -->
+      
+    </view>
+
+  </view>
+</view>

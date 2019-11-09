@@ -27,7 +27,13 @@ class Request{
     data:data,
     header:header = this._header
   }) {
-    return this.requestAll(url, data, header, 'POST')
+    return this.requestAll({
+      url: url,
+      data: data,
+      header: header,
+      method: 'POST'
+    })
+    // return this.requestAll(url, data, header, 'POST')
   }
   /**
     * 网络请求

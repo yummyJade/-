@@ -14,6 +14,7 @@ class RequestInter{
    */
   errorHander(res) {
     console.error(res)
+
   }
 
   /**
@@ -38,6 +39,48 @@ class RequestInter{
     })
       .then(res => res.data)
   }
+
+  /**
+   * 创建事件的接口
+   */
+  createEvent({
+    data: data = {
+      title: title,
+      address: address,
+      color: color,
+      remark: remark,
+      type: type,
+      startTime: startTime,
+      endTime: endTime,
+      shareID: shareID
+    },
+    header: header = this._withTokenHeader
+    
+  }){
+  // debugger;
+    return this._request.postRequest({
+      url: this._baseUrl + '/event',
+      data: data,
+      header: header,
+    })
+      .then(res => res.data)
+  }
+
+  /**
+   * 获得课程列表的接口
+   *
+   */
+  getCourseList({
+    header: header = this._withTokenHeader
+  }){
+    return this._request.getRequest({
+      url: this._baseUrl + '/jw/stu/timetable/course',
+      header: header
+    })
+    .then(res => res.data)
+
+  }
+  
 }
 
 

@@ -3,6 +3,7 @@
 @import "../../utils/colorui/icon.wxss";
 .container{
   display: block;
+  height: 100vh;
   padding: 0;
   background-color: white;
 }
@@ -37,4 +38,66 @@
 }
 .switch-wrap switch{
   float: right;
+}
+/* .closeIcon{
+  font-size: 
+} */
+.closeIcon-wrap{
+  min-height: auto;
+}
+.topBar{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  /* flex-direction: flex */
+}
+.saveBtn{
+  width: 120rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  border-radius: 10rpx;
+  margin-right: 30rpx;
+  font-size: 28rpx;
+  text-align: center;
+  background-color: rgb(55,113,225);
+  color: white;
+}
+/* .saveBtn{
+  width: 120rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  border-radius: 10rpx;
+  margin: 0 auto;
+  font-size: 28rpx;
+  text-align: center;
+  background-color: rgb(55,113,225);
+  color: white;
+} */
+.colorBox{
+  width: 40rpx;
+  height: 40rpx;
+  background-color: rgb(0,155,225);
+  border-radius: 10rpx;
+  /* margin-right: 40rpx; */
+}
+.rightIcon{
+  font-size: 45rpx;
+  float: right;
+}
+.colorPicker-wrap .rightIcon-item{
+  /* float: right; */
+  flex-grow: 1;
+}
+.share-group .choose-wrap{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-grow: 1;
+  float: right;
+}
+.shareIcon-item{
+  width: auto;
+}
+.shareIcon{
+  font-size: 38rpx;
 }
