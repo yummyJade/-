@@ -20,7 +20,8 @@ Page({
       "5": "五",
       "6": "六",
 
-    }
+    },
+    hasStart: true,
   },
   // ListTouch触摸开始
   ListTouchStart(e) {
@@ -53,8 +54,9 @@ Page({
   },
   /**
    * 转换日期格式
+   * type 1为
    */
-  formatTime: function (date) {
+  formatTime: function (date, type) {
     let month = date.getMonth() + 1;
     let day = date.getDate();
     let index = date.getDay();
@@ -67,7 +69,9 @@ Page({
     if (min < 10) {
       min = '0' + min;  //补齐
     }
-    return month + "月" + day + "日" + " " + "星期" + this.data.daykey[index] + hour + ":" + min;
+    
+    return (type == 2) ?("星期" + this.data.daykey[index] + hour + ":" + min)
+    : (month + "月" + day + "日" + " " + "星期" + this.data.daykey[index] + hour + ":" + min);
   },
   /**
    * 请求课程列表的event
@@ -79,6 +83,9 @@ Page({
     })
     .then(res => {
       if (res.message == "success") {
+        // that.setData({
+        //   hasStart: (res.data[i].startTime == "") ? false : true
+        // }) 
         let data = res.data;
         let arr = [];
         for(let i = 0, len = res.data.length; i < len; i++) {
@@ -92,8 +99,8 @@ Page({
             address: res.data[i].address,
             color: res.data[i].color,
             remark: res.data[i].remark,
-            startTime: this.formatTime(new Date(res.data[i].startTime)),
-            endTime: this.formatTime(new Date(res.data[i].endTime)),
+            startTime: this.formatTime(new Date(res.data[i].startTime),1),
+            endTime: (res.data[i].startTime == "") ? this.formatTime(new Date(res.data[i].endTime), 1) : this.formatTime(new Date(res.data[i].endTime),2) ,
             shareID: res.data[i].shareID,
             type: res.data[i].type
           })

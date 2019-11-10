@@ -16,41 +16,27 @@
     </view>
   </view>
   <view class="cu-list menu-avatar">
-    <view class="cu-item {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{courseList}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
+    <view class="cu-item cu-form-group {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{courseList}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
       
       <view class="content">
         <view class="courseName" >{{item.title}}</view>
         <!-- <view class="text-grey">{{item.title}}</view> -->
         <view class="text-gray text-sm">
-          <text class="cuIcon-infofill"></text> {{item.startTime}}</view>
+          <text class="cuIcon-infofill"></text> 
+          {{item.startTime}} - {{item.endTime}}
         </view>
-        <view class="action">
+         
+        </view>
+        <!-- <view class="action">
           <view class="text-grey text-xs">22:20</view>
           <view class="cu-tag round bg-grey sm">5</view>
-        </view>
+        </view> -->
         <view class="move">
           <view class="bg-grey">置顶</view>
           <view class="bg-red">删除</view>
         </view>
     </view>
   </view>
-    <view class="cu-form-group colorPicker-wrap " wx:for="{{courseList}}" bindtap="changeCourseIndex" data-index="{{index}}">
-      
-      <!-- <view class="cu-item">
-        <text class="cuIcon-friendfill lg text-gray"></text>
-      </view> -->
-      <!-- <view class="cu-item">
-        <view class="colorBox" style="background-color:rgb({{item.rgb[0]}},{{item.rgb[1]}},{{item.rgb[2]}})"></view>
-      </view> -->
-      <view class="courseName" >{{item.title}}</view>
-      <!-- <view class="courseNum">{{item.classNum}}</view> -->
-      <!-- <view class="switch-wrap"> -->
-        <view class="cu-item rightIcon-item">
-          <view class="cuIcon-check lg text-gray rightIcon" wx:if="{{courseIndex == index}}"></view>
-        </view>
-      <!-- </view> -->
-      
-    </view>
-
+    
   </view>
 </view>

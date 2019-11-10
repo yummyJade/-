@@ -45,4 +45,8 @@
 }
 .cu-list.menu-avatar>.cu-item .content{
   left: 50rpx;
+  width: auto;
+}
+.cu-item{
+  
 }
