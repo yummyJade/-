@@ -6,7 +6,8 @@ class RequestInter{
     this._defaultHeader = { 'Content-Type': 'application/json' }
     this._request = new Request(); 
     // this._request.setErrorHandler(this.errorHander);
-    this._withTokenHeader = { 'Content-Type': 'application/json; charset=utf-8', 'cookie': "token=" + wx.getStorageSync("token")}
+    this._withTokenHeader = { 'Content-Type': 'application/json; charset=utf-8', 'cookie': "token=" + wx.getStorageSync("token")};
+    this._withTokenHeaderInForm = { 'Content-Type': 'application/x-www-form-urlencoded', 'cookie': "token=" + wx.getStorageSync("token") }
   }
 
   /**
@@ -21,16 +22,13 @@ class RequestInter{
    * 获取事件的接口
    */
   getEventList({
-    data:{
+    data: data ={
       startTime: startTime,
       endTime: endTime
     },
     header: header = this._withTokenHeader
   }){
-    let data = {
-          startTime: startTime,
-          endTime: endTime
-        }
+   
   
     return this._request.getRequest({
       url: this._baseUrl + '/event',
@@ -65,7 +63,24 @@ class RequestInter{
     })
       .then(res => res.data)
   }
-
+  /**
+   * 删除事件的接口
+   */
+  deleteEvent({
+    data: data = {
+      eventID: eventID
+    },
+    header: header = this._withTokenHeaderInForm
+   
+  }){
+    return this._request.postRequest({
+      url: this._baseUrl + '/event/delete',
+      data: data,
+      header: header
+    })
+    .then(res => res.data)
+    .catch(res => res.data)
+  }
   /**
    * 获得课程列表的接口
    *

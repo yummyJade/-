@@ -9,7 +9,7 @@
     </view>
     <view class="cu-form-group">
       <view class="cu-item">
-        <text class="cuIcon-delete lg text-black"></text>
+        <text class="cuIcon-delete lg text-black" bindtap="deleteRemindBlock"></text>
       </view>
     </view>
      

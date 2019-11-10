@@ -1,5 +1,6 @@
 // pages/detailContent/detailContent.js
 import { formatTime} from '../../utils/util.js';
+const app = getApp();
 Page({
 
   /**
@@ -28,6 +29,54 @@ Page({
     }
   },
   /**
+   * 用于删除事件
+   */
+  deleteRemindBlock: function(){
+    let that = this;
+    wx.showLoading({
+      title: '删除中',
+      mask: true,
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+    // console.log(that.data.remindBlock.eventID)
+    app.RequestInter.deleteEvent({
+      data:{
+        eventID: that.data.remindBlock._eventID,
+        
+      }
+
+    })
+    .then(res => {
+      // debugger;
+      if(res.status == 200) {
+        wx.hideLoading();
+        let pages = getCurrentPages();
+        let prevPage = pages[pages.length - 2]; //上一个页面
+        wx.navigateBack({//返回
+          delta: 1
+        })
+        wx.showToast({
+          title: '删除成功',
+        })
+       
+      }else {
+        wx.hideLoading();
+        wx.showToast({
+          title: '删除失败',
+        })
+      }
+    })
+      .catch(err => {
+      wx.hideLoading();
+      wx.showToast({
+        title: '删除失败',
+        icon: 'warn'
+      })
+    })
+  },
+  /**
    * 转换日期格式
    */
   formatTime: function(date){
@@ -49,7 +98,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(formatTime)
+    // console.log(formatTime)
     // debugger;
     if(options != null){
       let remindTemp = JSON.parse(options.remindObj);

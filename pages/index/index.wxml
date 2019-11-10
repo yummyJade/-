@@ -1,7 +1,32 @@
 <!--index.wxml-->
 <view class="container">
+  <view class="cover-wrap">
+    <view class="page-slidebar">
+      <view class="page-content">
+          <view class="wc">
+              <text>首页</text>
+          </view>
+          <view class="wc">
+              <text>共享列表</text>
+          </view>
+          <view class="wc">
+              <text>导航二</text>
+          </view>
+          <view class="wc">
+              <text>导航三</text>
+          </view>
+        </view>
+    </view>
+    <!-- <view class="menu-item">注销登录</view> -->
+  </view>
+</view>
+    
+  <view bindtouchmove="tap_drag" bindtouchend="tap_end" bindtouchstart="tap_start" class="page-top {{open ? ['c-state','cover'] : ''}} ">
+
+  <view class="content">
   <view class="header">
     <view class="top">
+    
     </view>
     <view class="bottom">
       
@@ -9,6 +34,14 @@
     </view>
   </view>
   <view class="mainer">
+    <view class="menu">
+      <!-- <view class="cu-form-group margin-top "> -->
+        <!-- <view class="cu-item listIcon-wrap"> -->
+          <text class="cuIcon-list lg text-gray listIcon" bindtap="tap_ch"></text>
+        <!-- </view> -->
+      <!-- </view> -->
+      
+    
     <view class="addBtn" bindtap="addBtnEvent">
 
     </view>
@@ -142,4 +175,6 @@
       </swiper-item>
     </swiper>
   </view>
+</view>
+</view>
 </view>
