@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="container">
   <view class="cover-wrap">
-    <view class="page-slidebar">
+    <view hidden="{{hiddenMenu}}" class="page-slidebar">
       <view class="page-content">
           <view class="wc">
               <text>首页</text>

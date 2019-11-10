@@ -122,6 +122,11 @@ Page({
             title: '成功',
           })
 
+        }else {
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          })
         }
       })
   },

@@ -285,7 +285,7 @@ swiper-item{
 /* 主页样式 */
 .page-top {
     height: 100%;
-    position: fixed;
+    position: relative;
     width: 750rpx;
     background-color:white;
     z-index: 0;

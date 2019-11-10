@@ -121,7 +121,9 @@ Page({
     mark: 0,
     // newmark 是指移动的最新点的x轴坐标 
     newmark: 0,
-    istoright: true
+    istoright: true,
+
+    hiddenMenu: true
 
 
 
@@ -131,16 +133,10 @@ Page({
    */
   // 点击左上角小图标事件
   tap_ch: function (e) {
-    console.log("6666")
-    if (this.data.open) {
       this.setData({
-        open: false
-      });
-    } else {
-      this.setData({
-        open: true
-      });
-    }
+        open: !this.data.open,
+        hiddenMenu: !this.data.hiddenMenu
+      })
   },
 
   // tap_start: function (e) {

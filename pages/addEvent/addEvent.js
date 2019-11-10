@@ -110,8 +110,8 @@ Page({
       data: data
     })
     .then(res => {
+      wx.hideLoading();
       if(res.message == "success") {
-        wx.hideLoading();
         let pages = getCurrentPages();
         let prevPage = pages[pages.length - 2]; //上一个页面
         wx.navigateBack({//返回
@@ -120,7 +120,11 @@ Page({
         wx.showToast({
           title: '成功',
         })
-
+      } else {
+        wx.showToast({
+          title: res.message,
+          icon: 'none'
+        })
       }
     })
   },
