@@ -95,6 +95,20 @@ class RequestInter{
     .then(res => res.data)
 
   }
+
+  /**
+   * 获得他人共享事件的接口
+   */
+  getShareEventList({
+    header: header = this._withTokenHeader
+  }){
+    return this._request.getRequest({
+      url: this._baseUrl + '/event/share/list',
+      header: header
+    })
+    .then(res => res.data)
+    .catch(err => err)
+  }
   
 }
 

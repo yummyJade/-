@@ -1,0 +1,48 @@
+/* pages/eventList/eventList.wxss */
+@import "../../utils/colorui/main.wxss";
+@import "../../utils/colorui/icon.wxss";
+.container{
+  display: block;
+  padding: 0;
+  background-color: white;
+}
+.colorBox{
+  width: 40rpx;
+  height: 40rpx;
+  background-color: blue;
+  border-radius: 10rpx;
+  /* margin-right: 40rpx; */
+}
+.rightIcon{
+  font-size: 45rpx;
+  float: right;
+}
+.colorPicker-wrap .rightIcon-item{
+  /* float: right; */
+  flex-grow: 1;
+}
+.cu-form-group .title{
+  padding-left: 50rpx;
+}
+.closeIcon-wrap{
+  min-height: auto;
+}
+.backIcon{
+  font-size: 43rpx;
+}
+.topBar{
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+.topBar .title{
+  font-size: 36rpx;
+  padding-left: 20rpx;
+}
+.courseNum{
+  padding-left: 40rpx;
+}
+.cu-list.menu-avatar>.cu-item .content{
+  left: 50rpx;
+}
