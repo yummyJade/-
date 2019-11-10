@@ -10,7 +10,8 @@ Page({
     courseIndex: 0,
     courseList: [
 
-    ]
+    ],
+    courseName: ""
   },
   /**
    * 请求课程列表的event
@@ -23,11 +24,20 @@ Page({
     .then(res => {
       if (res.message == "success") {
         let data = res.data;
+        wx.setStorage({
+          key: "userCourseList",
+          data: data
+        });
         let arr = [{
           className:"无"
         }];
         for(let i = 0, len = res.data.length; i < len; i++) {
           let name = res.data[i].className;
+          if(name == that.data.courseName) {
+            that.setData({
+              courseIndex: i + 1
+            })
+          }
           let maxLen = 10;
           if (name.length > maxLen) name = name.substr(0, maxLen) + "..."
           arr.push({
@@ -80,7 +90,7 @@ Page({
     // console.log(options)
     this.setData({
       courseIndex: options.courseIndex || 0,
-
+      courseName: options.courseName || ""
     })
 
     //init 初始化数据

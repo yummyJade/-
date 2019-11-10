@@ -1,0 +1,112 @@
+<!--pages/addEvent/addEvent.wxml-->
+<view class="container">
+  <form>
+  <view class="topBar">
+    <!-- <view class="cu-form-group closeIcon-wrap">
+      <view class="cu-item">
+        <text class="cuIcon-close lg text-gray closeIcon"></text>
+      </view>
+    </view> -->
+    <view class="saveBtn" bindtap="bindSaveFun">保存</view>
+  </view>
+      
+    <view class="cu-form-group">
+      <!-- <view class="title">输入框</view> -->
+      
+      <input class="titleInput" value="{{oldEvent._title}}" placeholder="标题" auto-focus bindinput="bindTitleInput" maxlength="18"></input>
+	  </view>
+    <view class="cu-form-group margin-top">
+      <!-- <view class="title">普通选择</view> -->
+      <view class="cu-item">
+        <text class="cuIcon-settingsfill lg text-gray"></text>
+      </view>
+      <view class="title">类型</view>
+      <picker bindchange="eventTypePickerChange" value="{{eventTypeIndex}}" range="{{eventType}}">
+        <view class="picker">
+          {{eventType[eventTypeIndex]}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="cu-form-group time-wrap">
+      <view class="cu-item">
+        <text class="cuIcon-timefill lg text-gray"></text>
+      </view>
+      <view class="title">日期选择</view>
+      <picker mode="date" value="{{chooseDate}}" start="{{setStartDate}}" end="{{setEndDate}}" bindchange="bindDateChange">
+        <view class="picker">
+          {{chooseDate}}
+        </view>
+      </picker>
+    
+    </view>
+    <view class="cu-form-group startTime-wrap" wx:if="{{eventTypeIndex == 0}}">
+      <!-- <view class="cu-item">
+        <text class="cuIcon-timefill lg text-gray"></text>
+      </view> -->
+      <view class="title">开始时间</view>
+      <picker mode="multiSelector" bindchange="bindStartPickerChange" bindcolumnchange="startPickerColumnChange" value="{{multiStartIndex}}" range="{{multiStartArray}}">
+        <view class="picker">
+          {{startTimeStr}}
+        </view>
+      </picker>
+    </view>
+    <view class="cu-form-group endTime-wrap">
+     
+      <view class="title">截止时间</view>
+      <picker mode="multiSelector" bindchange="bindEndPickerChange" bindcolumnchange="bindEndPickerColumnChange" value="{{multiEndIndex}}" range="{{multiEndArray}}">
+        <view class="picker">
+          {{endTimeStr}}
+        </view>
+      </picker>
+    </view>
+    <view class="cu-form-group">
+      <view class="cu-item">
+        <text class="cuIcon-locationfill lg text-gray"></text>
+      </view>
+      <input class="addressInput" placeholder="添加地点" value="{{oldEvent._address}}" bindinput="bindAddressInput" maxlength="18"></input>
+	  </view>
+    <view class="cu-form-group">
+      <!-- <view class="title">输入框</view> -->
+      <view class="cu-item">
+        <text class="cuIcon-newshotfill lg text-gray"></text>
+      </view>
+      <input class="remarkInput" value="{{oldEvent._remark}}" placeholder="添加备注" bindinput="bindRemarkInput" maxlength="18"></input>
+	  </view>
+    <view class="cu-form-group share-group">
+      
+      <view class="cu-item">
+        <text class="cuIcon-friendfill lg text-gray"></text>
+      </view>
+      <view class="title">共享</view>
+      <!-- <view class="switch-wrap">
+        <switch class="blue sm shareSwitch" checked="{{shareChecked}}" bindchange="shareSwitchChange"></switch>
+      </view> -->
+      <view class="choose-wrap" bindtap="bindChooseCourseFun">
+        <view>{{courseIndex? courseObj.className: ""}}</view>
+        <view class="cu-item shareIcon-item" >
+            <view class="cuIcon-right lg text-gray shareIcon" ></view>
+        </view>
+      </view>
+      
+      
+    </view>
+    <view class="cu-form-group colorPicker-wrap">
+      
+      <!-- <view class="cu-item">
+        <text class="cuIcon-friendfill lg text-gray"></text>
+      </view> -->
+      <view class="cu-item">
+        <view class="colorBox" style="background-color:rgb({{colorList[colorIndex].rgb[0]}},{{colorList[colorIndex].rgb[1]}},{{colorList[colorIndex].rgb[2]}})"></view>
+      </view>
+      <view class="title">{{colorIndex?colorList[colorIndex].name:'默认颜色'}}</view>
+      <!-- <view class="switch-wrap"> -->
+        <view class="cu-item rightIcon-item" bindtap="bindChooseColorFun">
+          <view class="cuIcon-right lg text-gray rightIcon" ></view>
+        </view>
+      <!-- </view> -->
+      
+    </view>
+    <!-- <button class="saveBtn">保存</button> -->
+  </form>
+</view>

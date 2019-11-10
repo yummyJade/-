@@ -1,23 +1,19 @@
 {
   "pages": [
-  
-  "pages/eventList/eventList",
     "pages/index/index",
-      
+    "pages/eventList/eventList",
     "pages/detailContent/detailContent",
     "pages/addEvent/addEvent",
     "pages/courseList/courseList",
-
     "pages/colorPick/colorPick",
-   
-   
     "pages/adminLogin/adminLogin",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/updateEvent/updateEvent"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "ITOUC",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json"

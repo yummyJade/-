@@ -198,7 +198,6 @@ Page({
       }
       
     }
-    console.log(remindObj)
     let remindBlock = JSON.stringify(remindObj);
     wx.navigateTo({
       url: '../detailContent/detailContent?remindObj='+ remindBlock,
