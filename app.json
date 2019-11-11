@@ -1,6 +1,5 @@
 {
   "pages": [
-
     "pages/index/index",
     "pages/eventList/eventList",
     "pages/detailContent/detailContent",
@@ -10,7 +9,8 @@
     "pages/adminLogin/adminLogin",
     "pages/logs/logs",
     "pages/updateEvent/updateEvent",
-    "pages/updateUserInfo/updateUserInfo"
+    "pages/updateUserInfo/updateUserInfo",
+    "pages/noticeList/noticeList"
   ],
   "window": {
     "backgroundTextStyle": "light",

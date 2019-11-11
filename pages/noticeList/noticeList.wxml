@@ -1,9 +1,10 @@
+<!--pages/noticeList/noticeList.wxml-->
 <!--pages/eventList/eventList.wxml-->
 <view class="container"> 
   <view class="courseList-wrap" >
      <view class="cu-bar bg-white solid-bottom margin-top">
     <view class="action">
-      <text class="cuIcon-title text-orange "></text> 待处理共享事件
+      <text class="cuIcon-title text-orange "></text> 待完成提醒事件
     </view>
   </view>
   <view class="cu-list menu-avatar">
@@ -12,22 +13,17 @@
       <view class="content">
         <view class="courseName" >{{item.title}}</view>
         <!-- <view class="text-grey">{{item.title}}</view> -->
-        <view wx:if="{{item.type == 0}}" class="text-gray text-sm">
-          <!-- <text class="cuIcon-infofill"></text>  -->
-          {{item.startTime}} - {{item.endTime}}
-        </view>
-         
-         <view wx:if="{{item.type == 1}}" class="text-gray text-sm">
+         <view class="text-gray text-sm">
           <!-- <text class="cuIcon-infofill"></text>  -->
           {{item.endTime}}
         </view>
         </view>
         <view class="move">
-          <view class="bg-green" bindtap="approveRemind" data-eventid="{{item.eventID}}" data-shareid="{{item.shareID}}" data-index="{{index}}">同意</view>
-          <view class="bg-grey" bindtap="deleteRemind" data-eventid="{{item.eventID}}" data-shareid="{{item.shareID}}" data-index="{{index}}">拒绝</view>
+          <view class="bg-green" bindtap="delNotice" data-eventid="{{item.eventID}}" data-index="{{index}}">我已完成</view>
         </view>
     </view>
   </view>
     
   </view>
 </view>
+

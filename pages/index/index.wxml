@@ -3,13 +3,10 @@
   <view class="cover-wrap">
     <view hidden="{{hiddenMenu}}" class="page-slidebar">
       <view class="page-content">
-          <view class="wc">
-              <text>首页</text>
-          </view>
           <view class="wc" bindtap="navigateShareList">
               <text >共享列表</text>
           </view>
-          <view class="wc">
+          <view class="wc" bindtap="toNoticeList">
               <text>提醒列表</text>
           </view>
           <view bindtap="toUserInfoPage" class="wc">

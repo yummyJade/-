@@ -54,7 +54,6 @@ class RequestInter{
     header: header = this._withTokenHeader
     
   }){
-  // debugger;
     return this._request.postRequest({
       url: this._baseUrl + '/event',
       data: data,
@@ -110,7 +109,6 @@ class RequestInter{
   }
 
   /**
-<<<<<<< HEAD
    * 处理他人共享事件的接口
    */
   dealShareEvent({
@@ -170,6 +168,9 @@ class RequestInter{
       .catch(err => err)
   }
 
+  /**
+   * 更新用户信息
+   */
   updateUserInfo({
     data: data = {
       userName: userName,
@@ -185,6 +186,20 @@ class RequestInter{
       data: data
     }).then(res => res.data)
     .catch(err => err)
+  }
+
+  /**
+   * 获取提醒列表
+   */
+  getNoticeList({
+    header: header = this._withTokenHeader
+  }) {
+    return this._request.getRequest({
+      url: this._baseUrl + '/event/notice',
+      header: header
+    })
+      .then(res => res.data)
+      .catch(err => err)
   }
   
 

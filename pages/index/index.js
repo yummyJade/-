@@ -133,7 +133,16 @@ Page({
    */
   navigateShareList: function(){
     wx.navigateTo({
-      url: '../eventList/eventList',
+      url: '/pages/eventList/eventList',
+    })
+  },
+
+  /**
+   * 提醒列表跳转
+   */
+  toNoticeList: function(){
+    wx.navigateTo({
+      url: '/pages/noticeList/noticeList',
     })
   },
   /**
