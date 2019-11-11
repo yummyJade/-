@@ -127,6 +127,14 @@ Page({
 
   },
   /**
+   * 共享事件跳转
+   */
+  navigateShareList: function(){
+    wx.navigateTo({
+      url: '../eventList/eventList',
+    })
+  },
+  /**
    * 左侧导航栏的代码
    */
   // 点击左上角小图标事件

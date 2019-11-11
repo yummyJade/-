@@ -1,9 +1,9 @@
 {
   "pages": [
   
-  "pages/eventList/eventList",
+ 
     "pages/index/index",
-      
+      "pages/eventList/eventList",
     "pages/detailContent/detailContent",
     "pages/addEvent/addEvent",
     "pages/courseList/courseList",

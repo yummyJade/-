@@ -6,8 +6,8 @@
           <view class="wc">
               <text>首页</text>
           </view>
-          <view class="wc">
-              <text>共享列表</text>
+          <view class="wc" bindtap="navigateShareList">
+              <text >共享列表</text>
           </view>
           <view class="wc">
               <text>导航二</text>
