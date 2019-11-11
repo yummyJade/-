@@ -12,17 +12,17 @@
   <view class="courseList-wrap" >
      <view class="cu-bar bg-white solid-bottom margin-top">
     <view class="action">
-      <text class="cuIcon-title text-orange "></text> 列表左滑
+      <text class="cuIcon-title text-orange "></text> 待处理共享事件列表
     </view>
   </view>
   <view class="cu-list menu-avatar">
-    <view class="cu-item cu-form-group {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{courseList}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}">
+    <view class="cu-item cu-form-group {{modalName=='move-box-'+ index?'move-cur':''}}" wx:for="{{courseList}}" wx:key bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}" >
       
       <view class="content">
         <view class="courseName" >{{item.title}}</view>
         <!-- <view class="text-grey">{{item.title}}</view> -->
         <view class="text-gray text-sm">
-          <text class="cuIcon-infofill"></text> 
+          <!-- <text class="cuIcon-infofill"></text>  -->
           {{item.startTime}} - {{item.endTime}}
         </view>
          
@@ -32,8 +32,8 @@
           <view class="cu-tag round bg-grey sm">5</view>
         </view> -->
         <view class="move">
-          <view class="bg-grey">置顶</view>
-          <view class="bg-red">删除</view>
+          <view class="bg-grey" bindtap="approveRemind" data-eventid="{{item.eventID}}" data-shareid="{{item.shareID}}" data-index="{{index}}">赞成</view>
+          <view class="bg-red" bindtap="deleteRemind" data-eventid="{{item.eventID}}" data-shareid="{{item.shareID}}" data-index="{{index}}">拒绝</view>
         </view>
     </view>
   </view>

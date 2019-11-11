@@ -109,7 +109,28 @@ class RequestInter{
     .then(res => res.data)
     .catch(err => err)
   }
-  
+
+  /**
+   * 处理他人共享事件的接口
+   */
+  dealShareEvent({
+    
+    data: data = {
+      shareID: shareID,
+      eventID: eventID,
+      valid: valid
+    },
+    header: header = this._withTokenHeaderInForm
+  }){
+    // debugger;
+    return this._request.postRequest({
+        url: this._baseUrl + '/event/share/deal',
+        data: data,
+        header: header
+    })
+    .then(res => res.data)
+    .catch(err => err)
+  }
 }
 
 

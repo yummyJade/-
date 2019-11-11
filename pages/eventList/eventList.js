@@ -53,6 +53,59 @@ Page({
     })
   },
   /**
+   * 删除事件
+   */
+  deleteRemind: function(e){
+    // console.log(e);
+ 
+    let validNum = 0;
+    let dataset = e.currentTarget.dataset;
+    app.RequestInter.dealShareEvent({
+      data: {
+        eventID: dataset.eventid,
+        shareID: dataset.shareid,
+        valid: validNum
+      }
+    })
+    .then(res => {
+      if(res.status == 200) {
+        // let arr = this.data.courseList;
+        // arr.splice(dataset.index, 1)
+        this.onLoad();
+      }else {
+
+      }
+    })
+    .catch(res => {
+
+    })
+  },
+  
+  /**
+   * 赞成事件
+   */
+  approveRemind: function(e){
+    let validNum = 1;
+    let dataset = e.currentTarget.dataset;
+    app.RequestInter.dealShareEvent({
+      data: {
+        eventID: dataset.eventid,
+        shareID: dataset.shareid,
+        valid: validNum
+      }
+    })
+      .then(res => {
+        if (res.status == 200) {
+          this.onLoad();
+        } else {
+
+        }
+      })
+      .catch(res => {
+
+      })
+  },
+  /**
    * 转换日期格式
    * type 1为
    */
@@ -70,8 +123,9 @@ Page({
       min = '0' + min;  //补齐
     }
     
-    return (type == 2) ?("星期" + this.data.daykey[index] + hour + ":" + min)
-    : (month + "月" + day + "日" + " " + "星期" + this.data.daykey[index] + hour + ":" + min);
+    // return (type == 2) ?("星期" + this.data.daykey[index] + hour + ":" + min)
+    // : (month + "月" + day + "日" + " " + "星期" + this.data.daykey[index] + hour + ":" + min);
+    return (month + "月" + day + "日" + " " + "星期" + this.data.daykey[index] + hour + ":" + min)
   },
   /**
    * 请求课程列表的event
@@ -147,10 +201,10 @@ Page({
    */
   onLoad: function (options) {
     // console.log(options)
-    this.setData({
-      courseIndex: options.courseIndex || 0,
+    // this.setData({
+    //   courseIndex: options.courseIndex || 0,
 
-    })
+    // })
 
     //init 初始化数据
     this.getCourseList();
