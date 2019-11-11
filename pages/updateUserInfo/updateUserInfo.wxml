@@ -1,0 +1,28 @@
+<view class="container">
+  <form>
+  <view class="topBar">
+    <!-- <view class="cu-form-group closeIcon-wrap">
+      <view class="cu-item">
+        <text class="cuIcon-close lg text-gray closeIcon"></text>
+      </view>
+    </view> -->
+    <view class="saveBtn" bindtap="bindSaveFun">保存</view>
+  </view>
+      
+    <view class="cu-form-group">
+      <view class="cu-item">
+        <text class="lg">昵称</text>
+      </view>
+      
+      <input class="titleInput" placeholder="2-8位" bindinput="bindUserNameInput" maxlength="8" value="{{userNameInput}}"></input>
+	  </view>
+
+    <view class="cu-form-group">
+      <view class="cu-item">
+        <text class="lg">邮箱</text>
+      </view>
+      
+      <input class="titleInput" placeholder="用于通知用户" bindinput="bindEmailInput" maxlength="28" value="{{emailInput}}"></input>
+	  </view>
+  </form>
+</view>

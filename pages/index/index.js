@@ -139,44 +139,6 @@ Page({
       })
   },
 
-  // tap_start: function (e) {
-  //   // touchstart事件
-  //   // 把手指触摸屏幕的那一个点的 x 轴坐标赋值给 mark 和 newmark
-  //   this.data.mark = this.data.newmark = e.touches[0].pageX;
-  // },
-
-  // tap_drag: function (e) {
-  //   // touchmove事件
-  //   this.data.newmark = e.touches[0].pageX;
-
-  //   // 手指从左向右移动
-  //   if (this.data.mark < this.data.newmark) {
-  //     this.istoright = true;
-  //   }
-
-  //   // 手指从右向左移动
-  //   if (this.data.mark > this.data.newmark) {
-  //     this.istoright = false;
-  //   }
-  //   this.data.mark = this.data.newmark;
-  // },
-
-  // tap_end: function (e) {
-  //   // touchend事件
-  //   this.data.mark = 0;
-  //   this.data.newmark = 0;
-  //   // 通过改变 opne 的值，让主页加上滑动的样式
-  //   if (this.istoright) {
-  //     this.setData({
-  //       open: true
-  //     });
-  //   } else {
-  //     this.setData({
-  //       open: false
-  //     });
-  //   }
-  // }
-  // ,
   /**
    * 点击查看详情
    */
@@ -297,13 +259,6 @@ Page({
       'content-type': 'application/json; charset=utf-8',
       'cookie': "token="+ wx.getStorageSync("token")//读取cookie
     };
-    // 是否应该找一个地方把所有的请求信息都以json的形式存下来方便管理
-    //进行请求,一般外层都有一个封装,然后放在公共类里边
-    // 回答：是的，不过要考虑到信息是否失效
-    // 建议是先检查缓存，若缓存存在则直接渲染，并且异步请求信息，判断信息是否一致，一致后不再处理，不一致再渲染
-    // 若缓存不存在，请求信息并缓存
-    // 因为请求很小，所以这点请求量服务器还是撑得住的
-    // 目的是让用户用起来感觉很快
     wx.request({
       url: that.data.ip + '/jw/stu/timetable/course',
       method:'GET',
@@ -371,10 +326,6 @@ Page({
         that.rendEvents(index, firstTimeOfWeek, res.data);
       },
     })
-    let header = {
-      'content-type': 'application/json; charset=utf-8',
-      'cookie': "token=" + wx.getStorageSync("token")//读取cookie
-    };
     app.RequestInter.getEventList({
       data: {
         startTime: firstTimeOfWeek,
@@ -514,11 +465,38 @@ Page({
       url: '/pages/addEvent/addEvent',
     })
   },
+
+  /**
+   * 前往个人信息页
+   */
+  toUserInfoPage: function() {
+    wx.navigateTo({
+      url: '/pages/updateUserInfo/updateUserInfo',
+    })
+  },
+
+  /**
+   * 退出登录
+   */
+  logout: function(){
+    wx.clearStorage();
+    wx.reLaunch({
+      url: '/pages/adminLogin/adminLogin',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-   
+    // 未登录返回登录界面
+    wx.getStorage({
+      key: 'token',
+      fail: function(e) {
+        wx.reLaunch({
+          url: '/pages/adminLogin/adminLogin'
+        })
+      }
+    })
   },
 
   /**
@@ -532,9 +510,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
-    //必须判断是否为刚添加完事件
-    // this.onLoad();
     this.init();
   },
 

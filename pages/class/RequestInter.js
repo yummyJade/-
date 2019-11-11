@@ -133,6 +133,37 @@ class RequestInter{
     })
       .then(res => res.data)
   }
+
+  /**
+   * 获取个人信息
+   */
+  getUserInfo({
+    header: header = this._withTokenHeader
+  }){
+    return this._request.getRequest({
+      url: this._baseUrl + '/jw/stu/info',
+      header: header
+    })
+      .then(res => res.data)
+      .catch(err => err)
+  }
+
+  updateUserInfo({
+    data: data = {
+      userName: userName,
+      email: email,
+      grade: grade,
+      specialty: specialty
+    },
+    header: header = this._withTokenHeader
+  }) {
+    return this._request.postRequest({
+      url: this._baseUrl + '/jw/stu/info',
+      header: header,
+      data: data
+    }).then(res => res.data)
+    .catch(err => err)
+  }
   
 }
 

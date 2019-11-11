@@ -3,10 +3,7 @@
   <view class="login-wrap">
   <view class="h1">用户登录</view>
   <form bindsubmit="loginSubmit">
-    <view class='cu-load load-modal' wx:if="{{loadModal}}">
-    <!-- <view class='cuIcon-emojifill text-orange'></view> -->
-    <view class='gray-text'>加载中...</view>
-  </view>
+   
     <view class="flex flex-direction input-wrap margin">
       <view class="cu-item icon-wrap">
         <text class="cuIcon-people lg text-gray"></text>

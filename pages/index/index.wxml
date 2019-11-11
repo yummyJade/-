@@ -4,16 +4,16 @@
     <view hidden="{{hiddenMenu}}" class="page-slidebar">
       <view class="page-content">
           <view class="wc">
-              <text>首页</text>
-          </view>
-          <view class="wc">
               <text>共享列表</text>
           </view>
           <view class="wc">
-              <text>导航二</text>
+              <text>提醒列表</text>
           </view>
-          <view class="wc">
-              <text>导航三</text>
+          <view bindtap="toUserInfoPage" class="wc">
+              <text >个人信息</text>
+          </view>
+          <view bindtap="logout" class="wc">
+              <text>退出登录</text>
           </view>
         </view>
     </view>

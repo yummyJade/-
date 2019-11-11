@@ -8,7 +8,8 @@
     "pages/colorPick/colorPick",
     "pages/adminLogin/adminLogin",
     "pages/logs/logs",
-    "pages/updateEvent/updateEvent"
+    "pages/updateEvent/updateEvent",
+    "pages/updateUserInfo/updateUserInfo"
   ],
   "window": {
     "backgroundTextStyle": "light",

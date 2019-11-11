@@ -112,13 +112,11 @@ Page({
     .then(res => {
       wx.hideLoading();
       if(res.message == "success") {
-        let pages = getCurrentPages();
-        let prevPage = pages[pages.length - 2]; //上一个页面
         wx.navigateBack({//返回
           delta: 1
         })
         wx.showToast({
-          title: '成功',
+          title: '添加成功',
         })
       } else {
         wx.showToast({
@@ -133,7 +131,7 @@ Page({
    */
   bindTitleInput: function(e) {
     this.setData({
-      titleInput: e.detail.value
+      titleInput: e.detail.value.trim()
     })
   },
   /**
@@ -141,7 +139,7 @@ Page({
    */
   bindAddressInput: function(e) {
     this.setData({
-      addressInput: e.detail.value
+      addressInput: e.detail.value.trim()
     })
   },
   /**
@@ -149,7 +147,7 @@ Page({
    */
   bindRemarkInput: function(e) {
     this.setData({
-      remarkInput: e.detail.value
+      remarkInput: e.detail.value.trim()
     })
   },
   /**
