@@ -23,9 +23,9 @@ Page({
       })
       return false;
     }else{
-      this.setData({
-        loadModal: true
-      });
+      wx.showLoading({
+        title: '登录中..',
+      })
       let header={
         'content-type': 'application/x-www-form-urlencoded'
       }
@@ -38,15 +38,10 @@ Page({
           'password':data.password
         },
         success(res){
-          that.setData({
-            loadModal: false
-          });
+          wx.hideLoading();
           if(res.data.status == 200){
             wx.setStorageSync("token", res.data.data);
-            //强行登录
-            wx.redirectTo({
-              url: '/pages/index/index',
-            })
+            that.redirectToNextPage(res.data.data);
           }else{
             wx.showModal({
               title: '提示',
@@ -73,10 +68,47 @@ Page({
             url: '/pages/index/index',
           })
         } else {
-
+          
         }
       },
     })
+  },
+
+  // 登录成功后根据用户信息去往下一个页面
+  redirectToNextPage: function(token) {
+    wx.showLoading({
+      title: '信息获取中..',
+    })
+    let that = this;
+    // 获取用户信息
+    app.RequestInter.getUserInfo({
+      header: {'cookie': 'token=' + token}
+    })
+      .then(res => {
+        wx.hideLoading();
+        if(res.status == 200) {
+          wx.setStorage({
+            key: "userInfo",
+            data: res.data
+          })
+          // 根据邮箱判断前往个人信息页或index页
+          if (res.data.email == '') {
+            wx.reLaunch({
+              url: '/pages/updateUserInfo/updateUserInfo',
+            })
+          } else {
+            wx.reLaunch({
+              url: '/pages/index/index',
+            })
+          }
+        }else {
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          })
+        }
+        
+      })
   },
 
   /**

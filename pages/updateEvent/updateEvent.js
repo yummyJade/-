@@ -1,4 +1,3 @@
-// pages/addEvent/addEvent.js
 import Time from '../class/Time.js';
 import colorLib from '../class/Constant.js';
 const app = getApp();
@@ -15,7 +14,7 @@ Page({
     chooseDate: '2016-09-01',
     multiStartArray: [],
     multiStartIndex: [0, 0],
-    
+
     multiEndArray: [],
     multiEndIndex: [0, 0],
 
@@ -24,36 +23,38 @@ Page({
     startMinute: 0,
 
     endTimeStr: "08:00",
-    endHour:8,
+    endHour: 8,
     endMinute: 0,
     shareChecked: false,
-    titleInput:"",
-    addressInput:"",
-    remarkInput:"",
-    colorIndex:0,
-    colorList:[],
-    colorBox:{
-      
-    },
-    courseObj:{
+    titleInput: "",
+    addressInput: "",
+    remarkInput: "",
+    colorIndex: 0,
+    colorList: [],
+    colorBox: {
 
     },
-    courseIndex:0,
-    type:''
+    courseObj: {
+
+    },
+    courseIndex: 0,
+    type: '',
+
+    oldEvent:{}
   },
   /**
    * 保存事件
    */
-  bindSaveFun: function(){
+  bindSaveFun: function () {
     this.createEvent();
   },
   /**
    * 绑定函数跳转选择颜色
    */
-  bindChooseColorFun: function(e) {
+  bindChooseColorFun: function (e) {
     let that = this;
     wx.navigateTo({
-      url: '../colorPick/colorPick?colorIndex='+ that.data.colorIndex,
+      url: '../colorPick/colorPick?colorIndex=' + that.data.colorIndex,
     })
   },
   /**
@@ -62,14 +63,14 @@ Page({
   bindChooseCourseFun: function (e) {
     let that = this;
     wx.navigateTo({
-      url: '../courseList/courseList?courseIndex=' + that.data.courseIndex,
+      url: '../courseList/courseList?courseName=' + that.data.courseObj.className,
     })
   },
   /**
    *验证各项的填写情况 
    */
-  checkInput(){
-    if(this.data.titleInput.length == 0) {
+  checkInput() {
+    if (this.data.titleInput.length == 0) {
       wx.showToast({
         title: '请输入标题',
         icon: "none"
@@ -82,16 +83,15 @@ Page({
   /**
    * 绑定保存事件
    */
-  createEvent: function(){
-    // debugger;
-    if(!this.checkInput()) return;
+  createEvent: function () {
+    if (!this.checkInput()) return;
     wx.showLoading({
       title: '保存中',
     })
     let date = new Date(this.data.chooseDate);
     date.setHours(this.data.startHour);
     date.setMinutes(this.data.startMinute);
-    let startTime = (this.data.eventTypeIndex == 0)? date.getTime(): 0;
+    let startTime = (this.data.eventTypeIndex == 0) ? date.getTime() : 0;
     date.setHours(this.data.endHour);
     date.setMinutes(this.data.endMinute);
     let endTime = date.getTime();
@@ -103,76 +103,80 @@ Page({
       type: this.data.eventTypeIndex,
       startTime: startTime,
       endTime: endTime,
-      shareID: this.data.courseObj.classNum || ""
+      shareID: this.data.courseObj.classNum || "",
+      eventID: this.data.oldEvent._eventID
     };
-    
-    app.RequestInter.createEvent({
+
+    app.RequestInter.updateEvent({
       data: data
     })
-    .then(res => {
-      wx.hideLoading();
-      if(res.message == "success") {
-        wx.navigateBack({//返回
-          delta: 1
-        })
-        wx.showToast({
-          title: '添加成功',
-        })
-      } else {
-        wx.showToast({
-          title: res.message,
-          icon: 'none'
-        })
-      }
-    })
+      .then(res => {
+        if (res.message == "success") {
+          wx.hideLoading();
+          let pages = getCurrentPages();
+          let prevPage = pages[pages.length - 2]; //上一个页面
+          wx.navigateBack({//返回
+            delta: 2
+          })
+          wx.showToast({
+            title: '成功',
+          })
+
+        }else {
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          })
+        }
+      })
   },
   /**
    * 监听标题INPUT
    */
-  bindTitleInput: function(e) {
+  bindTitleInput: function (e) {
     this.setData({
-      titleInput: e.detail.value.trim()
+      titleInput: e.detail.value
     })
   },
   /**
    * 监听地点input
    */
-  bindAddressInput: function(e) {
+  bindAddressInput: function (e) {
     this.setData({
-      addressInput: e.detail.value.trim()
+      addressInput: e.detail.value
     })
   },
   /**
    * 监听备注input
    */
-  bindRemarkInput: function(e) {
+  bindRemarkInput: function (e) {
     this.setData({
-      remarkInput: e.detail.value.trim()
+      remarkInput: e.detail.value
     })
   },
   /**
    * 监听switch改变
    */
-  shareSwitchChange: function(e) {
+  shareSwitchChange: function (e) {
     // console.log(e.detail.value)
     this.setData({
-      shareChecked : e.detail.value
+      shareChecked: e.detail.value
     })
   },
   /**
    * 监听事件类型改变
    */
-  eventTypePickerChange: function(e) {
-      this.setData({
-        eventTypeIndex: parseInt(e.detail.value)
-      });
-      this.initDate();
+  eventTypePickerChange: function (e) {
+    this.setData({
+      eventTypeIndex: parseInt(e.detail.value)
+    });
+    this.initDate();
   },
 
   /**
    * 监听日期更改
    */
-  bindDateChange: function(e) {
+  bindDateChange: function (e) {
     let newDate = e.detail.value
     this.setData({
       chooseDate: newDate
@@ -183,25 +187,25 @@ Page({
   /**
    * 监听开始时间更改
    */
-  bindStartPickerChange: function(e) {
-      let indexArr = e.detail.value;
-      let startArr = this.data.multiStartArray;
-      let startHour = startArr[0][indexArr[0]];
-      let startMinute = startArr[1][indexArr[1]];
-      let intHour = parseInt(startHour);
-      let intMinute = parseInt(startMinute);
-      this.setData({
-        startTimeStr: startHour + ":" + startMinute,
-        startHour: intHour,
-        startMinute: intMinute,
-      })
-      this.initEndPicker(intHour, intMinute);
+  bindStartPickerChange: function (e) {
+    let indexArr = e.detail.value;
+    let startArr = this.data.multiStartArray;
+    let startHour = startArr[0][indexArr[0]];
+    let startMinute = startArr[1][indexArr[1]];
+    let intHour = parseInt(startHour);
+    let intMinute = parseInt(startMinute);
+    this.setData({
+      startTimeStr: startHour + ":" + startMinute,
+      startHour: intHour,
+      startMinute: intMinute,
+    })
+    this.initEndPicker(intHour, intMinute);
   },
 
   /**
    * 监听开始时间列更改
    */
-  startPickerColumnChange: function(e) {
+  startPickerColumnChange: function (e) {
     let date = new Date(this.data.chooseDate);
     let column = e.detail.column;
     let value = e.detail.value;
@@ -220,7 +224,7 @@ Page({
             multiStartArray: startArr
           })
         }
-      }else {
+      } else {
         let minuteList = this.getList(0, 55, 5);
         let startArr = this.data.multiStartArray;
         startArr[1] = minuteList;
@@ -251,29 +255,29 @@ Page({
   /**
    * 监听截止时间列改变
    */
-  bindEndPickerColumnChange: function(e) {
-      let column = e.detail.column;
-      let value = e.detail.value;
-      if(column == 0) {
-        let endArr = this.data.multiEndArray;
-        let endHour = parseInt(endArr[0][value]);
-        let minuteList;
-        let startHour = this.data.startHour;
-        if (startHour == endHour) {
-          let endMinute = this.data.startMinute + 5;
-          let minuteList = this.getList(endMinute, 55, 5);
-          endArr[1] = minuteList;
-        }else if(endHour == 23){
-          minuteList = ['00'];
-          endArr[1] = minuteList;
-        }else {
-          minuteList = this.getList(0, 55, 5);
-          endArr[1] = minuteList;
-        }
-        this.setData({
-          multiEndArray: endArr
-        });
+  bindEndPickerColumnChange: function (e) {
+    let column = e.detail.column;
+    let value = e.detail.value;
+    if (column == 0) {
+      let endArr = this.data.multiEndArray;
+      let endHour = parseInt(endArr[0][value]);
+      let minuteList;
+      let startHour = this.data.startHour;
+      if (startHour == endHour) {
+        let endMinute = this.data.startMinute + 5;
+        let minuteList = this.getList(endMinute, 55, 5);
+        endArr[1] = minuteList;
+      } else if (endHour == 23) {
+        minuteList = ['00'];
+        endArr[1] = minuteList;
+      } else {
+        minuteList = this.getList(0, 55, 5);
+        endArr[1] = minuteList;
       }
+      this.setData({
+        multiEndArray: endArr
+      });
+    }
   },
 
   /**
@@ -286,7 +290,7 @@ Page({
   /**
    * 开始时间是否可以全选
    */
-  isFullChoice: function(date) {
+  isFullChoice: function (date) {
     let now = new Date();
     return date.Format('yyyy-MM-dd') != now.Format('yyyy-MM-dd') || now.getHours() < 7 ||
       this.isEndTime(now)
@@ -296,9 +300,9 @@ Page({
   /**
    * 获取0补充的列表
    */
-  getList: function(start = 7, end = 23, step = 1) {
+  getList: function (start = 7, end = 23, step = 1) {
     let list = [];
-    for (; start <= end; start+= step) 
+    for (; start <= end; start += step)
       list.push(("0" + start).substr(-2));
     return list;
   },
@@ -307,7 +311,8 @@ Page({
    * 根据日期初始化开始时间
    * @param date: 选择的日期
    */
-  initStartPicker: function(date) {
+  initStartPicker: function () {
+    let date = new Date(this.data.chooseDate);
     let now = new Date();
     let startHour, startMinute;
     let startArr;
@@ -315,8 +320,8 @@ Page({
     if (this.isFullChoice(date)) {
       startArr = [this.getList(7, 22), this.getList(0, 55, 5)];
       startHour = 7,
-      startMinute = 0;
-    }else{ // 今天7:00～22:50之间
+        startMinute = 0;
+    } else { // 今天7:00～22:50之间
       let mod = 5 - now.getMinutes() % 5;
       now.setMinutes(now.getMinutes() + 5 + mod);
       startHour = now.getHours();
@@ -324,12 +329,25 @@ Page({
       startArr = [this.getList(startHour, 22), this.getList(startMinute, 55, 5)];
     }
 
+    let startHourIndex = 0, startMinuteIndex = 0;
+    for(let i = 0; i < startArr[0].length; i++) {
+      if(parseInt(startArr[0][i]) == this.data.startHour){
+        startHourIndex = i;
+        break;
+      }
+    }
+    for (let i = 0; i < startArr[1].length; i++) {
+      if (parseInt(startArr[1][i]) == this.data.startMinute) {
+        startMinuteIndex = i;
+        break;
+      }
+    }
+
+
     this.setData({
       multiStartArray: startArr,
-      startTimeStr: startArr[0][0] + ":" + startArr[1][0],
-      multiStartIndex: [0, 0],
-      startHour: startHour,
-      startMinute: startMinute,
+      startTimeStr: startArr[0][startHourIndex] + ":" + startArr[1][startMinuteIndex],
+      multiStartIndex: [startHourIndex, startMinuteIndex],
     });
 
     this.initEndPicker(startHour, startMinute);
@@ -340,45 +358,58 @@ Page({
    * @param startHour: 开始时间
    * @param endHour: 截止时间
    */
-  initEndPicker: function(startHour = 7, startMinute = 0) {
-      
-      let endHourList, minuteList;
-      let hourIndex = 0, minuteIndex = 0;
-      
-      // 初始化时钟列
-      if (startMinute == 55) {
-        endHourList = this.getList(startHour + 1);
-      }else {
-        endHourList = this.getList(startHour);
-      }
+  initEndPicker: function (startHour = 7, startMinute = 0) {
 
-      // 初始化分钟列
-      if (startHour != 22) {
-        if (startMinute != 55) {
-          hourIndex = 1;
+    let endHourList, minuteList;
+    let hourIndex = 0, minuteIndex = 0;
+
+    // 初始化时钟列
+    if (startMinute == 55) {
+      endHourList = this.getList(startHour + 1);
+    } else {
+      endHourList = this.getList(startHour);
+    }
+
+    // 初始化分钟列
+    if (startHour != 22) {
+      if (startMinute != 55) {
+        hourIndex = 1;
+      }
+      minuteIndex = startMinute / 5;
+      minuteList = this.getList(0, 55, 5);
+    } else {
+      if (startMinute != 55) hourIndex = 1;
+      minuteList = ['00'];
+    }
+
+    let endArr = [endHourList, minuteList];
+
+    for(let i = 0; i < endHourList.length; i++) {
+        if(parseInt(endHourList[i]) == this.data.endHour) {
+          hourIndex = i;
+          break;
         }
-        minuteIndex = startMinute / 5;
-        minuteList = this.getList(0, 55, 5);
-      }else {
-        if(startMinute != 55) hourIndex = 1;
-        minuteList = ['00'];
+    }
+    for(let i = 0; i < minuteList.length; i++) {
+      if(parseInt(minuteList[i]) == this.data.endMinute) {
+        minuteIndex = i;
+        break;
       }
+    }
 
-      let endArr = [endHourList, minuteList];
-
-      this.setData({
-        multiEndArray: endArr,
-        multiEndIndex: [hourIndex, minuteIndex],
-        endTimeStr: endArr[0][hourIndex] + ":" + endArr[1][minuteIndex],
-        endHour: parseInt(endArr[0][hourIndex]),
-        endMinute: parseInt(endArr[1][minuteIndex]),
-      })
+    this.setData({
+      multiEndArray: endArr,
+      multiEndIndex: [hourIndex, minuteIndex],
+      endTimeStr: endArr[0][hourIndex] + ":" + endArr[1][minuteIndex],
+      endHour: parseInt(endArr[0][hourIndex]),
+      endMinute: parseInt(endArr[1][minuteIndex]),
+    })
   },
 
   /**
    * 初始化日期、继续初始化开始时间
    */
-  initDate: function() {
+  initDate: function () {
     let date = new Date();
     let endDate = new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
 
@@ -389,7 +420,6 @@ Page({
 
     this.setData({
       setStartDate: date.Format('yyyy-MM-dd'),
-      chooseDate: date.Format('yyyy-MM-dd'),
       setEndDate: endDate.Format('yyyy-MM-dd'),
     })
 
@@ -402,10 +432,54 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.initDate();
+    let event = JSON.parse(options.eventStr);
+    let startTime = new Date(event._startTime);
+    let endTime = new Date(event._endTime);
+    let courseObj = {
+      'classNum': '',
+      'className': ''
+    }
+    let courseIndex = 0;
+    if(event._shareID != "") {
+      courseIndex = 1;
+      let courseList = wx.getStorageSync("userCourseList");
+      courseObj.classNum = event._shareID;
+      for(let i = 0; i < courseList.length; i++) {
+        if(courseList[i].classNum == courseObj.classNum) {
+          courseObj.className = courseList[i].className;
+          break;
+        }
+      }
+    }
+
+    let colorIndex;
+    for(let i = 0; i < colorLib.length; i++) {
+      if (event._color[0] == colorLib[i].rgb[0] && event._color[1] == colorLib[i].rgb[1]
+        && event._color[2] == colorLib[i].rgb[2]) {
+          colorIndex = i;
+          break;
+        }
+    }
+    
+
     this.setData({
-      colorList: colorLib
+      colorList: colorLib,
+      oldEvent: event,
+      chooseDate: endTime.Format('yyyy-MM-dd'),
+      eventTypeIndex: event._type,
+      startHour: startTime.getHours(),
+      startMinute: startTime.getMinutes(),
+      endHour: endTime.getHours(),
+      endMinute: endTime.getMinutes(),
+
+      titleInput: event._title,
+      addressInput: event._address,
+      remarkInput: event._remark,
+      colorIndex: colorIndex,
+      courseObj: courseObj,
+      courseIndex: courseIndex
     })
+    this.initDate();
   },
 
   /**
@@ -422,15 +496,15 @@ Page({
     let pages = getCurrentPages();
     let currPage = pages[pages.length - 1]; //当前页面
     let json = currPage.data.mydata;
-    if(json != null){
-      if(json["type"] == "color"){
+    if (json != null) {
+      if (json["type"] == "color") {
         // console.log(json)//为传过来的值
         let obj = colorLib[json["colorIndex"]];
         this.setData({
           colorBox: obj,
           colorIndex: json["colorIndex"]
         })
-      }else if(json["type"] == "course"){
+      } else if (json["type"] == "course") {
         this.setData({
           courseObj: json["courseObj"],
           courseIndex: json["courseIndex"]
@@ -479,14 +553,14 @@ Page({
 
 
 // 日期格式化
-Date.prototype.Format = function (fmt) { 
+Date.prototype.Format = function (fmt) {
   var o = {
     "M+": this.getMonth() + 1, //月份 
     "d+": this.getDate(), //日 
     "h+": this.getHours(), //小时 
     "m+": this.getMinutes(), //分 
     "s+": this.getSeconds(), //秒 
-    "q+": Math.floor((this.getMonth() + 3) / 3),  
+    "q+": Math.floor((this.getMonth() + 3) / 3),
     "S": this.getMilliseconds() //毫秒 
   };
   if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));

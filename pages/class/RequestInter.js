@@ -15,7 +15,6 @@ class RequestInter{
    */
   errorHander(res) {
     console.error(res)
-
   }
 
   /**
@@ -111,6 +110,7 @@ class RequestInter{
   }
 
   /**
+<<<<<<< HEAD
    * 处理他人共享事件的接口
    */
   dealShareEvent({
@@ -131,6 +131,63 @@ class RequestInter{
     .then(res => res.data)
     .catch(err => err)
   }
+  /** 
+   * 更新事件接口
+   */
+  updateEvent({
+    data: data = {
+      title: title,
+      address: address,
+      color: color,
+      remark: remark,
+      type: type,
+      startTime: startTime,
+      endTime: endTime,
+      shareID: shareID,
+      eventID: eventID
+    },
+    header: header = this._withTokenHeader
+  }) {
+    return this._request.postRequest({
+      url: this._baseUrl + '/event/update',
+      data: data,
+      header: header,
+    })
+      .then(res => res.data)
+  }
+
+  /**
+   * 获取个人信息
+   */
+  getUserInfo({
+    header: header = this._withTokenHeader
+  }){
+    return this._request.getRequest({
+      url: this._baseUrl + '/jw/stu/info',
+      header: header
+    })
+      .then(res => res.data)
+      .catch(err => err)
+  }
+
+  updateUserInfo({
+    data: data = {
+      userName: userName,
+      email: email,
+      grade: grade,
+      specialty: specialty
+    },
+    header: header = this._withTokenHeader
+  }) {
+    return this._request.postRequest({
+      url: this._baseUrl + '/jw/stu/info',
+      header: header,
+      data: data
+    }).then(res => res.data)
+    .catch(err => err)
+  }
+  
+
 }
 
 

@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <view class="container">
   <view class="cover-wrap">
-    <view class="page-slidebar">
+    <view hidden="{{hiddenMenu}}" class="page-slidebar">
       <view class="page-content">
           <view class="wc">
               <text>首页</text>
@@ -10,10 +10,13 @@
               <text >共享列表</text>
           </view>
           <view class="wc">
-              <text>导航二</text>
+              <text>提醒列表</text>
           </view>
-          <view class="wc">
-              <text>导航三</text>
+          <view bindtap="toUserInfoPage" class="wc">
+              <text >个人信息</text>
+          </view>
+          <view bindtap="logout" class="wc">
+              <text>退出登录</text>
           </view>
         </view>
     </view>
@@ -53,13 +56,13 @@
       </block>
     </view>
     <swiper bindchange="bindchange" circular="true" class="swiper-wrap" style="height:{{scrollHeight}}px">
-      <swiper-item>
-        <view class="header-bottom">
+      <swiper-item wx:for="{{[0,1,2]}}" wx:for-item="swpierItem">
+       <view class="header-bottom">
           <view class="title">
-            <block wx:for="{{weekName[0]}}" wx:key="index">
+            <block wx:for="{{weekName[swpierItem]}}" wx:key="index">
               <view class="inner">
                 <view class="title-content">{{item.title}}</view>
-                <view class='dateName-content {{currentIndex == 0 && index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
+                <view class='dateName-content {{currentIndex == swpierItem && index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
               </view>
               
             </block>
@@ -79,89 +82,9 @@
           <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 --> 
           <view class="innerContain">
           <!-- 当前时间线 -->
-            <view wx:if="{{currentIndex == 0}}" class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
-            <block wx:for="{{eventList[0]}}">
+            <view wx:if="{{currentIndex == swpierItem}}" class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
+            <block wx:for="{{eventList[swpierItem]}}">
               <view class="remindBlock" wx:if="{{item._type == 0 || item._type == 2}}" style="height:{{item._height - 4}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx; width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" bindtap="bindReminderBlock" data-id="{{item._eventID}}">
-              <text>{{item._title}}</text>
-              <text>\n{{item._address}}</text>
-              </view>
-              <view class="remindBlock {{(item._height == 16)? 'type1':''}}" wx:if="{{item._type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx;width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" bindtap="bindReminderBlock" data-id="{{item._eventID}}">
-              <text>{{item._title}}</text>
-              </view>
-              
-            </block>
-          </view>
-        </scroll-view>
-      </swiper-item>
-       <swiper-item>
-        <view class="header-bottom">
-          <view class="title">
-            <block wx:for="{{weekName[1]}}" wx:key="index">
-              <view class="inner">
-                <view class="title-content">{{item.title}}</view>
-                <view class='dateName-content {{currentIndex == 1 && index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
-              </view>
-              
-            </block>
-          </view>
-        </view>
-        <scroll-view class="innerScroll" scroll-y="true" style="height:{{scrollHeight}}px">
-          <view class="col-lines">
-            <block wx:for="{{lineArr}}" >
-              <view style="left:{{(item-1)*lineWidth}}rpx;height:{{scrollHeight}}px;"></view>
-            </block>
-          </view>
-          <view class="row-lines">
-            <block wx:for="{{lineArr2}}">
-              <view style="top:{{item*lineHeight}}px;left:0rpx"></view>
-            </block> 
-          </view>
-          <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 --> 
-          <view class="innerContain">
-          <!-- 当前时间线 -->
-            <view wx:if="{{currentIndex == 1}}" class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
-            <block wx:for="{{eventList[1]}}" data-index="2">
-               <view class="remindBlock" wx:if="{{item._type == 0 || item._type == 2}}" style="height:{{item._height - 4}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx; width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" bindtap="bindReminderBlock" data-id="{{item._eventID}}">
-              <text>{{item._title}}</text>
-              <text>\n{{item._address}}</text>
-              </view>
-              <view class="remindBlock {{(item._height == 16)? 'type1':''}}" wx:if="{{item._type == 1}}" style="max-height:{{lineHeight*3}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx;width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" bindtap="bindReminderBlock" data-id="{{item._eventID}}">
-              <text>{{item._title}}</text>
-              </view>
-              
-            </block>
-          </view>
-        </scroll-view>
-      </swiper-item>
-       <swiper-item>
-        <view class="header-bottom">
-          <view class="title">
-            <block wx:for="{{weekName[2]}}" wx:key="index" >
-              <view class="inner">
-                <view class="title-content">{{item.title}}</view>
-                <view class='dateName-content {{currentIndex == 2 && index == dateNameIndex?"todayFlag":""}}'>{{item.dateName}}</view> 
-              </view>
-              
-            </block>
-          </view>
-        </view>
-        <scroll-view class="innerScroll" scroll-y="true" style="height:{{scrollHeight}}px">
-          <view class="col-lines">
-            <block wx:for="{{lineArr}}" >
-              <view style="left:{{(item-1)*lineWidth}}rpx;height:{{scrollHeight}}px;"></view>
-            </block>
-          </view>
-          <view class="row-lines">
-            <block wx:for="{{lineArr2}}">
-              <view style="top:{{item*lineHeight}}px;left:0rpx"></view>
-            </block> 
-          </view>
-          <!-- 内部具体的内容，先不实现事件的判断，单纯展示事件 --> 
-          <view class="innerContain">
-          <!-- 当前时间线 -->
-            <view wx:if="{{currentIndex == 2}}" class="nowTimeLine" style="left:{{nowTimeLine.left}}rpx;top:{{nowTimeLine.top}}px"></view>
-            <block wx:for="{{eventList[2]}}">
-               <view class="remindBlock" wx:if="{{item._type == 0 || item._type == 2}}" style="height:{{item._height - 4}}px;left:{{item._LeftLine + item._parallelIndex * (78/item._parallel)}}rpx; width:{{79/item._parallel - 1}}rpx; top:{{item._top}}px;background-color:rgb({{item._color[0]}},{{item._color[1]}},{{item._color[2]}})" bindtap="bindReminderBlock" data-id="{{item._eventID}}">
               <text>{{item._title}}</text>
               <text>\n{{item._address}}</text>
               </view>

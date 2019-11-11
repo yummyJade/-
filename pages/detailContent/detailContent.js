@@ -7,15 +7,16 @@ Page({
    * 页面的初始数据
    */
   data: {
+    eventStr: "",
     remindBlock:{
-      title:"历史",
-      eventID:"886677",
-      shareID:"88999000",
-      address:"这是一个地点",
-      remark:"这是一个备注",
-      startTime:"2019212",
-      endTime:"2232",
-      color:[100,100,100]
+      title:"",
+      eventID:"",
+      shareID:"",
+      address:"",
+      remark:"",
+      startTime:"",
+      endTime:"",
+      color:[0,0,0]
     },
     daykey:{
       "0":"日",
@@ -25,7 +26,6 @@ Page({
       "4":"四",
       "5":"五",
       "6":"六",
-
     }
   },
   /**
@@ -94,6 +94,17 @@ Page({
     }
     return month+"月"+day+"日"+ " " + "星期"+this.data.daykey[index] + hour +":" + min;
   },
+
+  /**
+   * 绑定更新事件
+   */
+  updateEvent:function(){
+    let that = this;
+    wx.navigateTo({
+      url: '/pages/updateEvent/updateEvent?eventStr=' + that.data.eventStr,
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -101,7 +112,8 @@ Page({
     // console.log(formatTime)
     // debugger;
     if(options != null){
-      let remindTemp = JSON.parse(options.remindObj);
+      let eventStr = options.remindObj;
+      let remindTemp = JSON.parse(eventStr);
       let obj = {
         _title: remindTemp._title,
         _eventID: remindTemp._eventID,
@@ -114,7 +126,8 @@ Page({
         _type: remindTemp._type
       }
       this.setData({
-        remindBlock: obj
+        remindBlock: obj,
+        eventStr: eventStr
       })
     }
     
