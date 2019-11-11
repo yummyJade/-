@@ -92,7 +92,7 @@ Page({
             data: res.data
           })
           // 根据邮箱判断前往个人信息页或index页
-          if (res.data.email != '') {
+          if (res.data.email == '') {
             wx.reLaunch({
               url: '/pages/updateUserInfo/updateUserInfo',
             })
