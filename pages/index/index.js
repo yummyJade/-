@@ -484,15 +484,6 @@ Page({
   },
 
   /**
-   * 前往个人信息页
-   */
-  toUserInfoPage: function() {
-    wx.navigateTo({
-      url: '/pages/updateUserInfo/updateUserInfo',
-    })
-  },
-
-  /**
    * 退出登录
    */
   logout: function(){

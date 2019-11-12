@@ -23,7 +23,7 @@
         </view>
         </view>
         <view class="move">
-          <view class="bg-green" bindtap="approveRemind" data-eventid="{{item.eventID}}" data-shareid="{{item.shareID}}" data-index="{{index}}">同意</view>
+          <view class="bg-green" bindtap="approveRemind" data-eventid="{{item.eventID}}" data-shareid="{{item.shareID}}" data-index="{{index}}" data-type="{{item.type}}">同意</view>
           <view class="bg-grey" bindtap="deleteRemind" data-eventid="{{item.eventID}}" data-shareid="{{item.shareID}}" data-index="{{index}}">拒绝</view>
         </view>
     </view>

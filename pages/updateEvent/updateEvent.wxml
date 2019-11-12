@@ -15,18 +15,6 @@
       
       <input class="titleInput" value="{{oldEvent._title}}" placeholder="标题" auto-focus bindinput="bindTitleInput" maxlength="18"></input>
 	  </view>
-    <view class="cu-form-group margin-top">
-      <!-- <view class="title">普通选择</view> -->
-      <view class="cu-item">
-        <text class="cuIcon-settingsfill lg text-gray"></text>
-      </view>
-      <view class="title">类型</view>
-      <picker bindchange="eventTypePickerChange" value="{{eventTypeIndex}}" range="{{eventType}}">
-        <view class="picker">
-          {{eventType[eventTypeIndex]}}
-        </view>
-      </picker>
-    </view>
 
     <view class="cu-form-group time-wrap">
       <view class="cu-item">
@@ -60,13 +48,13 @@
         </view>
       </picker>
     </view>
-    <view class="cu-form-group">
+    <view class="cu-form-group" wx:if="{{eventTypeIndex == 0}}">
       <view class="cu-item">
         <text class="cuIcon-locationfill lg text-gray"></text>
       </view>
       <input class="addressInput" placeholder="添加地点" value="{{oldEvent._address}}" bindinput="bindAddressInput" maxlength="18"></input>
 	  </view>
-    <view class="cu-form-group">
+    <view class="cu-form-group" wx:if="{{eventTypeIndex == 0}}">
       <!-- <view class="title">输入框</view> -->
       <view class="cu-item">
         <text class="cuIcon-newshotfill lg text-gray"></text>
@@ -93,9 +81,6 @@
     </view>
     <view class="cu-form-group colorPicker-wrap">
       
-      <!-- <view class="cu-item">
-        <text class="cuIcon-friendfill lg text-gray"></text>
-      </view> -->
       <view class="cu-item">
         <view class="colorBox" style="background-color:rgb({{colorList[colorIndex].rgb[0]}},{{colorList[colorIndex].rgb[1]}},{{colorList[colorIndex].rgb[2]}})"></view>
       </view>

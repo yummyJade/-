@@ -163,15 +163,6 @@ Page({
       shareChecked: e.detail.value
     })
   },
-  /**
-   * 监听事件类型改变
-   */
-  eventTypePickerChange: function (e) {
-    this.setData({
-      eventTypeIndex: parseInt(e.detail.value)
-    });
-    this.initDate();
-  },
 
   /**
    * 监听日期更改

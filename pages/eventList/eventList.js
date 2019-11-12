@@ -56,15 +56,12 @@ Page({
    * 删除事件
    */
   deleteRemind: function(e){
-    // console.log(e);
- 
-    let validNum = 0;
     let dataset = e.currentTarget.dataset;
     app.RequestInter.dealShareEvent({
       data: {
         eventID: dataset.eventid,
         shareID: dataset.shareid,
-        valid: validNum
+        valid: 0
       }
     })
     .then(res => {
@@ -85,13 +82,41 @@ Page({
    * 赞成事件
    */
   approveRemind: function(e){
-    let validNum = 1;
     let dataset = e.currentTarget.dataset;
+    let type = dataset.type;
+    let eventid = dataset.eventid;
+    let shareid = dataset.shareid;
+    let that = this;
+    if(type == 1) {
+      // 消息模板ID
+      let templateID = "r23bQp-E8_EFxh5fgZzRRhqDRCfmWJbuyW91sWqaKBY";
+      // 请求订阅消息界面
+      wx.requestSubscribeMessage({
+        tmplIds: [templateID],
+        success(res) {
+          let attitude = res[templateID];
+          if (attitude == 'accept') {
+            that.requestApprove(eventid, shareid);
+          } else {
+            wx.showToast({
+              title: "添加失败",
+              icon: 'none'
+            })
+          }
+        }
+      })
+    }else {
+      this.requestApprove(eventid, shareid);
+    }
+    
+  },
+
+  requestApprove:function(eventid, shareid) {
     app.RequestInter.dealShareEvent({
       data: {
-        eventID: dataset.eventid,
-        shareID: dataset.shareid,
-        valid: validNum
+        eventID: eventid,
+        shareID: shareid,
+        valid: 1
       }
     })
       .then(res => {
@@ -105,6 +130,7 @@ Page({
 
       })
   },
+
   /**
    * 转换日期格式
    * type 0: 星期某 某月某日 某时:某分

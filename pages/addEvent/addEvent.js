@@ -45,7 +45,31 @@ Page({
    * 保存事件
    */
   bindSaveFun: function(){
-    this.createEvent();
+    // 检验格式
+    if (!this.checkInput()) return;
+    let that = this;
+    // 若是提醒事件
+    if (this.data.eventTypeIndex == 1) {
+      // 消息模板ID
+      let templateID = "r23bQp-E8_EFxh5fgZzRRhqDRCfmWJbuyW91sWqaKBY";
+      // 请求订阅消息界面
+      wx.requestSubscribeMessage({
+        tmplIds: [templateID],
+        success(res) {
+          let type = res[templateID];
+          if (type == 'accept') {
+            that.createEvent();
+          } else {
+            wx.showToast({
+              title: "创建失败",
+              icon: 'none'
+            })
+          }
+        }
+      })
+    }else {
+      this.createEvent();
+    }
   },
   /**
    * 绑定函数跳转选择颜色
@@ -77,21 +101,20 @@ Page({
       return false;
     }
     return true;
-  }
-  ,
+  },
+
+
   /**
    * 绑定保存事件
    */
   createEvent: function(){
-    // debugger;
-    if(!this.checkInput()) return;
     wx.showLoading({
       title: '保存中',
     })
     let date = new Date(this.data.chooseDate);
     date.setHours(this.data.startHour);
     date.setMinutes(this.data.startMinute);
-    let startTime = (this.data.eventTypeIndex == 0)? date.getTime(): 0;
+    let startTime = (this.data.eventTypeIndex == 0) ? date.getTime() : 0;
     date.setHours(this.data.endHour);
     date.setMinutes(this.data.endMinute);
     let endTime = date.getTime();
@@ -105,26 +128,26 @@ Page({
       endTime: endTime,
       shareID: this.data.courseObj.classNum || ""
     };
-    
+
     app.RequestInter.createEvent({
       data: data
     })
-    .then(res => {
-      wx.hideLoading();
-      if(res.message == "success") {
-        wx.navigateBack({//返回
-          delta: 1
-        })
-        wx.showToast({
-          title: '添加成功',
-        })
-      } else {
-        wx.showToast({
-          title: res.message,
-          icon: 'none'
-        })
-      }
-    })
+      .then(res => {
+        wx.hideLoading();
+        if (res.message == "success") {
+          wx.navigateBack({//返回
+            delta: 1
+          })
+          wx.showToast({
+            title: '添加成功',
+          })
+        } else {
+          wx.showToast({
+            title: res.message,
+            icon: 'none'
+          })
+        }
+      })
   },
   /**
    * 监听标题INPUT
@@ -164,7 +187,9 @@ Page({
    */
   eventTypePickerChange: function(e) {
       this.setData({
-        eventTypeIndex: parseInt(e.detail.value)
+        eventTypeIndex: parseInt(e.detail.value),
+        addressInput: "",
+        remarkInput: ""
       });
       this.initDate();
   },

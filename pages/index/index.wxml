@@ -9,9 +9,6 @@
           <view class="wc" bindtap="toNoticeList">
               <text>提醒列表</text>
           </view>
-          <view bindtap="toUserInfoPage" class="wc">
-              <text >个人信息</text>
-          </view>
           <view bindtap="logout" class="wc">
               <text>退出登录</text>
           </view>
