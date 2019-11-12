@@ -17,6 +17,17 @@ class RequestInter{
     console.error(res)
   }
 
+  tokenHeader(){
+    return { 
+      'Content-Type': 'application/json; charset=utf-8', 
+      'cookie': "token=" + wx.getStorageSync("token") }
+  }
+  tokenHeaderInForm() {
+    return { 
+      'Content-Type': 'application/x-www-form-urlencoded', 
+      'cookie': "token=" + wx.getStorageSync("token") }
+  }
+
   /**
    * 获取事件的接口
    */
@@ -25,7 +36,7 @@ class RequestInter{
       startTime: startTime,
       endTime: endTime
     },
-    header: header = this._withTokenHeader
+    header: header = this.tokenHeader()
   }){
    
   
@@ -51,7 +62,7 @@ class RequestInter{
       endTime: endTime,
       shareID: shareID
     },
-    header: header = this._withTokenHeader
+    header: header = this.tokenHeader()
     
   }){
     return this._request.postRequest({
@@ -68,7 +79,7 @@ class RequestInter{
     data: data = {
       eventID: eventID
     },
-    header: header = this._withTokenHeaderInForm
+    header: header = this.tokenHeaderInForm()
    
   }){
     return this._request.postRequest({
@@ -84,7 +95,7 @@ class RequestInter{
    *
    */
   getCourseList({
-    header: header = this._withTokenHeader
+    header: header = this.tokenHeader()
   }){
     return this._request.getRequest({
       url: this._baseUrl + '/jw/stu/timetable/course',
@@ -98,7 +109,7 @@ class RequestInter{
    * 获得他人共享事件的接口
    */
   getShareEventList({
-    header: header = this._withTokenHeader
+    header: header = this.tokenHeader()
   }){
     return this._request.getRequest({
       url: this._baseUrl + '/event/share/list',
@@ -118,7 +129,7 @@ class RequestInter{
       eventID: eventID,
       valid: valid
     },
-    header: header = this._withTokenHeaderInForm
+    header: header = this.tokenHeaderInForm()
   }){
     // debugger;
     return this._request.postRequest({
@@ -144,7 +155,7 @@ class RequestInter{
       shareID: shareID,
       eventID: eventID
     },
-    header: header = this._withTokenHeader
+    header: header = this.tokenHeader()
   }) {
     return this._request.postRequest({
       url: this._baseUrl + '/event/update',
@@ -158,7 +169,7 @@ class RequestInter{
    * 获取个人信息
    */
   getUserInfo({
-    header: header = this._withTokenHeader
+    header: header = this.tokenHeader()
   }){
     return this._request.getRequest({
       url: this._baseUrl + '/jw/stu/info',
@@ -178,7 +189,7 @@ class RequestInter{
       grade: grade,
       specialty: specialty
     },
-    header: header = this._withTokenHeader
+    header: header = this.tokenHeader()
   }) {
     return this._request.postRequest({
       url: this._baseUrl + '/jw/stu/info',
@@ -192,7 +203,7 @@ class RequestInter{
    * 获取提醒列表
    */
   getNoticeList({
-    header: header = this._withTokenHeader
+    header: header = this.tokenHeader()
   }) {
     return this._request.getRequest({
       url: this._baseUrl + '/event/notice',
@@ -201,8 +212,6 @@ class RequestInter{
       .then(res => res.data)
       .catch(err => err)
   }
-  
-
 }
 
 
