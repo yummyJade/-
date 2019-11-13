@@ -48,14 +48,6 @@ Page({
                 if (res.data.status == 200) {
                   wx.setStorageSync("token", res.data.data);
                   that.redirectToNextPage(res.data.data);
-                } else {
-                  wx.showModal({
-                    title: '提示',
-                    content: '账号或密码错误！'
-                  })
-                  that.setData({
-                    inputValue: ''
-                  })
                 }
               },
             })

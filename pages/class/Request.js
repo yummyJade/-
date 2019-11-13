@@ -3,6 +3,13 @@ class Request{
   constructor(){
 
   }
+
+  /**
+   * 设置异常处理方法
+   */
+  setErrorHandler(errorHandler){
+    this._errorHandler = errorHandler;
+  }
   /**
    * GET类型的网络请求
    */
@@ -53,23 +60,22 @@ class Request{
         header: header,
         method: method,
         success: (res => {
-          if (res.statusCode === 200) {
-            //200: 服务端业务处理正常结束
+          if (res.data.status === 200) {
             resolve(res)
           } else {
             //其它错误，提示用户错误信息
-            // if (this._errorHandler != null) {
-            //   //如果有统一的异常处理，就先调用统一异常处理函数对异常进行处理
-            //   this._errorHandler(res)
-            // }
-            reject(res)
+            if (this._errorHandler != null) {
+              //如果有统一的异常处理，就先调用统一异常处理函数对异常进行处理
+              this._errorHandler(res)
+            }
+            // reject(res)
           }
         }),
         fail: (res => {
-          // if (this._errorHandler != null) {
-          //   this._errorHandler(res)
-          // }
-          reject(res)
+          if (this._errorHandler != null) {
+            this._errorHandler(res)
+          }
+          // reject(res)
         })
       })
     })

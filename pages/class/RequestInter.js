@@ -5,7 +5,7 @@ class RequestInter{
     this._baseUrl = 'https://itstudio.club';
     this._defaultHeader = { 'Content-Type': 'application/json' }
     this._request = new Request(); 
-    // this._request.setErrorHandler(this.errorHander);
+    this._request.setErrorHandler(this.errorHander);
     this._withTokenHeader = { 'Content-Type': 'application/json; charset=utf-8', 'cookie': "token=" + wx.getStorageSync("token")};
     this._withTokenHeaderInForm = { 'Content-Type': 'application/x-www-form-urlencoded', 'cookie': "token=" + wx.getStorageSync("token") }
   }
@@ -14,7 +14,41 @@ class RequestInter{
    * 统一的异常处理方法
    */
   errorHander(res) {
-    console.error(res)
+    debugger;
+    let status = res.data.status;
+    switch(status) {
+      case 400: {
+        wx.showModal({
+          title: res.data.message,
+          content: '',
+          showCancel: false
+        })
+        break;
+      }
+      case 401: {
+        wx.clearStorage();
+        wx.reLaunch({
+          url: '/pages/adminLogin/adminLogin',
+        })
+        break;
+      }
+      case 402: {
+        wx.showModal({
+          title: '教务系统连接失败，请稍后再试',
+          content: '',
+          showCancel: false
+        })
+        break;
+      }
+      case 403: {
+        wx.showModal({
+          title: '账号或密码错误',
+          content: '',
+          showCancel: false
+        })
+        break;
+      }
+    }
   }
 
   tokenHeader(){
