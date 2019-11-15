@@ -48,6 +48,11 @@ Page({
                 if (res.data.status == 200) {
                   wx.setStorageSync("token", res.data.data);
                   that.redirectToNextPage(res.data.data);
+                } else {
+                  wx.showModal({
+                    title: res.data.message,
+                    showCancel: false
+                  })
                 }
               },
             })

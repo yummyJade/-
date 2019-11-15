@@ -52,7 +52,6 @@ class Request{
     header:header,
     method:method
   }) {
-    // debugger;
     return new Promise((resolve, reject) => {
       wx.request({
         url: url,
