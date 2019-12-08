@@ -337,12 +337,13 @@ Page({
    */
   renderWeek: function (index, firstTimeOfWeek) {
     let that = this;
+    that.renderDate(index, firstTimeOfWeek);
     wx.getStorage({
       key: 'week-' + firstTimeOfWeek,
       success: function(res) {
         that.rendEvents(index, firstTimeOfWeek, res.data);
       },
-    })
+    }),
     app.RequestInter.getEventList({
       data: {
         startTime: firstTimeOfWeek,
@@ -360,9 +361,41 @@ Page({
       })
   },
 
+  // 渲染日期
+  renderDate: function(index, firstTimeOfWeek) {
+    let lastWeekIndex = this.getLastWeekIndex(index);
+    let nextWeekIndex = this.getNextWeekIndex(index);
+    let firstDate = new Date(firstTimeOfWeek - 7 * 24 * 60 * 60 * 1000);
+    let dateNameArrList = this.data.weekName;
+
+    for (let i = 0, len = 7; i < len; i++) {
+      dateNameArrList[lastWeekIndex][i].dateName = firstDate.getDate();
+      firstDate.setDate(firstDate.getDate() + 1);
+    }
+
+    for (let i = 0, len = 7; i < len; i++) {
+      dateNameArrList[index][i].dateName = firstDate.getDate();
+      firstDate.setDate(firstDate.getDate() + 1);
+    }
+    for (let i = 0, len = 7; i < len; i++) {
+      dateNameArrList[nextWeekIndex][i].dateName = firstDate.getDate();
+      firstDate.setDate(firstDate.getDate() + 1);
+    }
+
+    this.setData({
+      weekName: dateNameArrList,
+      firstTimeOfCurrentWeek: firstTimeOfWeek
+    })
+  },
+
   // 渲染事件
   rendEvents: function (index, firstTimeOfWeek, events) {
       let that = this;
+      // 若要渲染的周次时间与当前显示的周次时间不一致，则不渲染，网络延迟时容易发生
+      let realCurrentFirstTime = that.data.firstTimeOfCurrentWeek;
+      if(realCurrentFirstTime !== firstTimeOfWeek) return;
+
+      
       let eventListArr = that.data.eventList,
 
         data, topDis, leftDis, heightDis, bottomDis,
@@ -375,30 +408,7 @@ Page({
         fixLeft = 0,
         nowTime = new Date();
 
-      let lastWeekIndex = that.getLastWeekIndex(index);
-      let nextWeekIndex = that.getNextWeekIndex(index);
-
       eventListArr = [[], [], []];
-      //设置标题栏
-      let nowDay = nowTime.getDay();
-      let firstDate = new Date(firstTimeOfWeek - 7 * 24 * 60 * 60 * 1000);
-      let dateNameArrList = that.data.weekName;
-      // for (let j = lastWeekIndex, len = that.data.swiperSize; j < len; j++){
-      for (let i = 0, len = 7; i < len; i++) {
-        dateNameArrList[lastWeekIndex][i].dateName = firstDate.getDate();
-        firstDate.setDate(firstDate.getDate() + 1);
-      }
-      // }
-
-      for (let i = 0, len = 7; i < len; i++) {
-        dateNameArrList[index][i].dateName = firstDate.getDate();
-        firstDate.setDate(firstDate.getDate() + 1);
-      }
-      for (let i = 0, len = 7; i < len; i++) {
-        dateNameArrList[nextWeekIndex][i].dateName = firstDate.getDate();
-        firstDate.setDate(firstDate.getDate() + 1);
-      }
-
 
       //添加当前时间线，只显示6点到22点，好的偷偷的说现在23点了
       let timeLineLeft, timeLineTop;
@@ -409,7 +419,6 @@ Page({
         timeLineTop = -100;
       } else {
         // 获取该周第一天到现在的天数
-
         timeLineLeft = fixLeft + (nowTime.getDay()) * blockWidth + lineWidth * distance;
         timeLineTop = ((nowTime.getHours() - startHour) * 60 + (nowTime.getMinutes())) * blockHeight / 60;
       }
@@ -462,14 +471,12 @@ Page({
       eventListArr[index] = weekEventView.process(firstTimeOfWeek, eventListArr[index]);
       that.setData({
         eventList: eventListArr,
-        weekName: dateNameArrList,
         dateNameIndex: distance,
         nowTimeLine: {
           left: timeLineLeft,
           top: timeLineTop
         },
         currentIndex: index,
-        firstTimeOfCurrentWeek: firstTimeOfWeek
       })
   },
 
