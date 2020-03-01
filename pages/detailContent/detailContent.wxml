@@ -23,31 +23,13 @@
       </view>
       <view class="title remindTitle">{{remindBlock._title}}</view>
 	  </view> 
-    <!-- <view class="cu-form-group margin-top">
-  
-      <view class="cu-item">
-        <text class="cuIcon-settingsfill lg text-gray"></text>
-      </view>
-      <view class="title">类型</view>
-      <picker bindchange="eventTypePickerChange" value="{{eventTypeIndex}}" range="{{eventType}}">
-        <view class="picker">
-          {{eventTypeIndex?eventType[eventTypeIndex]:'提醒'}}
-        </view>
-      </picker>
-    </view> -->
 
-    <view class="cu-form-group time-wrap" wx:if="{{remindBlock._type == 0 || remindBlock._type == 2}}">
-      <view class="cu-item">
-        <!-- <text class="cuIcon-timefill lg text-gray"></text> -->
+    <view class="cu-form-group time-wrap" >
+      <view class="cu-item"><text class="cuIcon-timefill lg text-gray"></text></view>
+      <view  class="title">
+      <text wx:if="{{remindBlock._type == 0 || remindBlock._type == 2}}">{{remindBlock._startTime}}-</text>
+      <text>{{remindBlock._endTime}}</text>
       </view>
-      <view class="title">{{remindBlock._startTime}}</view>
-      
-    
-    </view>
-    <view class="cu-form-group endTime-wrap">
-     
-      <view class="title">{{remindBlock._endTime}}</view>
-
     </view>
     <view class="cu-form-group" wx:if="{{remindBlock._address != ''}}">
       <view class="cu-item">
@@ -62,19 +44,7 @@
       </view>
       <view>{{remindBlock._remark}}</view>
 	  </view>
-    <!-- <view class="cu-form-group share-group">
-      
-      <view class="cu-item">
-        <text class="cuIcon-friendfill lg text-gray"></text>
-      </view>
-      <view class="title">{{remindBlock._shareID}}</view>
-      
-      
-      
-    </view> -->
     
-      
-    <!-- <button class="saveBtn">保存</button> -->
   </form>
 </view>
 

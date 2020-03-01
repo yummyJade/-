@@ -18,15 +18,6 @@ Page({
       endTime:"",
       color:[0,0,0]
     },
-    daykey:{
-      "0":"日",
-      "1":"一",
-      "2":"二",
-      "3":"三",
-      "4":"四",
-      "5":"五",
-      "6":"六",
-    }
   },
   /**
    * 用于删除事件
@@ -80,19 +71,15 @@ Page({
    * 转换日期格式
    */
   formatTime: function(date){
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-    let index = date.getDay();
     let hour = date.getHours();
     let min = date.getMinutes();
-    let sec = date.getSeconds();
     if (hour < 10) {
       hour = '0' + hour;  //补齐
     }
     if (min < 10) {
       min = '0' + min;  //补齐
     }
-    return month+"月"+day+"日"+ " " + "星期"+this.data.daykey[index] + hour +":" + min;
+    return hour +":" + min;
   },
 
   /**

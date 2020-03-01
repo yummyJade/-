@@ -12,6 +12,9 @@ Page({
   data: {
     ip: app.globalData.host,
     cookieTest: app.globalData.cookieTest,
+    // 简写月份
+    monthList: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"],
+    monthIndex: 0,
     weekName:[
       [{
         title:"日",
@@ -113,19 +116,11 @@ Page({
     currentIndex: 0,  // 当前轮播的索引
 
     // 记录当前周次的开始时间的时间戳
-
     firstTimeOfCurrentWeek: new Time().getDaysAfterTime(-(new Date().getDay()), 0),
     swiperSize: 3,
     open: false,
-    // mark 是指原点x轴坐标
-    mark: 0,
-    // newmark 是指移动的最新点的x轴坐标 
-    newmark: 0,
-    istoright: true,
 
     hiddenMenu: true
-
-
 
   },
   /**
@@ -338,12 +333,14 @@ Page({
   renderWeek: function (index, firstTimeOfWeek) {
     let that = this;
     that.renderDate(index, firstTimeOfWeek);
+    // 先获取缓存，渲染页面
     wx.getStorage({
       key: 'week-' + firstTimeOfWeek,
       success: function(res) {
         that.rendEvents(index, firstTimeOfWeek, res.data);
       },
     }),
+    // 请求服务器获取数据
     app.RequestInter.getEventList({
       data: {
         startTime: firstTimeOfWeek,
@@ -373,6 +370,9 @@ Page({
       firstDate.setDate(firstDate.getDate() + 1);
     }
 
+    // 获取月份
+    let monthIndex = firstDate.getMonth();
+
     for (let i = 0, len = 7; i < len; i++) {
       dateNameArrList[index][i].dateName = firstDate.getDate();
       firstDate.setDate(firstDate.getDate() + 1);
@@ -381,9 +381,9 @@ Page({
       dateNameArrList[nextWeekIndex][i].dateName = firstDate.getDate();
       firstDate.setDate(firstDate.getDate() + 1);
     }
-
     this.setData({
       weekName: dateNameArrList,
+      monthIndex: monthIndex,
       firstTimeOfCurrentWeek: firstTimeOfWeek
     })
   },
@@ -499,6 +499,11 @@ Page({
       url: '/pages/adminLogin/adminLogin',
     })
   },
+
+  onPull: function(){
+    console.log("下拉触发");
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -546,7 +551,11 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.setData({
+      firstTimeOfCurrentWeek: new Time().getDaysAfterTime(-(new Date().getDay()), 0),
+    });
+    this.onShow();
+    wx.stopPullDownRefresh();
   },
 
   /**

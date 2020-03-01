@@ -18,7 +18,7 @@
   </view>
 </view>
     
-  <view bindtouchmove="tap_drag" bindtouchend="tap_end" bindtouchstart="tap_start" class="page-top {{open ? ['c-state','cover'] : ''}} ">
+  <view class="page-top {{open ? ['c-state','cover'] : ''}} ">
 
   <view class="content">
   <view class="header">
@@ -32,18 +32,14 @@
   </view>
   <view class="mainer">
     <view class="menu">
-      <!-- <view class="cu-form-group margin-top "> -->
-        <!-- <view class="cu-item listIcon-wrap"> -->
-          <text class="cuIcon-list lg text-gray listIcon" bindtap="tap_ch"></text>
-        <!-- </view> -->
-      <!-- </view> -->
-      
-    
+          <text wx:if="{{hiddenMenu}}" class=" lg text-gray listIcon" bindtap="tap_ch">{{monthList[monthIndex]}}</text>
+
+          <text class="cuIcon-back lg text-gray listIcon" bindtap="tap_ch" wx:if="{{!hiddenMenu}}"></text>
+
+
     <view class="addBtn" bindtap="addBtnEvent">
 
     </view>
-    <!-- <movable-area > -->
-      <!-- <movable-view class="innerMove" inertia="true" direction="horizontal" x=""> -->
     <view style="padding-top:{{lineHeight + headerHeight-9.5}}px;" class="sideBar">
       <block wx:for="{{timeTitle}}" wx:key="index">
           <view style="height:{{lineHeight}}px;" class='sideBar-content'>{{item}}</view> 
@@ -62,7 +58,7 @@
             </block>
           </view>
         </view>
-        <scroll-view class="innerScroll" scroll-y="true" style="height:{{scrollHeight}}px">
+        <scroll-view bindscroll="onPull"  class="innerScroll" scroll-y="true" style="height:{{scrollHeight}}px">
           <view class="col-lines">
             <block wx:for="{{lineArr}}" >
               <view style="left:{{(item-1)*lineWidth}}rpx;height:{{scrollHeight}}px;"></view>
