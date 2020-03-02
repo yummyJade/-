@@ -137,10 +137,11 @@ Page({
         if (res.message == "success") {
           wx.navigateBack({//返回
             delta: 1
-          })
+          });
           wx.showToast({
             title: '添加成功',
-          })
+          });
+          wx.vibrateShort();
         } else {
           wx.showToast({
             title: res.message,

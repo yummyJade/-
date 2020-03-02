@@ -120,7 +120,8 @@ Page({
           })
           wx.showToast({
             title: '成功',
-          })
+          });
+          wx.vibrateShort();
 
         }else {
           wx.showToast({

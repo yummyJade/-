@@ -312,6 +312,7 @@ Page({
     }else {
       this.renderWeek(currentIndex, firstTimeOfCurrentWeek - 7 * 24 * 60 * 60 * 1000);
     }
+    wx.vibrateShort();
   },
 
   /**
@@ -555,6 +556,7 @@ Page({
       firstTimeOfCurrentWeek: new Time().getDaysAfterTime(-(new Date().getDay()), 0),
     });
     this.onShow();
+    wx.vibrateShort();
     wx.stopPullDownRefresh();
   },
 

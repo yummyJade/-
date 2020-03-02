@@ -47,10 +47,11 @@ Page({
         let prevPage = pages[pages.length - 2]; //上一个页面
         wx.navigateBack({//返回
           delta: 1
-        })
+        });
         wx.showToast({
           title: '删除成功',
-        })
+        });
+        wx.vibrateShort();
        
       }else {
         wx.hideLoading();
